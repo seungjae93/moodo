@@ -1,11 +1,11 @@
 import React from "react";
 import GlobalStyles from "./styles/GlobalStyles";
-
+import Router from "./shared/Router";
 function App() {
   return (
     <>
       <GlobalStyles />
-      <span>안녕하세요!</span>
+      <Router />
     </>
   );
 }
