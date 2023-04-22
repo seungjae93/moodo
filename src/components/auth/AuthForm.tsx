@@ -9,31 +9,63 @@ const textMap = {
 };
 interface AuthFormProps {
   type: "login" | "signup";
-  [key: string]: any;
 }
 function AuthForm({ type }: AuthFormProps) {
   const text = textMap[type];
   return (
     <AuthFormWrapper>
-      <h3>로그인</h3>
       <form>
         <StyledInput
           autoComplete="username"
           name="username"
           placeholder="아이디"
+          type="text"
         />
         <StyledInput
-          autoComplete="new-password"
+          autoComplete="password"
           name="password"
           placeholder="비밀번호"
           type="password"
         />
-        <ButtonWithMarginTop cyan fullWidth>
-          로그인
+        {type === "signup" && (
+          <>
+            <StyledInput
+              autoComplete="passwordConfirm"
+              name="passwordConfirm"
+              placeholder="비밀번호 재확인"
+              type="password"
+            />
+            <StyledInput
+              autoComplete="name"
+              name="name"
+              placeholder="이름"
+              type="text"
+            />
+            <StyledInput
+              autoComplete="passwordConfirm"
+              name="passwordConfirm"
+              placeholder="이메일"
+              type="email"
+            />
+            <StyledInput
+              autoComplete="passwordConfirm"
+              name="passwordConfirm"
+              placeholder="휴대전화"
+              type="text"
+            />
+          </>
+        )}
+        <ButtonWithMarginTop cyan fullWidth style={{ marginTop: "1rem" }}>
+          {text}
         </ButtonWithMarginTop>
       </form>
       <Footer>
-        <Link to="/signup">회원가입</Link>
+        {type === "login" ? (
+          <span>
+            혹시 공인중개사님이신가요? 회원가입은{" "}
+            <Link to="/signup">여기서</Link> 하세요.
+          </span>
+        ) : null}
       </Footer>
     </AuthFormWrapper>
   );
@@ -50,28 +82,32 @@ const AuthFormWrapper = styled.div`
 `;
 const StyledInput = styled.input`
   font-size: 1rem;
-  border: none;
-  border-bottom: 1px solid ${palette.gray[5]};
+
+  border: 0.5px solid rgba(0, 0, 0, 0.2);
   padding-bottom: 0.5rem;
   outline: none;
   width: 100%;
+  height: 40px;
+  border-radius: 4px;
   &:focus {
-    color: $oc-teal-7;
     border-bottom: 1px solid ${palette.gray[7]};
   }
   & + & {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
   }
 `;
 
 const Footer = styled.div`
   margin-top: 2rem;
-  text-align: right;
+  text-align: center;
+  font-weight: 400;
+  font-size: 12px;
+
   a {
-    color: ${palette.gray[6]};
+    color: ${palette.cyan[5]};
     text-decoration: underline;
     &:hover {
-      color: ${palette.gray[9]};
+      color: ${palette.cyan[4]};
     }
   }
 `;
