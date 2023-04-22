@@ -1,7 +1,12 @@
-import React from "react";
+import AuthForm from "../components/auth/AuthForm";
+import AuthTemplate from "../components/auth/AuthTemplate";
 
 function Login() {
-  return <div>Login</div>;
+  return (
+    <AuthTemplate>
+      <AuthForm type="login" />
+    </AuthTemplate>
+  );
 }
 
 export default Login;
