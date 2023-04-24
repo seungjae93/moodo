@@ -23,7 +23,7 @@ export default function Input({
     <div>
       <label
         style={{
-          marginBottom: "1rem",
+          marginBottom: "0.6rem",
           display: "block",
           fontSize: "0.875rem",
           fontWeight: "500",

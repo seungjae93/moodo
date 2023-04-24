@@ -158,7 +158,12 @@ function AuthForm({ type }: AuthFormProps) {
             </WorningWord>
           </>
         )}
-        <ButtonWithMarginTop cyan fullWidth style={{ marginTop: "1rem" }}>
+        <ButtonWithMarginTop
+          type="submit"
+          cyan
+          fullWidth
+          style={{ marginTop: "1rem" }}
+        >
           {text}
         </ButtonWithMarginTop>
       </form>
