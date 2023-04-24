@@ -1,6 +1,11 @@
 import styled from "styled-components";
+import { AxiosResponse } from "axios";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { loginApi } from "../../apis/axios";
 import palette from "../../libs/styles/palette";
 import Button from "../common/Button/Button";
 import Input from "../common/Input";
@@ -18,21 +23,60 @@ interface AuthForm {
   id?: string;
   password?: string;
   passwordCheck?: string;
-  name: string;
+  name?: string;
   email?: string;
   phoneNumber?: string;
 }
 
 function AuthForm({ type }: AuthFormProps) {
   const text = textMap[type];
+  const navigate = useNavigate();
+
+  const loginAxios = async (formData: FormData): Promise<void> => {
+    try {
+      const { data }: AxiosResponse = await loginApi.login(formData);
+      //console.log(data)
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const { mutate } = useMutation(
+    (formData: FormData) => loginApi.create(formData),
+    {
+      onSuccess: () => {
+        alert("회원가입을 축하합니다!");
+        navigate("/login");
+      },
+      onError: (error) => {
+        console.error(error);
+      },
+    }
+  );
+
   const {
     register,
     watch,
     handleSubmit,
     formState: { isSubmitting, isDirty, errors },
   } = useForm<AuthForm>({ mode: "onChange" });
+
   const onValid = (data: AuthForm) => {
-    console.log(data);
+    const formData = new FormData();
+    if (type === "login") {
+      formData.append("id", data?.id || "");
+      formData.append("password", data?.password || "");
+      loginAxios(formData);
+    }
+    if (type === "signup") {
+      formData.append("email", data?.email || "");
+      formData.append("id", data?.id || "");
+      formData.append("name", data?.name || "");
+      formData.append("password", data?.password || "");
+      formData.append("passwordCheck", data?.passwordCheck || "");
+      formData.append("phoneNumber", data?.phoneNumber || "");
+      mutate(formData);
+    }
   };
 
   return (
