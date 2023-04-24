@@ -21,15 +21,12 @@ function AuthForm({ children }: AuthFormProps) {
 export default AuthForm;
 
 const AuthTemplateWrapper = styled.div`
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 100%;
+  min-height: 100vh;
 `;
 
 const WhiteBox = styled.div`
@@ -40,8 +37,8 @@ const WhiteBox = styled.div`
     font-weight: bold;
     letter-spacing: 2px;
   }
+  margin-top: 3rem;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.025);
-  padding: 2rem;
   width: 380px;
   background: white;
   border-radius: 2px;

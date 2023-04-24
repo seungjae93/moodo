@@ -23,7 +23,7 @@ export default function Input({
     <div>
       <label
         style={{
-          marginBottom: "1rem",
+          marginBottom: "0.6rem",
           display: "block",
           fontSize: "0.875rem",
           fontWeight: "500",
@@ -59,7 +59,6 @@ export default function Input({
           style={{
             display: "flex",
             borderRadius: "0.375rem",
-            boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
           }}
         >
           <span
