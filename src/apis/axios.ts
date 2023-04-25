@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 
 export const instance = axios.create({
-  baseURL: process.env.REACT_APP_MY_API,
+  baseURL: process.env.REACT_APP_SERVER_API,
   withCredentials: true,
 });
 
