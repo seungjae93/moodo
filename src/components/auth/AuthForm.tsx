@@ -20,12 +20,12 @@ interface AuthFormProps {
 }
 
 interface AuthForm {
-  id?: string;
-  password?: string;
-  passwordCheck?: string;
-  name?: string;
-  email?: string;
-  phoneNumber?: string;
+  userIdd?: string;
+  userPassword?: string;
+  userPasswordCheck?: string;
+  userName?: string;
+  userEmail?: string;
+  userPhoneNumber?: string;
 }
 
 function AuthForm({ type }: AuthFormProps) {
@@ -35,19 +35,24 @@ function AuthForm({ type }: AuthFormProps) {
   const loginAxios = async (formData: FormData): Promise<void> => {
     try {
       const { data }: AxiosResponse = await loginApi.login(formData);
-      //console.log(data)
+      console.log(data);
     } catch (error) {
       console.error(error);
     }
   };
 
   const { mutate } = useMutation(
-    (formData: FormData) => loginApi.create(formData),
-    {
-      onSuccess: () => {
+    async (formData: FormData) => {
+      try {
+        await loginApi.create(formData);
+        // 성공적으로 회원가입이 완료되었을 때의 로직
         alert("회원가입을 축하합니다!");
         navigate("/login");
-      },
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    {
       onError: (error) => {
         console.error(error);
       },
@@ -64,39 +69,39 @@ function AuthForm({ type }: AuthFormProps) {
   const onValid = (data: AuthForm) => {
     const formData = new FormData();
     if (type === "login") {
-      formData.append("id", data?.id || "");
-      formData.append("password", data?.password || "");
+      formData.append("userIdd", data?.userIdd || "");
+      formData.append("userPassword", data?.userPassword || "");
       loginAxios(formData);
     }
     if (type === "signup") {
-      formData.append("email", data?.email || "");
-      formData.append("id", data?.id || "");
-      formData.append("name", data?.name || "");
-      formData.append("password", data?.password || "");
-      formData.append("passwordCheck", data?.passwordCheck || "");
-      formData.append("phoneNumber", data?.phoneNumber || "");
+      formData.append("userEmail", data?.userEmail || "");
+      formData.append("userIdd", data?.userIdd || "");
+      formData.append("userName", data?.userName || "");
+      formData.append("userPassword", data?.userPassword || "");
+      formData.append("userPasswordCheck", data?.userPasswordCheck || "");
+      formData.append("userPhoneNumber", data?.userPhoneNumber || "");
       mutate(formData);
     }
   };
 
   return (
     <>
-      <form onSubmit={handleSubmit(onValid)}>
+      <form onSubmit={handleSubmit(onValid)} encType="multipart/form-data">
         {type === "login" && (
           <>
             <Input
-              register={register("id")}
-              autoComplete="id"
+              register={register("userIdd")}
+              autoComplete="userIdd"
               label="아이디"
-              name="id"
+              name="userIdd"
               type="text"
             />
 
             <Input
-              register={register("password")}
-              autoComplete="password"
+              register={register("userPassword")}
+              autoComplete="userPassword"
               label="비밀번호"
-              name="password"
+              name="userPassword"
               type="password"
             />
           </>
@@ -104,101 +109,103 @@ function AuthForm({ type }: AuthFormProps) {
         {type === "signup" && (
           <>
             <Input
-              register={register("id", {
+              register={register("userIdd", {
                 required: "필수 응답 항목입니다.",
                 pattern: {
                   value: /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{6,16}$/,
                   message: "영문, 숫자 조합 6~16자리",
                 },
               })}
-              autoComplete="id"
+              autoComplete="userIdd"
               label="아이디"
               placeholder="영문,숫자 조합 6~16자리"
-              name="id"
+              name="userIdd"
               type="text"
             />
-            <WorningWord color={errors.id}>{errors.id?.message}</WorningWord>
+            <WorningWord color={errors.userIdd}>
+              {errors.userIdd?.message}
+            </WorningWord>
             <Input
-              register={register("password", {
+              register={register("userPassword", {
                 required: "필수 응답 항목입니다.",
                 pattern: {
                   value: /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,16}$/,
                   message: "영문, 숫자 조합 8~16자리",
                 },
               })}
-              autoComplete="password"
+              autoComplete="userPassword"
               label="비밀번호"
               placeholder="영문,숫자 조합 8~16자리"
-              name="password"
+              name="userPassword"
               type="password"
             />
-            <WorningWord color={errors.password}>
-              {errors.password?.message}
+            <WorningWord color={errors.userPassword}>
+              {errors.userPassword?.message}
             </WorningWord>
             <Input
-              register={register("passwordCheck", {
+              register={register("userPasswordCheck", {
                 required: true,
                 validate: (val) => {
-                  if (watch("password") !== val) {
+                  if (watch("userPassword") !== val) {
                     return "비밀번호가 다릅니다.";
                   }
                 },
               })}
-              autoComplete="passwordCheck"
+              autoComplete="userPasswordCheck"
               label="비밀번호 재확인"
               placeholder="비밀번호를 다시 입력해주세요"
-              name="passwordCheck "
+              name="userPasswordCheck"
               type="password"
             />
-            <WorningWord color={errors.passwordCheck}>
-              {errors.passwordCheck?.message}
+            <WorningWord color={errors.userPasswordCheck}>
+              {errors.userPasswordCheck?.message}
             </WorningWord>
             <Input
-              register={register("name", {
+              register={register("userName", {
                 required: "필수 응답 항목입니다.",
               })}
-              autoComplete="name"
+              autoComplete="userName"
               label="이름"
               placeholder="이름을 입력해주세요"
-              name="name"
+              name="userName"
               type="text"
             />
-            <WorningWord color={errors.name}>
-              {errors.name?.message}
+            <WorningWord color={errors.userName}>
+              {errors.userName?.message}
             </WorningWord>
             <Input
-              register={register("email", {
+              register={register("userEmail", {
                 required: "이메일은 필수 입력 값입니다.",
                 pattern: {
                   value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
                   message: "이메일 형식에 맞지 않습니다.",
                 },
               })}
-              autoComplete="email"
+              autoComplete="userEmail"
               label="이메일"
               placeholder="이메일을 입력해주세요"
-              name="email"
+              name="userEmail"
               type="text"
             />
-            <WorningWord color={errors.email}>
-              {errors.email?.message}
+            <WorningWord color={errors.userEmail}>
+              {errors.userEmail?.message}
             </WorningWord>
             <Input
-              register={register("phoneNumber", {
+              register={register("userPhoneNumber", {
                 required: "필수 응답 항목입니다.",
                 pattern: {
                   value: /^[0-9]*$/,
                   message: "휴대폰 번호 형식에 맞지 않습니다.",
                 },
               })}
-              autoComplete="phoneNumber"
+              autoComplete="userPhoneNumber"
               label="휴대전화"
               placeholder="핸드폰번호를 입력해주세요"
-              name="phoneNumber"
+              name="userPhoneNumber"
               kind="phone"
             />
-            <WorningWord color={errors.phoneNumber}>
-              {errors.phoneNumber?.message}
+            <WorningWord color={errors.userPhoneNumber}>
+              {errors.userPhoneNumber?.message}
             </WorningWord>
           </>
         )}
