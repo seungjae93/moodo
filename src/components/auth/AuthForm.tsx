@@ -20,7 +20,7 @@ interface AuthFormProps {
 }
 
 interface AuthForm {
-  userIdd?: string;
+  userId?: string;
   userPassword?: string;
   userPasswordCheck?: string;
   userName?: string;
@@ -47,7 +47,7 @@ function AuthForm({ type }: AuthFormProps) {
         await loginApi.create(formData);
         // 성공적으로 회원가입이 완료되었을 때의 로직
         alert("회원가입을 축하합니다!");
-        navigate("/login");
+        navigate("/");
       } catch (error) {
         console.error(error);
       }
@@ -69,13 +69,13 @@ function AuthForm({ type }: AuthFormProps) {
   const onValid = (data: AuthForm) => {
     const formData = new FormData();
     if (type === "login") {
-      formData.append("userIdd", data?.userIdd || "");
+      formData.append("userId", data?.userId || "");
       formData.append("userPassword", data?.userPassword || "");
       loginAxios(formData);
     }
     if (type === "signup") {
       formData.append("userEmail", data?.userEmail || "");
-      formData.append("userIdd", data?.userIdd || "");
+      formData.append("userId", data?.userId || "");
       formData.append("userName", data?.userName || "");
       formData.append("userPassword", data?.userPassword || "");
       formData.append("userPasswordCheck", data?.userPasswordCheck || "");
@@ -90,10 +90,10 @@ function AuthForm({ type }: AuthFormProps) {
         {type === "login" && (
           <>
             <Input
-              register={register("userIdd")}
-              autoComplete="userIdd"
+              register={register("userId")}
+              autoComplete="userId"
               label="아이디"
-              name="userIdd"
+              name="userId"
               type="text"
             />
 
@@ -109,21 +109,21 @@ function AuthForm({ type }: AuthFormProps) {
         {type === "signup" && (
           <>
             <Input
-              register={register("userIdd", {
+              register={register("userId", {
                 required: "필수 응답 항목입니다.",
                 pattern: {
                   value: /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{6,16}$/,
                   message: "영문, 숫자 조합 6~16자리",
                 },
               })}
-              autoComplete="userIdd"
+              autoComplete="userId"
               label="아이디"
               placeholder="영문,숫자 조합 6~16자리"
-              name="userIdd"
+              name="userId"
               type="text"
             />
-            <WorningWord color={errors.userIdd}>
-              {errors.userIdd?.message}
+            <WorningWord color={errors.userId}>
+              {errors.userId?.message}
             </WorningWord>
             <Input
               register={register("userPassword", {
