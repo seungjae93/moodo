@@ -12,7 +12,9 @@ function Header() {
           </div>
           <div className="nav">
             <div>사용방법</div>
-            <div>매물관리</div>
+            <div>
+              <Link to="/management">매물관리</Link>
+            </div>
             <div>
               <Link to="/">로그인/회원가입</Link>
             </div>
