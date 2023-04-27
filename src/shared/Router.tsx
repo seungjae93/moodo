@@ -2,15 +2,27 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "../pages/Login";
 import SignUp from "../pages/Signup";
-import Management from "../pages/Management";
+import Header from "../components/common/Header/Header";
+import ProfileEdit from "../pages/ProfileEdit";
+import RealEstateListing from "../pages/RealEstateListing";
+import RealEstateManage from "../pages/RealEstateManage";
 
 function Router() {
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/management" element={<Management />} />
+        <Route path="/profileEdit" element={<ProfileEdit />} />
+        <Route
+          path="/management/realEstateListing"
+          element={<RealEstateListing />}
+        />
+        <Route
+          path="/management/realEstateManage"
+          element={<RealEstateManage />}
+        />
       </Routes>
     </BrowserRouter>
   );
