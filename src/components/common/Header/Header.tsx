@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Responsive from "../Responsive";
 import { Link } from "react-router-dom";
 
 function Header() {
@@ -13,7 +12,7 @@ function Header() {
           <div className="nav">
             <div>사용방법</div>
             <div>
-              <Link to="/management">매물관리</Link>
+              <Link to="/profileEdit">매물관리</Link>
             </div>
             <div>
               <Link to="/">로그인/회원가입</Link>
@@ -28,18 +27,23 @@ function Header() {
 
 export default Header;
 
-const HeaderWrapper = styled.div`
+const HeaderWrapper = styled.nav`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: fixed;
   width: 100%;
-  background: white;
+  min-width: 500px;
+  top: 0;
+  background-color: white;
+  font-size: 14px;
+  padding: 20px 60px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
 `;
 
-const ResponsiveWrapper = styled(Responsive)`
-  height: 4rem;
+const ResponsiveWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 20px;
   .logo {
     width: 150px;
