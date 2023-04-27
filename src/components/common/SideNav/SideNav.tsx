@@ -23,10 +23,10 @@ function SideNav() {
             <Link to="/profileEdit">프로필 설정</Link>
           </SideNavList>
           <SideNavList>
-            <Link to="/management/realEstateListing">매물 등록</Link>
+            <Link to="/realEstateListing">매물 등록</Link>
           </SideNavList>
           <SideNavList>
-            <Link to="/management/realEstateManage">매물 관리</Link>
+            <Link to="/realEstateManage">매물 관리</Link>
           </SideNavList>
         </SideNavListWrapper>
       </SideNavWrapper>
@@ -39,9 +39,9 @@ export default SideNav;
 const SideNavWrapper = styled.div`
   height: 100%;
   min-height: 100vh;
-  width: 300px;
+  width: 350px;
+  min-width: 300px;
   background-color: #46535f;
-  padding-top: 50px;
 `;
 
 const SideNavBox = styled.div`
@@ -49,6 +49,7 @@ const SideNavBox = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  margin-top: 15px;
   gap: 20px;
   h1 {
     margin-top: 10px;
