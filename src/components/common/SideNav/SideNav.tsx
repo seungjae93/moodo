@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Avatar from "./Avatar";
+import palette from "../../../libs/styles/palette";
 
 function SideNav() {
   return (
@@ -41,7 +42,7 @@ const SideNavWrapper = styled.div`
   min-height: 100vh;
   width: 350px;
   min-width: 300px;
-  background-color: #46535f;
+  background: ${palette.gray[6]};
 `;
 
 const SideNavBox = styled.div`
