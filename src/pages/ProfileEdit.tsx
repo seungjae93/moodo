@@ -7,7 +7,7 @@ function ProfileEdit() {
     <>
       <ProfileEditWrapper>
         <SideNav />
-        <ProfileItem>
+        <ProfileBox>
           <ProfileTitle>프로필 설정</ProfileTitle>
           <ProfileContent>내 홈페이지 주소</ProfileContent>
           <ProfileContent>중개사 이름</ProfileContent>
@@ -19,7 +19,7 @@ function ProfileEdit() {
           <ButtonWithMarginTop type="submit" cyan fullWidth>
             저장하기
           </ButtonWithMarginTop>
-        </ProfileItem>
+        </ProfileBox>
       </ProfileEditWrapper>
     </>
   );
@@ -30,20 +30,20 @@ const ProfileEditWrapper = styled.div`
   padding-top: 30px;
   display: flex;
   height: 100%;
-  min-width: 1000px;
+  width: 100%;
 `;
 
-const ProfileItem = styled.div`
+const ProfileBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 30px;
+  padding: 50px;
   width: 100%;
 `;
 
 const ProfileTitle = styled.div`
   width: 100%;
-  padding: 0 20px 20px 0;
+  padding: 0 20px 10px 0;
   font-weight: 700;
   font-size: 24px;
   border-bottom: 3px solid black;

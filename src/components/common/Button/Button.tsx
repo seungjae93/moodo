@@ -33,9 +33,9 @@ const StyledButton = styled.button`
   ${(props: ButtonProps) =>
     props.cyan &&
     css`
-      background: ${palette.gray[9]};
+      background: ${palette.gray[6]};
       &:hover {
-        background: ${palette.gray[8]};
+        background: ${palette.gray[4]};
       }
     `}
 `;
