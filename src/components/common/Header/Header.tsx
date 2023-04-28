@@ -33,7 +33,7 @@ const HeaderWrapper = styled.nav`
   align-items: center;
   position: fixed;
   width: 100%;
-  min-width: 500px;
+  min-width: 600px;
   top: 0;
   background-color: white;
   font-size: 14px;
