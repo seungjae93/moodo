@@ -1,6 +1,6 @@
 const palette = {
   gray: [
-    "#A4B0BC",
+    "#D5DBE0",
     "#90A0AE",
     "#7D8F9F",
     "#6A7E90",
