@@ -4,14 +4,15 @@ import palette from "../../../libs/styles/palette";
 
 interface InputProps {
   id?: string;
-  label: string;
+  label?: string;
   name?: string;
-  kind?: "radio" | "text" | "checkbox";
+  kind?: "radio" | "text" | "checkbox" | "file";
   register?: UseFormRegisterReturn;
   type?: string;
   value?: string;
   required?: boolean;
   placeholder?: string;
+  onChange?: () => void;
 }
 
 export default function RadioInput({
@@ -26,7 +27,7 @@ export default function RadioInput({
 }: InputProps) {
   return (
     <div>
-      {kind === "radio" ? (
+      {kind === "radio" || kind === "checkbox" ? (
         <StRadioBtnWrap>
           <div className="radioBtn">
             <input
@@ -46,16 +47,20 @@ export default function RadioInput({
         <div
           style={{
             display: "flex",
-            borderRadius: "0.375rem",
+            alignItems: "center",
+            padding: "10px",
           }}
         >
           <label
             style={{
-              marginBottom: "0.6rem",
               display: "block",
-              fontSize: "0.875rem",
-              fontWeight: "500",
-              color: "#4a5568",
+              fontSize: "16px",
+              textAlign: "center",
+              fontWeight: "400",
+              color: "#90A0AE",
+              width: "100px",
+              flexWrap: "nowrap",
+              overflow: "hidden",
             }}
             htmlFor={name}
           >
@@ -67,15 +72,14 @@ export default function RadioInput({
             {...register}
             type={type}
             style={{
-              width: "100%",
-              marginBottom: "0.5rem",
-              paddingLeft: "0.75rem",
-              paddingTop: "0.5rem",
-              paddingBottom: "0.5rem",
+              width: "80px",
+              height: "30px",
+              fontSize: "16px",
+              fontWeight: "400",
+              textAlign: "center",
               border: "1px solid #e2e8f0",
               borderRadius: "0 0.25rem 0.25rem 0",
               boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
-              color: "#718096",
             }}
           />
         </div>
@@ -85,18 +89,19 @@ export default function RadioInput({
 }
 
 const StRadioBtnWrap = styled.div`
-  padding-bottom: 20px;
-  padding-top: 20px;
+  padding-bottom: 15px;
+  padding-top: 15px;
   display: flex;
 
   .radioBtn {
     font-size: 17px;
-    width: 150px;
+    width: 130px;
     height: 35px;
     border: none;
     padding: 0 10px 0 10px;
   }
-  .radioBtn input[type="radio"] {
+  .radioBtn input[type="radio"],
+  .radioBtn input[type="checkbox"] {
     display: none;
   }
   .radioBtn label {
@@ -111,17 +116,20 @@ const StRadioBtnWrap = styled.div`
   }
 
   /* hover */
-  .radioBtn input[type="radio"]:hover + label {
-    background: ${palette.gray[6]};
+  .radioBtn input[type="radio"]:hover + label,
+  .radioBtn input[type="checkbox"]:hover + label {
+    background-color: ${palette.gray[6]};
     color: #fff;
   }
   /* Checked */
-  .radioBtn input[type="radio"]:checked + label {
-    background: ${palette.gray[6]};
+  .radioBtn input[type="radio"]:checked + label,
+  .radioBtn input[type="checkbox"]:checked + label {
+    background-color: ${palette.gray[6]};
     color: #fff;
   }
   /* Disabled */
-  .radioBtn input[type="radio"] + label {
+  .radioBtn input[type="radio"] + label,
+  .radioBtn input[type="checkbox"] + label {
     border: 2px solid #c4cbcd;
   }
 `;
