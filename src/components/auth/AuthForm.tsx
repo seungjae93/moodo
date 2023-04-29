@@ -184,7 +184,7 @@ function AuthForm({ type }: AuthFormProps) {
               label="이메일"
               placeholder="이메일을 입력해주세요"
               name="userEmail"
-              type="text"
+              type="email"
             />
             <WorningWord color={errors.userEmail}>
               {errors.userEmail?.message}
@@ -201,6 +201,7 @@ function AuthForm({ type }: AuthFormProps) {
               label="휴대전화"
               placeholder="핸드폰번호를 입력해주세요"
               name="userPhoneNumber"
+              type="text"
               kind="phone"
             />
             <WorningWord color={errors.userPhoneNumber}>
