@@ -39,7 +39,7 @@ export default SideNav;
 
 const SideNavWrapper = styled.div`
   height: 100%;
-  min-height: 100vh;
+  min-height: 200vh;
   width: 350px;
   min-width: 300px;
   background: ${palette.gray[6]};

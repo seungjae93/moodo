@@ -101,7 +101,7 @@ function RealEstateListing() {
       setPhotoPreview([]);
     }
   }, [photo]);
-  console.log(watch());
+
   const onValid = (data: RealEstateForm) => {};
   return (
     <RealEstateListingWrapper>
