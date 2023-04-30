@@ -2,9 +2,9 @@ import type { UseFormRegisterReturn } from "react-hook-form";
 interface InputProps {
   label: string;
   name: string;
-  kind?: "text" | "phone";
+  kind?: "text" | "phone" | "profile";
   register?: UseFormRegisterReturn;
-  autoComplete: string;
+  autoComplete?: string;
   type?: string;
   required?: boolean;
   placeholder?: string;
@@ -21,37 +21,39 @@ export default function Input({
 }: InputProps) {
   return (
     <div>
-      <label
-        style={{
-          marginBottom: "0.6rem",
-          display: "block",
-          fontSize: "0.875rem",
-          fontWeight: "500",
-          color: "#4a5568",
-        }}
-        htmlFor={name}
-      >
-        {label}
-      </label>
       {kind === "text" ? (
-        <div>
-          <input
-            id={name}
-            required={required}
-            {...register}
-            type={type}
-            placeholder={placeholder}
+        <>
+          <label
             style={{
-              width: "100%",
-              marginBottom: "0.5rem",
-              padding: "0.5rem",
-              border: "1px solid #e2e8f0",
-              borderRadius: "0 0.25rem 0.25rem 0",
-              boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
-              color: "#718096",
+              marginBottom: "0.6rem",
+              display: "block",
+              fontSize: "0.875rem",
+              fontWeight: "500",
+              color: "#4a5568",
             }}
-          />
-        </div>
+            htmlFor={name}
+          >
+            {label}
+          </label>
+          <div>
+            <input
+              id={name}
+              required={required}
+              {...register}
+              type={type}
+              placeholder={placeholder}
+              style={{
+                width: "100%",
+                marginBottom: "0.5rem",
+                padding: "0.5rem",
+                border: "1px solid #e2e8f0",
+                borderRadius: "0 0.25rem 0.25rem 0",
+                boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+                color: "#718096",
+              }}
+            />
+          </div>
+        </>
       ) : null}
 
       {kind === "phone" ? (
@@ -97,6 +99,36 @@ export default function Input({
             }}
           />
         </div>
+      ) : null}
+
+      {kind === "profile" ? (
+        <>
+          <label
+            style={{
+              display: "none",
+            }}
+            htmlFor={name}
+          >
+            {label}
+          </label>
+          <div>
+            <input
+              id={name}
+              required={required}
+              {...register}
+              type={type}
+              placeholder={placeholder}
+              style={{
+                width: "100%",
+                padding: "0.5rem",
+                border: "1px solid #e2e8f0",
+                borderRadius: "5px",
+                boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+                color: "#718096",
+              }}
+            />
+          </div>
+        </>
       ) : null}
     </div>
   );

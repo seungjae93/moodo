@@ -1,24 +1,161 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useForm } from "react-hook-form";
+
 import SideNav from "../components/common/SideNav/SideNav";
 import Button from "../components/common/Button/Button";
+import Input from "../components/common/Input";
+import palette from "../libs/styles/palette";
+import Postcode from "../components/common/management/Postcode";
+
+interface ProfileEditForm {
+  userName?: String;
+  userCompanyTelNumber?: String;
+  userPhoneNumber?: String;
+  userCompanyName?: String;
+  userBusinessLocation?: String;
+  userProfileImg?: FileList;
+  userBusinessLicense?: FileList;
+}
 
 function ProfileEdit() {
+  const { register, watch, handleSubmit } = useForm<ProfileEditForm>({
+    mode: "onChange",
+  });
+  const [profileImgPreview, setProfileImgPreview] = useState("");
+  const [licensePreview, setLicensePreview] = useState("");
+  const userProfileImg = watch("userProfileImg");
+  const userBusinessLicense = watch("userBusinessLicense");
+  useEffect(() => {
+    if (userProfileImg && userProfileImg.length > 0) {
+      const userProfileImgFile = userProfileImg[0];
+      setProfileImgPreview(URL.createObjectURL(userProfileImgFile));
+    }
+    if (userBusinessLicense && userBusinessLicense.length > 0) {
+      const userBusinessLicenseFile = userBusinessLicense[0];
+      setLicensePreview(URL.createObjectURL(userBusinessLicenseFile));
+    }
+  }, [userProfileImg, userBusinessLicense]);
+
+  const onValid = (data: ProfileEditForm) => {};
   return (
     <>
       <ProfileEditWrapper>
         <SideNav />
         <ProfileBox>
           <ProfileTitle>프로필 설정</ProfileTitle>
-          <ProfileContent>내 홈페이지 주소</ProfileContent>
-          <ProfileContent>중개사 이름</ProfileContent>
-          <ProfileContent>사무실 전화번호</ProfileContent>
-          <ProfileContent>본인 연락처</ProfileContent>
-          <ProfileContent>사무실 주소</ProfileContent>
-          <ProfileContent>프로필 이미지</ProfileContent>
-          <ProfileContent>중개사 자격증</ProfileContent>
-          <ButtonWithMarginTop type="submit" cyan fullWidth>
-            저장하기
-          </ButtonWithMarginTop>
+          <ProfileForm
+            onSubmit={handleSubmit(onValid)}
+            encType="multipart/form-data"
+          >
+            <div className="contentBox">
+              <ProfileSemiTitle>내 홈페이지 주소</ProfileSemiTitle>
+              <ProfileContent>
+                <div className="MyHomepageAddress">내 홈페이지 주소</div>
+              </ProfileContent>
+            </div>
+            <div className="contentBox">
+              <ProfileSemiTitle>중개사 이름</ProfileSemiTitle>
+              <ProfileContent>
+                <Input
+                  register={register("userName", {
+                    required: "필수 응답 항목입니다.",
+                  })}
+                  label="중개사 이름"
+                  name="userName"
+                  type="text"
+                  kind="profile"
+                />
+              </ProfileContent>
+            </div>
+            <div className="contentBox">
+              <ProfileSemiTitle>사무실 전화번호</ProfileSemiTitle>
+              <ProfileContent>
+                <Input
+                  register={register("userCompanyTelNumber", {
+                    required: "필수 응답 항목입니다.",
+                  })}
+                  label="사무실 전화번호"
+                  name="userCompanyTelNumber"
+                  type="text"
+                  kind="profile"
+                />
+              </ProfileContent>
+            </div>
+            <div className="contentBox">
+              <ProfileSemiTitle>본인 연락처</ProfileSemiTitle>
+              <ProfileContent>
+                <Input
+                  register={register("userPhoneNumber", {
+                    required: "필수 응답 항목입니다.",
+                  })}
+                  label="본인 연락처"
+                  name="userPhoneNumber"
+                  type="text"
+                  kind="profile"
+                />
+              </ProfileContent>
+            </div>
+            <div className="contentBox">
+              <ProfileSemiTitle>사무실 주소</ProfileSemiTitle>
+              <ProfileContent>
+                <Postcode />
+              </ProfileContent>
+            </div>
+            <div className="contentBox">
+              <ProfileSemiTitle>프로필 이미지</ProfileSemiTitle>
+              <ProfileContent>
+                <div className="profileWrap">
+                  {profileImgPreview ? (
+                    <img
+                      src={profileImgPreview}
+                      className="profileImgPreview"
+                    />
+                  ) : (
+                    <div className="profileImgPreview" />
+                  )}
+                  <StLabel htmlFor="userProfileImg">
+                    사진 변경
+                    <input
+                      {...register("userProfileImg")}
+                      id="userProfileImg"
+                      type="file"
+                      accept="image/*"
+                      style={{ display: "none" }}
+                    />
+                  </StLabel>
+                </div>
+              </ProfileContent>
+            </div>
+
+            <div className="contentBox">
+              <ProfileSemiTitle>중개사 자격증</ProfileSemiTitle>
+              <ProfileContent>
+                {" "}
+                <div className="profileWrap">
+                  {licensePreview ? (
+                    <img src={licensePreview} className="profileImgPreview" />
+                  ) : (
+                    <div className="profileImgPreview" />
+                  )}
+                  <StLabel htmlFor="userBusinessLicense">
+                    사진 변경
+                    <input
+                      {...register("userBusinessLicense")}
+                      id="userBusinessLicense"
+                      type="file"
+                      accept="image/*"
+                      style={{ display: "none" }}
+                    />
+                  </StLabel>
+                </div>
+              </ProfileContent>
+            </div>
+
+            <ButtonWithMarginTop type="submit" cyan fullWidth>
+              저장하기
+            </ButtonWithMarginTop>
+          </ProfileForm>
         </ProfileBox>
       </ProfileEditWrapper>
     </>
@@ -30,7 +167,8 @@ const ProfileEditWrapper = styled.div`
   padding-top: 30px;
   display: flex;
   height: 100%;
-  width: 100%;
+  width: 1300px;
+  min-width: 700px;
 `;
 
 const ProfileBox = styled.div`
@@ -39,8 +177,13 @@ const ProfileBox = styled.div`
   align-items: center;
   padding: 50px;
   width: 100%;
+  .contentBox {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
+  }
 `;
-
 const ProfileTitle = styled.div`
   width: 100%;
   padding: 0 20px 10px 0;
@@ -49,14 +192,72 @@ const ProfileTitle = styled.div`
   border-bottom: 3px solid black;
 `;
 
-const ProfileContent = styled.div`
+const ProfileForm = styled.form`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+const ProfileSemiTitle = styled.div`
+  display: flex;
+  align-items: center;
+  width: 150px;
+  padding: 20px 20px 20px 0;
+  font-weight: 350;
+  font-size: 13px;
+`;
+
+const ProfileContent = styled.div`
+  width: 450px;
   padding: 0 20px 20px 0;
   padding-top: 20px;
   font-weight: 350;
   font-size: 13px;
-  border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
+  .profileImgPreview {
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    border: 1px solid ${palette.gray[1]};
+  }
+  .profileWrap {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .MyHomepageAddress {
+    width: 100%;
+    height: 33.6px;
+    padding: 0.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 5px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    color: #718096;
+  }
 `;
+const StLabel = styled.label`
+  width: 100px;
+  text-align: center;
+  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  border-radius: 0.375rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  &:hover {
+    background-color: #f9fafb;
+    border-color: #d1d5db;
+  }
+  &:focus-within {
+    ring-width: 2px;
+    ring-offset-width: 2px;
+    ring-offset-color: #ffffff;
+    ring-color: #f97316;
+  }
+`;
+
 const ButtonWithMarginTop = styled(Button)`
   margin-top: 1rem;
 `;
