@@ -7,6 +7,8 @@ import RadioInput from "../components/common/management/RadioInput";
 import palette from "../libs/styles/palette";
 import TextArea from "../components/common/Textarea";
 import Button from "../components/common/Button/Button";
+import { AiOutlinePlus } from "react-icons/ai";
+
 interface RealEstateForm {
   propertyType: string;
   transactionType: string;
@@ -19,6 +21,8 @@ interface RealEstateForm {
   rooms: string;
   bedrooms: string;
   buildingFloors: string;
+  buildingHigestFloors?: string;
+  buildingNumber?: string;
   floorNumber: string;
   parkingAvailability: string;
   elevator: string;
@@ -75,16 +79,29 @@ function RealEstateListing() {
     watch,
     handleSubmit,
     formState: { isSubmitting, isDirty, errors },
-  } = useForm<RealEstateForm>({ mode: "onChange" });
+  } = useForm<RealEstateForm>({
+    mode: "onChange",
+    defaultValues: { propertyType: "원/투룸" },
+  });
 
-  const [photoPreview, setPhotoPreview] = useState("");
+  const propertyType = watch("propertyType");
+  const transactionType = watch("transactionType");
+  const isResidence = ["원/투룸", "주택/빌라", "아파트"].includes(propertyType);
+
+  const [photoPreview, setPhotoPreview] = useState<string[]>([]);
   const photo = watch("photo");
+
   useEffect(() => {
     if (photo && photo.length > 0) {
-      const file = photo[0];
-      setPhotoPreview(URL.createObjectURL(file));
+      const previewArray = Array.from(photo)
+        .slice(0, 8)
+        .map((file) => URL.createObjectURL(file));
+      setPhotoPreview(previewArray);
+    } else {
+      setPhotoPreview([]);
     }
   }, [photo]);
+  console.log(watch());
   const onValid = (data: RealEstateForm) => {};
   return (
     <RealEstateListingWrapper>
@@ -95,7 +112,7 @@ function RealEstateListing() {
           onSubmit={handleSubmit(onValid)}
           encType="multipart/form-data"
         >
-          <RealEstateListingSemiTitle>매물종류</RealEstateListingSemiTitle>
+          <RealEstateListingSemiTitle>매물 종류</RealEstateListingSemiTitle>
           <RadioInputWrapper>
             {propertyTypes.map(({ id, label, value }) => (
               <RadioInput
@@ -111,6 +128,8 @@ function RealEstateListing() {
               />
             ))}
           </RadioInputWrapper>
+          <RealEstateListingSemiTitle>매물 위치</RealEstateListingSemiTitle>
+
           <RealEstateListingSemiTitle>거래 정보</RealEstateListingSemiTitle>
           <RealEstateListingContent>
             <div className="contentTitle">거래 유형</div>
@@ -129,36 +148,80 @@ function RealEstateListing() {
             ))}
           </RealEstateListingContent>
           <RealEstateListingContent>
-            <div className="contentTitle">가격 정보</div>
-            <RadioInput
-              register={register("deposit", {
-                required: "필수 선택 항목입니다",
-                pattern: {
-                  value: /^[0-9]*$/,
-                  message: "숫자만 입력해주세요",
-                },
-              })}
-              kind="text"
-              type="text"
-              label="보증금"
-              name="deposit"
-            />
-            <span>만원</span>
-            <div className="marginLeft">|</div>
-            <RadioInput
-              register={register("monthlyPay", {
-                required: "필수 선택 항목입니다",
-                pattern: {
-                  value: /^[0-9]*$/,
-                  message: "숫자만 입력해주세요",
-                },
-              })}
-              kind="text"
-              type="text"
-              label="월세"
-              name="monthlyPay"
-            />
-            <span>만원</span>
+            {transactionType === "월세" && (
+              <>
+                <div className="contentTitle">가격 정보</div>
+                <RadioInput
+                  register={register("deposit", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="보증금"
+                  name="deposit"
+                />
+                <span>만원</span>
+                <div className="marginLeft">|</div>
+                <RadioInput
+                  register={register("monthlyPay", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="월세"
+                  name="monthlyPay"
+                />
+                <span>만원</span>
+              </>
+            )}
+            {transactionType === "전세" && (
+              <>
+                <div className="contentTitle">가격 정보</div>
+                <RadioInput
+                  register={register("deposit", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="보증금"
+                  name="deposit"
+                />
+                <span>만원</span>
+                <div className="marginLeft">|</div>
+              </>
+            )}
+            {transactionType === "매매" && (
+              <>
+                <div className="contentTitle">가격 정보</div>
+                <RadioInput
+                  register={register("deposit", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="금액"
+                  name="deposit"
+                />
+                <span>만원</span>
+                <div className="marginLeft">|</div>
+              </>
+            )}
           </RealEstateListingContent>
           <RealEstateListingContent>
             <div className="contentTitle">관리비</div>
@@ -194,183 +257,537 @@ function RealEstateListing() {
             ))}
           </RealEstateListingContent>
           <RealEstateListingSemiTitle>매물 정보</RealEstateListingSemiTitle>
-          <RealEstateListingContent>
-            <div className="contentTitle">면적</div>
-            <RadioInput
-              register={register("houseArea", {
-                required: "필수 선택 항목입니다",
-                pattern: {
-                  value: /^[0-9]*$/,
-                  message: "숫자만 입력해주세요",
-                },
-              })}
-              kind="text"
-              type="text"
-              label="공급면적"
-              name="houseArea"
-            />
-            <span>m²</span>
-            <div className="marginLeft">|</div>
-            <RadioInput
-              register={register("exclusiveArea", {
-                required: "필수 선택 항목입니다",
-                pattern: {
-                  value: /^[0-9]*$/,
-                  message: "숫자만 입력해주세요",
-                },
-              })}
-              kind="text"
-              type="text"
-              label="전용"
-              name="exclusiveArea"
-            />
-            <span>m²</span>
-          </RealEstateListingContent>
-          <RealEstateListingContent>
-            <div className="contentTitle">방 개수</div>
-            <RadioInput
-              register={register("rooms", {
-                required: "필수 선택 항목입니다",
-                pattern: {
-                  value: /^[0-9]*$/,
-                  message: "숫자만 입력해주세요",
-                },
-              })}
-              kind="text"
-              type="text"
-              label="방 개수"
-              name="houseArea"
-            />
-            <span>개</span>
-            <div className="marginLeft">|</div>
-            <RadioInput
-              register={register("bedrooms", {
-                required: "필수 선택 항목입니다",
-                pattern: {
-                  value: /^[0-9]*$/,
-                  message: "숫자만 입력해주세요",
-                },
-              })}
-              kind="text"
-              type="text"
-              label="화장실개수"
-              name="exclusiveArea"
-            />
-            <span>개</span>
-          </RealEstateListingContent>
-          <RealEstateListingContent>
-            <div className="contentTitle">층수</div>
-            <RadioInput
-              register={register("buildingFloors", {
-                required: "필수 선택 항목입니다",
-                pattern: {
-                  value: /^[0-9]*$/,
-                  message: "숫자만 입력해주세요",
-                },
-              })}
-              kind="text"
-              type="text"
-              label="건물층수"
-              name="buildingFloors"
-            />
-            <span>층</span>
-            <div className="marginLeft">|</div>
-            <RadioInput
-              register={register("floorNumber", {
-                required: "필수 선택 항목입니다",
-                pattern: {
-                  value: /^[0-9]*$/,
-                  message: "숫자만 입력해주세요",
-                },
-              })}
-              kind="text"
-              type="text"
-              label="해당층수"
-              name="floorNumber"
-            />
-            <span>층</span>
-          </RealEstateListingContent>
-          <RealEstateListingSemiTitle>추가 정보</RealEstateListingSemiTitle>
-          <RealEstateListingContent>
-            <div className="contentTitle">주차 여부</div>
-            {parkingAvailability.map(({ id, label, value }) => (
-              <RadioInput
-                key={id}
-                register={register("parkingAvailability", {
-                  required: "필수 선택 항목입니다",
-                })}
-                type="radio"
-                id={id}
-                label={label}
-                value={value}
-                name="parkingAvailability"
-              />
-            ))}
-          </RealEstateListingContent>
-          <RealEstateListingContent>
-            <div className="contentTitle">엘리베이터</div>
-            {elevator.map(({ id, label, value }) => (
-              <RadioInput
-                key={id}
-                register={register("elevator", {
-                  required: "필수 선택 항목입니다",
-                })}
-                type="radio"
-                id={id}
-                label={label}
-                value={value}
-                name="elevator"
-              />
-            ))}
-          </RealEstateListingContent>
-          <RealEstateListingContent>
-            <div className="contentTitle">반려동물</div>
-            {pet.map(({ id, label, value }) => (
-              <RadioInput
-                key={id}
-                register={register("pet", {
-                  required: "필수 선택 항목입니다",
-                })}
-                type="radio"
-                id={id}
-                label={label}
-                value={value}
-                name="pet"
-              />
-            ))}
-          </RealEstateListingContent>
-          <RealEstateListingContent>
-            <div className="contentTitle">옵션</div>
-            <div className="optionsWrap">
-              {options.map(({ id, label, value }) => (
+          {propertyType === "원/투룸" && (
+            <>
+              <RealEstateListingContent>
+                <div className="contentTitle">면적</div>
                 <RadioInput
-                  key={id}
-                  register={register("options", {
+                  register={register("houseArea", {
                     required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
                   })}
-                  type="checkbox"
-                  id={id}
-                  label={label}
-                  value={value}
-                  name="options"
+                  kind="text"
+                  type="text"
+                  label="공급면적"
+                  name="houseArea"
                 />
-              ))}
+                <span>m²</span>
+                <div className="marginLeft">|</div>
+                <RadioInput
+                  register={register("exclusiveArea", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="전용"
+                  name="exclusiveArea"
+                />
+                <span>m²</span>
+              </RealEstateListingContent>
+              <RealEstateListingContent>
+                <div className="contentTitle">방 개수</div>
+                <RadioInput
+                  register={register("rooms", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="방 개수"
+                  name="houseArea"
+                />
+                <span>개</span>
+                <div className="marginLeft">|</div>
+                <RadioInput
+                  register={register("bedrooms", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="화장실개수"
+                  name="exclusiveArea"
+                />
+                <span>개</span>
+              </RealEstateListingContent>
+              <RealEstateListingContent>
+                <div className="contentTitle">층수</div>
+                <RadioInput
+                  register={register("buildingFloors", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="건물층수"
+                  name="buildingFloors"
+                />
+                <span>층</span>
+                <div className="marginLeft">|</div>
+                <RadioInput
+                  register={register("floorNumber", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="해당층수"
+                  name="floorNumber"
+                />
+                <span>층</span>
+              </RealEstateListingContent>
+            </>
+          )}
+          {propertyType === "주택/빌라" && (
+            <>
+              <RealEstateListingContent>
+                <div className="contentTitle">면적</div>
+                <RadioInput
+                  register={register("houseArea", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="공급면적"
+                  name="houseArea"
+                />
+                <span>m²</span>
+                <div className="marginLeft">|</div>
+                <RadioInput
+                  register={register("exclusiveArea", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="전용"
+                  name="exclusiveArea"
+                />
+                <span>m²</span>
+              </RealEstateListingContent>
+              <RealEstateListingContent>
+                <div className="contentTitle">방 개수</div>
+                <RadioInput
+                  register={register("rooms", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="방 개수"
+                  name="houseArea"
+                />
+                <span>개</span>
+                <div className="marginLeft">|</div>
+                <RadioInput
+                  register={register("bedrooms", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="화장실개수"
+                  name="exclusiveArea"
+                />
+                <span>개</span>
+              </RealEstateListingContent>
+              <RealEstateListingContent>
+                <div className="contentTitle">층수</div>
+                <RadioInput
+                  register={register("buildingFloors", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="건물층수"
+                  name="buildingFloors"
+                />
+                <span>층</span>
+                <div className="marginLeft">|</div>
+                <RadioInput
+                  register={register("floorNumber", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="해당층수"
+                  name="floorNumber"
+                />
+                <span>층</span>
+              </RealEstateListingContent>
+            </>
+          )}
+          {propertyType === "아파트" && (
+            <>
+              <RealEstateListingContent>
+                <div className="contentTitle">면적</div>
+                <RadioInput
+                  register={register("houseArea", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="공급면적"
+                  name="houseArea"
+                />
+                <span>m²</span>
+                <div className="marginLeft">|</div>
+                <RadioInput
+                  register={register("exclusiveArea", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="전용"
+                  name="exclusiveArea"
+                />
+                <span>m²</span>
+              </RealEstateListingContent>
+              <RealEstateListingContent>
+                <div className="contentTitle">층수</div>
+                <RadioInput
+                  register={register("buildingFloors", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="건물층수"
+                  name="buildingFloors"
+                />
+                <span>층</span>
+                <div className="marginLeft">|</div>
+                <RadioInput
+                  register={register("floorNumber", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="해당층수"
+                  name="floorNumber"
+                />
+                <span>층</span>
+              </RealEstateListingContent>
+
+              <RealEstateListingContent>
+                <div className="contentTitle">동</div>
+                <RadioInput
+                  register={register("buildingNumber", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="동"
+                  name="buildingNumber"
+                />
+                <span>동</span>
+              </RealEstateListingContent>
+            </>
+          )}
+          {propertyType === "상가/사무실" && (
+            <>
+              <RealEstateListingContent>
+                <div className="contentTitle">면적</div>
+                <RadioInput
+                  register={register("houseArea", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="공급면적"
+                  name="houseArea"
+                />
+                <span>m²</span>
+                <div className="marginLeft">|</div>
+                <RadioInput
+                  register={register("exclusiveArea", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="전용"
+                  name="exclusiveArea"
+                />
+                <span>m²</span>
+              </RealEstateListingContent>
+              <RealEstateListingContent>
+                <div className="contentTitle">층수</div>
+                <RadioInput
+                  register={register("buildingFloors", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="건물층수"
+                  name="buildingFloors"
+                />
+                <span>층</span>
+                <div className="marginLeft">|</div>
+                <RadioInput
+                  register={register("floorNumber", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="해당층수"
+                  name="floorNumber"
+                />
+                <span>층</span>
+              </RealEstateListingContent>
+            </>
+          )}
+          {propertyType === "건물" && (
+            <>
+              <RealEstateListingContent>
+                <div className="contentTitle">면적</div>
+                <RadioInput
+                  register={register("houseArea", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="공급면적"
+                  name="houseArea"
+                />
+                <span>m²</span>
+                <div className="marginLeft">|</div>
+                <RadioInput
+                  register={register("exclusiveArea", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="전용"
+                  name="exclusiveArea"
+                />
+                <span>m²</span>
+              </RealEstateListingContent>
+              <RealEstateListingContent>
+                <div className="contentTitle">층수</div>
+                <RadioInput
+                  register={register("buildingFloors", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="건물층수"
+                  name="buildingFloors"
+                />
+                <span>층</span>
+                <div className="marginLeft">~</div>
+                <RadioInput
+                  register={register("buildingHigestFloors", {
+                    required: "필수 선택 항목입니다",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "숫자만 입력해주세요",
+                    },
+                  })}
+                  kind="text"
+                  type="text"
+                  label="최고층수"
+                  name="buildingHigestFloors"
+                />
+                <span>층</span>
+              </RealEstateListingContent>
+            </>
+          )}
+
+          {isResidence && (
+            <>
+              <RealEstateListingSemiTitle>추가 정보</RealEstateListingSemiTitle>
+              <RealEstateListingContent>
+                <div className="contentTitle">주차 여부</div>
+                {parkingAvailability.map(({ id, label, value }) => (
+                  <RadioInput
+                    key={id}
+                    register={register("parkingAvailability", {
+                      required: "필수 선택 항목입니다",
+                    })}
+                    type="radio"
+                    id={id}
+                    label={label}
+                    value={value}
+                    name="parkingAvailability"
+                  />
+                ))}
+              </RealEstateListingContent>
+              <RealEstateListingContent>
+                <div className="contentTitle">엘리베이터</div>
+                {elevator.map(({ id, label, value }) => (
+                  <RadioInput
+                    key={id}
+                    register={register("elevator", {
+                      required: "필수 선택 항목입니다",
+                    })}
+                    type="radio"
+                    id={id}
+                    label={label}
+                    value={value}
+                    name="elevator"
+                  />
+                ))}
+              </RealEstateListingContent>
+              <RealEstateListingContent>
+                <div className="contentTitle">반려동물</div>
+                {pet.map(({ id, label, value }) => (
+                  <RadioInput
+                    key={id}
+                    register={register("pet", {
+                      required: "필수 선택 항목입니다",
+                    })}
+                    type="radio"
+                    id={id}
+                    label={label}
+                    value={value}
+                    name="pet"
+                  />
+                ))}
+              </RealEstateListingContent>
+              <RealEstateListingContent>
+                <div className="contentTitle">옵션</div>
+                <div className="optionsWrap">
+                  {options.map(({ id, label, value }) => (
+                    <RadioInput
+                      key={id}
+                      register={register("options", {
+                        required: "필수 선택 항목입니다",
+                      })}
+                      type="checkbox"
+                      id={id}
+                      label={label}
+                      value={value}
+                      name="options"
+                    />
+                  ))}
+                </div>
+              </RealEstateListingContent>
+            </>
+          )}
+
+          <RealEstateListingSemiTitle>사진 추가</RealEstateListingSemiTitle>
+          <RealEstateListingContent>
+            <div className="contentTitle">사진</div>
+            <div className="photoWrap">
+              {photoPreview.length > 0 ? (
+                photoPreview.map((preview, index) => (
+                  <StAvatarPreview key={index} src={preview} alt="Image" />
+                ))
+              ) : (
+                <div className="labelWrap">
+                  <label htmlFor="picture" className="photoLabel">
+                    <AiOutlinePlus className="photoIcon" />
+                    <input
+                      {...register("photo")}
+                      id="picture"
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      className="photoInput"
+                    />
+                  </label>
+                </div>
+              )}
             </div>
           </RealEstateListingContent>
-          <RealEstateListingSemiTitle>사진 추가</RealEstateListingSemiTitle>
-          {photoPreview ? (
-            <StAvatarPreview src={photoPreview} alt="Image" />
-          ) : (
-            <label htmlFor="picture">
-              <input
-                {...register("photo")}
-                id="picture"
-                type="file"
-                multiple
-                accept="image/*"
-              />
-            </label>
-          )}
+          <div style={{ marginTop: "20px" }}>
+            · 첫번째로 등록한 사진이 대표 사진이 되며 대표사진은 변경할 수
+            있습니다.
+          </div>
+          <div style={{ marginTop: "20px" }}>
+            · 사진은 최대 8장까지 가능합니다. (jpg, jpeg, png, jfif 확장자만
+            등록 가능)
+          </div>
+          <div style={{ marginTop: "20px", marginBottom: "20px" }}>
+            · 사진의 크기는 최대 5MB까지 가능합니다.
+          </div>
           <RealEstateListingSemiTitle>상세 설명</RealEstateListingSemiTitle>
           <TextArea
             register={register("description", { required: true })}
@@ -457,14 +874,43 @@ const RealEstateListingContent = styled.div`
     width: 600px;
     gap: 10px;
   }
+  .photoWrap {
+    display: flex;
+    flex-wrap: wrap;
+    width: 600px;
+    height: 250px;
+    padding: 20px;
+    gap: 20px;
+  }
+  .photoLabel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 80px;
+  }
+  .labelWrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
+    height: 200px;
+  }
+  .photoInput {
+    width: 10px;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .photoIcon {
+    font-size: 50px;
+    color: ${palette.gray[3]};
+  }
 `;
 
 const StAvatarPreview = styled.img`
-  width: 200px;
-  height: 180px;
+  width: 100px;
+  height: 100px;
   background-color: transparent;
-  margin-top: 30px;
-  padding: 0 15px 0 15px;
 `;
 
 const ButtonWithMarginTop = styled(Button)`
