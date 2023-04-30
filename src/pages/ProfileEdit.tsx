@@ -6,7 +6,7 @@ import SideNav from "../components/common/SideNav/SideNav";
 import Button from "../components/common/Button/Button";
 import Input from "../components/common/Input";
 import palette from "../libs/styles/palette";
-import Postcode from "../components/common/management/Postcode";
+import Addr from "../components/common/management/Addr";
 
 interface ProfileEditForm {
   userName?: String;
@@ -36,7 +36,7 @@ function ProfileEdit() {
       setLicensePreview(URL.createObjectURL(userBusinessLicenseFile));
     }
   }, [userProfileImg, userBusinessLicense]);
-
+  console.log(watch());
   const onValid = (data: ProfileEditForm) => {};
   return (
     <>
@@ -99,7 +99,7 @@ function ProfileEdit() {
             <div className="contentBox">
               <ProfileSemiTitle>사무실 주소</ProfileSemiTitle>
               <ProfileContent>
-                <Postcode />
+                <Addr />
               </ProfileContent>
             </div>
             <div className="contentBox">
