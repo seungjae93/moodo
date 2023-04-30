@@ -12,7 +12,6 @@ interface InputProps {
   value?: string;
   required?: boolean;
   placeholder?: string;
-  onChange?: () => void;
 }
 
 export default function RadioInput({
