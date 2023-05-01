@@ -1,31 +1,51 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
 
 import SideNav from "../components/common/SideNav/SideNav";
 import Button from "../components/common/Button/Button";
 import Input from "../components/common/Input";
 import palette from "../libs/styles/palette";
-import Addr from "../components/common/management/Addr";
+import PostCode from "../components/common/management/PostCode";
+import { uploadApi } from "../apis/axios";
 
 interface ProfileEditForm {
-  userName?: String;
-  userCompanyTelNumber?: String;
-  userPhoneNumber?: String;
-  userCompanyName?: String;
-  userBusinessLocation?: String;
+  userId?: string;
+  userName?: string;
+  userCompanyTelNumber?: string;
+  userPhoneNumber?: string;
+  userCompanyName?: string;
+  userBusinessLocation?: string;
   userProfileImg?: FileList;
   userBusinessLicense?: FileList;
 }
 
 function ProfileEdit() {
-  const { register, watch, handleSubmit } = useForm<ProfileEditForm>({
+  const { mutate, isLoading, isError, error } = useMutation(
+    async (formData: FormData) => {
+      await uploadApi.profile(formData);
+    },
+    {
+      onSuccess: () => {
+        alert("정보를 수정하였습니다.");
+      },
+      onError: (error) => {
+        console.error(error);
+      },
+    }
+  );
+
+  const { register, watch, handleSubmit, setValue } = useForm<ProfileEditForm>({
     mode: "onChange",
   });
+
+  //image
   const [profileImgPreview, setProfileImgPreview] = useState("");
   const [licensePreview, setLicensePreview] = useState("");
   const userProfileImg = watch("userProfileImg");
   const userBusinessLicense = watch("userBusinessLicense");
+
   useEffect(() => {
     if (userProfileImg && userProfileImg.length > 0) {
       const userProfileImgFile = userProfileImg[0];
@@ -37,7 +57,25 @@ function ProfileEdit() {
     }
   }, [userProfileImg, userBusinessLicense]);
   console.log(watch());
-  const onValid = (data: ProfileEditForm) => {};
+  const onValid = (data: ProfileEditForm) => {
+    const formData = new FormData();
+    formData.append("userId", data?.userId || "");
+    formData.append("userName", data?.userName || "");
+    formData.append("userCompanyTelNumber", data?.userCompanyTelNumber || "");
+    formData.append("userPhoneNumber", data?.userPhoneNumber || "");
+    formData.append("userCompanyName", data?.userCompanyName || "");
+    formData.append("userBusinessLocation", data?.userBusinessLocation || "");
+    if (data?.userProfileImg) {
+      for (const file of data.userProfileImg) {
+        formData.append("userProfileImg", file);
+      }
+    }
+    if (data?.userBusinessLicense) {
+      for (const file of data.userBusinessLicense) {
+        formData.append("userBusinessLicense", file);
+      }
+    }
+  };
   return (
     <>
       <ProfileEditWrapper>
@@ -52,6 +90,20 @@ function ProfileEdit() {
               <ProfileSemiTitle>내 홈페이지 주소</ProfileSemiTitle>
               <ProfileContent>
                 <div className="MyHomepageAddress">내 홈페이지 주소</div>
+              </ProfileContent>
+            </div>
+            <div className="contentBox">
+              <ProfileSemiTitle>아이디</ProfileSemiTitle>
+              <ProfileContent>
+                <Input
+                  register={register("userId", {
+                    required: "필수 응답 항목입니다.",
+                  })}
+                  label="아이디"
+                  name="userId"
+                  type="text"
+                  kind="profile"
+                />
               </ProfileContent>
             </div>
             <div className="contentBox">
@@ -99,7 +151,7 @@ function ProfileEdit() {
             <div className="contentBox">
               <ProfileSemiTitle>사무실 주소</ProfileSemiTitle>
               <ProfileContent>
-                <Addr />
+                <PostCode register={register} />
               </ProfileContent>
             </div>
             <div className="contentBox">
