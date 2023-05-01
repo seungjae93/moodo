@@ -40,3 +40,12 @@ export const loginApi = {
     await instance.post("/signup", formData);
   },
 };
+
+export const uploadApi = {
+  list: async (formData: FormData): Promise<void> => {
+    await instance.post("/estate", formData);
+  },
+  profile: async (formData: FormData): Promise<void> => {
+    await instance.post("/profile", formData);
+  },
+};
