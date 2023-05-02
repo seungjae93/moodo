@@ -10,11 +10,10 @@ declare global {
 
 interface IPostCode {
   address: string;
-  zonecode: string;
 }
 
 interface PostCodeProps {
-  register: any;
+  register?: any;
 }
 
 export default function PostCode({ register }: PostCodeProps) {
@@ -23,11 +22,9 @@ export default function PostCode({ register }: PostCodeProps) {
   const onClickAddr = () => {
     new window.daum.Postcode({
       oncomplete: function (data: IPostCode) {
-        const address = data.address;
-        (document.getElementById("addr") as HTMLInputElement).value = address;
-
+        (document.getElementById("addr") as HTMLInputElement).value =
+          data.address;
         document.getElementById("addrDetail")?.focus();
-        setAddressDetail("");
       },
     }).open();
   };
@@ -36,10 +33,8 @@ export default function PostCode({ register }: PostCodeProps) {
     const value = e.target.value;
     setAddressDetail(value);
     const address = (document.getElementById("addr") as HTMLInputElement).value;
-    const combinedAddress = `${address}`;
-    register("userBusinessLocation", {
-      value: combinedAddress,
-    });
+    const combinedAddress = `${address}${value}`;
+    register("userBusinessLocation", { value: combinedAddress });
   };
 
   return (

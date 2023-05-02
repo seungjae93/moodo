@@ -74,6 +74,7 @@ function ProfileEdit() {
       for (const file of data.userBusinessLicense) {
         formData.append("userBusinessLicense", file);
       }
+      mutate(formData);
     }
   };
   return (
