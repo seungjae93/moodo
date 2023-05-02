@@ -48,4 +48,7 @@ export const uploadApi = {
   profile: async (formData: FormData): Promise<void> => {
     await instance.post("/profile", formData);
   },
+  getProfile: async (userId: string): Promise<void> => {
+    await instance.get("/profile", { params: { userId } });
+  },
 };

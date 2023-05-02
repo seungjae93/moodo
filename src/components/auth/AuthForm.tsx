@@ -57,20 +57,6 @@ function AuthForm({ type }: AuthFormProps) {
       },
     }
   );
-  // const { mutate, isLoading, isError, error } = useMutation(
-  //   async (formData: FormData) => {
-  //     await loginApi.create(formData);
-  //   },
-  //   {
-  //     onSuccess: () => {
-  //       alert("로그인 성공!");
-  //       navigate("/");
-  //     },
-  //     onError: (error) => {
-  //       console.error(error);
-  //     },
-  //   }
-  // );
 
   const {
     register,
