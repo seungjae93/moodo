@@ -941,7 +941,7 @@ const RadioInputWrapper = styled.div`
 const RealEstateListingContent = styled.div`
   display: flex;
   align-items: center;
-  padding-left: 30px;
+  padding: 10px 0 10px 30px;
   gap: 10px;
   border-bottom: 1px solid ${palette.gray[0]};
   span {

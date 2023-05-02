@@ -34,8 +34,12 @@ function AuthForm({ type }: AuthFormProps) {
   const loginAxios = async (formData: FormData): Promise<void> => {
     try {
       const { data }: AxiosResponse = await loginApi.login(formData);
-      console.log(data);
+      localStorage.setItem("token", data.token);
+      setTimeout(() => {
+        localStorage.clear();
+      }, 3600000);
     } catch (error) {
+      //status 나오면 작성
       console.error(error);
     }
   };
