@@ -12,13 +12,13 @@ import { uploadApi } from "../apis/axios";
 
 interface ProfileEditForm {
   userId?: string;
-  userName?: string;
-  userCompanyTelNumber?: string;
+  userName: string;
+  userCompanyTelNumber: string;
   userPhoneNumber?: string;
-  userCompanyName?: string;
-  userBusinessLocation?: string;
-  userProfileImg?: FileList;
-  userBusinessLicense?: FileList;
+  userCompanyName: string;
+  userBusinessLocation: string;
+  userProfileImg: FileList;
+  userBusinessLicense: FileList;
 }
 
 function ProfileEdit() {
@@ -57,6 +57,7 @@ function ProfileEdit() {
     }
   }, [userProfileImg, userBusinessLicense]);
   console.log(watch());
+
   const onValid = (data: ProfileEditForm) => {
     const formData = new FormData();
     formData.append("userId", data?.userId || "");
@@ -74,8 +75,8 @@ function ProfileEdit() {
       for (const file of data.userBusinessLicense) {
         formData.append("userBusinessLicense", file);
       }
-      mutate(formData);
     }
+    mutate(formData);
   };
   return (
     <>
@@ -97,9 +98,7 @@ function ProfileEdit() {
               <ProfileSemiTitle>아이디</ProfileSemiTitle>
               <ProfileContent>
                 <Input
-                  register={register("userId", {
-                    required: "필수 응답 항목입니다.",
-                  })}
+                  register={register("userId")}
                   label="아이디"
                   name="userId"
                   type="text"
@@ -139,9 +138,7 @@ function ProfileEdit() {
               <ProfileSemiTitle>본인 연락처</ProfileSemiTitle>
               <ProfileContent>
                 <Input
-                  register={register("userPhoneNumber", {
-                    required: "필수 응답 항목입니다.",
-                  })}
+                  register={register("userPhoneNumber")}
                   label="본인 연락처"
                   name="userPhoneNumber"
                   type="text"
@@ -150,9 +147,26 @@ function ProfileEdit() {
               </ProfileContent>
             </div>
             <div className="contentBox">
+              <ProfileSemiTitle>부동산 이름</ProfileSemiTitle>
+              <ProfileContent>
+                <Input
+                  register={register("userCompanyName", {
+                    required: "필수 응답 항목입니다.",
+                  })}
+                  label="부동산 이름"
+                  name="userCompanyName"
+                  type="text"
+                  kind="profile"
+                />
+              </ProfileContent>
+            </div>
+            <div className="contentBox">
               <ProfileSemiTitle>사무실 주소</ProfileSemiTitle>
               <ProfileContent>
-                <PostCode register={register} />
+                <PostCode
+                  inputName="userBusinessLocation"
+                  register={register}
+                />
               </ProfileContent>
             </div>
             <div className="contentBox">
