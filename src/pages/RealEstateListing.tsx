@@ -9,7 +9,7 @@ import palette from "../libs/styles/palette";
 import TextArea from "../components/common/Textarea";
 import Button from "../components/common/Button/Button";
 import { AiOutlinePlus } from "react-icons/ai";
-import ListPostCode from "../components/common/management/ListPostCode";
+import PostCode from "../components/common/management/PostCode";
 import { uploadApi } from "../apis/axios";
 
 interface RealEstateForm {
@@ -187,8 +187,8 @@ function RealEstateListing() {
       for (const file of data.images) {
         formData.append("images", file);
       }
-      mutate(formData);
     }
+    mutate(formData);
   };
   console.log(watch());
   return (
@@ -219,7 +219,7 @@ function RealEstateListing() {
           <RealEstateListingSemiTitle>매물 위치</RealEstateListingSemiTitle>
           <RealEstateListingContent>
             <div className="contentTitle">주소</div>
-            <ListPostCode register={register} />
+            <PostCode inputName="addressOfProperty" register={register} />
           </RealEstateListingContent>
           <RealEstateListingSemiTitle>거래 정보</RealEstateListingSemiTitle>
           <RealEstateListingContent>
@@ -881,10 +881,9 @@ function RealEstateListing() {
           </div>
           <RealEstateListingSemiTitle>상세 설명</RealEstateListingSemiTitle>
           <TextArea
-            register={register("detail", { required: true })}
+            register={register("detail")}
             name="detail"
             label="상세설명"
-            required
           />
           <ButtonWithMarginTop type="submit" cyan fullWidth>
             매물 등록
