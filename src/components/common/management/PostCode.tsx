@@ -62,6 +62,7 @@ export default function PostCode({ inputName, register }: PostCodeProps) {
 
 const PostCodeWrapper = styled.div`
   display: flex;
+  width: 500px;
   flex-direction: column;
   .inputButtonBox {
     display: flex;

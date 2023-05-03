@@ -15,11 +15,11 @@ function Router() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        {/* <Route element={<PrivateRoutes />}> */}
-        <Route path="/profileEdit" element={<ProfileEdit />} />
-        <Route path="/realEstateListing" element={<RealEstateListing />} />
-        <Route path="/realEstateManage" element={<RealEstateManage />} />
-        {/* </Route> */}
+        <Route element={<PrivateRoutes />}>
+          <Route path="/profileEdit" element={<ProfileEdit />} />
+          <Route path="/realEstateListing" element={<RealEstateListing />} />
+          <Route path="/realEstateManage" element={<RealEstateManage />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
