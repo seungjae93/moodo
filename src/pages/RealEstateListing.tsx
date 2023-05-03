@@ -16,6 +16,8 @@ interface RealEstateForm {
   userId: string;
   typeOfProperty: string;
   addressOfProperty: string;
+  address?: string;
+  addressDetail?: string;
   transactionType?: string;
   deposit?: string;
   monthly?: string;
@@ -117,6 +119,7 @@ function RealEstateListing() {
       deposit: "",
       monthly: "",
       price: "",
+      addressDetail: "",
       maintenanceCost: "",
       moveInDate: "즉시 입주",
       supplyArea: "",
@@ -157,11 +160,13 @@ function RealEstateListing() {
   }, [images]);
 
   const onValid = (data: RealEstateForm) => {
+    const { address, addressDetail } = data;
+    const addressOfProperty = `${address},${addressDetail}`;
     const formData = new FormData();
 
     formData.append("userId", userId?.userId || "");
     formData.append("typeOfProperty", data?.typeOfProperty || "");
-    formData.append("addressOfProperty", data?.addressOfProperty || "");
+    formData.append("addressOfProperty", addressOfProperty || "");
     formData.append("transactionType", data?.transactionType || "");
     formData.append("deposit", data?.deposit || "");
     formData.append("monthly", data?.monthly || "");
@@ -219,7 +224,7 @@ function RealEstateListing() {
           <RealEstateListingSemiTitle>매물 위치</RealEstateListingSemiTitle>
           <RealEstateListingContent>
             <div className="contentTitle">주소</div>
-            <PostCode inputName="addressOfProperty" register={register} />
+            <PostCode register={register} />
           </RealEstateListingContent>
           <RealEstateListingSemiTitle>거래 정보</RealEstateListingSemiTitle>
           <RealEstateListingContent>
