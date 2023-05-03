@@ -38,6 +38,8 @@ function AuthForm({ type }: AuthFormProps) {
       setTimeout(() => {
         localStorage.clear();
       }, 3600000);
+      alert("로그인 성공!");
+      navigate("/profileEdit");
     } catch (error) {
       //status 나오면 작성
       console.error(error);

@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import SideNav from "../components/common/SideNav/SideNav";
 import Button from "../components/common/Button/Button";
 import Input from "../components/common/Input";
 import palette from "../libs/styles/palette";
 import PostCode from "../components/common/management/PostCode";
-import { uploadApi } from "../apis/axios";
+import { profileApi } from "../apis/axios";
 
 interface ProfileEditForm {
   userId?: string;
@@ -22,9 +22,12 @@ interface ProfileEditForm {
 }
 
 function ProfileEdit() {
-  const { mutate, isLoading, isError, error } = useMutation(
+  const { data, isLoading } = useQuery(["myProfileData"], profileApi.get);
+  console.log(data);
+
+  const { mutate, isError, error } = useMutation(
     async (formData: FormData) => {
-      await uploadApi.profile(formData);
+      await profileApi.post(formData);
     },
     {
       onSuccess: () => {

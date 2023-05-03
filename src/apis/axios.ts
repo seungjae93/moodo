@@ -12,7 +12,10 @@ const getToken = () => {
 };
 
 instance.interceptors.request.use((config) => {
-  config.headers["Authorization"] = getToken();
+  const token = getToken();
+  if (token) {
+    config.headers["Authorization"] = getToken();
+  }
   return config;
 });
 
@@ -42,15 +45,20 @@ export const loginApi = {
   },
 };
 
-export const uploadApi = {
-  list: async (formData: FormData): Promise<void> => {
-    await instance.post("/estate", formData);
-  },
-  profile: async (formData: FormData): Promise<void> => {
+//프로필 API
+export const profileApi = {
+  post: async (formData: FormData): Promise<void> => {
     await instance.post("/profile", formData);
   },
-  getProfile: async (userId: Params): Promise<void> => {
-    const response = await instance.get("/profile", userId);
+  get: async (): Promise<void> => {
+    const response = await instance.get("/profile");
     return response.data;
+  },
+};
+
+//매물등록 Api
+export const estateApi = {
+  post: async (formData: FormData): Promise<void> => {
+    await instance.post("/estate", formData);
   },
 };
