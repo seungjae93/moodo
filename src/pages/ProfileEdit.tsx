@@ -13,6 +13,8 @@ import { profileApi } from "../apis/axios";
 interface ProfileEditForm {
   userId?: string;
   userName: string;
+  address?: string;
+  addressDetail?: string;
   userCompanyTelNumber: string;
   userPhoneNumber?: string;
   userCompanyName: string;
@@ -22,8 +24,8 @@ interface ProfileEditForm {
 }
 
 function ProfileEdit() {
-  const { data, isLoading } = useQuery(["myProfileData"], profileApi.get);
-  console.log(data);
+  // const { data, isLoading } = useQuery(["profileData"], profileApi.get);
+  // console.log(data);
 
   const { mutate, isError, error } = useMutation(
     async (formData: FormData) => {
@@ -39,7 +41,7 @@ function ProfileEdit() {
     }
   );
 
-  const { register, watch, handleSubmit, setValue } = useForm<ProfileEditForm>({
+  const { register, watch, handleSubmit } = useForm<ProfileEditForm>({
     mode: "onChange",
   });
 
@@ -62,13 +64,15 @@ function ProfileEdit() {
   console.log(watch());
 
   const onValid = (data: ProfileEditForm) => {
+    const { address, addressDetail } = data;
+    const userBusinessLocation = `${address},${addressDetail}`;
     const formData = new FormData();
     formData.append("userId", data?.userId || "");
     formData.append("userName", data?.userName || "");
     formData.append("userCompanyTelNumber", data?.userCompanyTelNumber || "");
     formData.append("userPhoneNumber", data?.userPhoneNumber || "");
     formData.append("userCompanyName", data?.userCompanyName || "");
-    formData.append("userBusinessLocation", data?.userBusinessLocation || "");
+    formData.append("userBusinessLocation", userBusinessLocation || "");
     if (data?.userProfileImg) {
       for (const file of data.userProfileImg) {
         formData.append("userProfileImg", file);
@@ -166,10 +170,7 @@ function ProfileEdit() {
             <div className="contentBox">
               <ProfileSemiTitle>사무실 주소</ProfileSemiTitle>
               <ProfileContent>
-                <PostCode
-                  inputName="userBusinessLocation"
-                  register={register}
-                />
+                <PostCode register={register} />
               </ProfileContent>
             </div>
             <div className="contentBox">
