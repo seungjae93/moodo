@@ -10,7 +10,7 @@ import TextArea from "../components/common/Textarea";
 import Button from "../components/common/Button/Button";
 import { AiOutlinePlus } from "react-icons/ai";
 import PostCode from "../components/common/management/PostCode";
-import { uploadApi } from "../apis/axios";
+import { estateApi } from "../apis/axios";
 
 interface RealEstateForm {
   userId: string;
@@ -90,7 +90,7 @@ function RealEstateListing() {
   const { mutate } = useMutation(
     async (formData: FormData) => {
       try {
-        await uploadApi.list(formData);
+        await estateApi.post(formData);
         // 성공적으로 회원가입이 완료되었을 때의 로직
         alert("등록이 완료되었습니다!");
         navigate("/");
@@ -941,7 +941,7 @@ const RadioInputWrapper = styled.div`
 const RealEstateListingContent = styled.div`
   display: flex;
   align-items: center;
-  padding-left: 30px;
+  padding: 10px 0 10px 30px;
   gap: 10px;
   border-bottom: 1px solid ${palette.gray[0]};
   span {
