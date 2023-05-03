@@ -13,30 +13,21 @@ interface IPostCode {
 }
 
 interface PostCodeProps {
-  inputName: string;
   register: any;
 }
 
-export default function PostCode({ inputName, register }: PostCodeProps) {
-  const [addressDetail, setAddressDetail] = useState("");
-
+export default function PostCode({ register }: PostCodeProps) {
   const onClickAddr = () => {
     new window.daum.Postcode({
       oncomplete: function (data: IPostCode) {
-        const address = data.address;
-        (document.getElementById("addr") as HTMLInputElement).value = address;
+        (document.getElementById("addr") as HTMLInputElement).value =
+          data.address;
+        const address = (document.getElementById("addr") as HTMLInputElement)
+          .value;
+        register("address", { value: address });
         document.getElementById("addrDetail")?.focus();
-        setAddressDetail("");
       },
     }).open();
-  };
-
-  const onAddressDetailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setAddressDetail(value);
-    const address = (document.getElementById("addr") as HTMLInputElement).value;
-    const combinedAddress = `${address}${addressDetail}`;
-    register(inputName, { value: combinedAddress });
   };
 
   return (
@@ -52,8 +43,8 @@ export default function PostCode({ inputName, register }: PostCodeProps) {
           id="addrDetail"
           type="text"
           placeholder="상세주소를 입력해주세요."
-          value={addressDetail}
-          onChange={onAddressDetailChange}
+          name="addressDetail"
+          {...register("addressDetail")}
         />
       </PostCodeWrapper>
     </>
