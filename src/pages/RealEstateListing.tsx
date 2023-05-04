@@ -3,14 +3,16 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+
+import { AiOutlinePlus } from "react-icons/ai";
+import { estateApi } from "../apis/axios";
 import SideNav from "../components/common/SideNav/SideNav";
 import RadioInput from "../components/common/management/RadioInput";
 import palette from "../libs/styles/palette";
 import TextArea from "../components/common/Textarea";
 import Button from "../components/common/Button/Button";
-import { AiOutlinePlus } from "react-icons/ai";
 import PostCode from "../components/common/management/PostCode";
-import { estateApi } from "../apis/axios";
+import flex from "../libs/styles/utilFlex";
 
 interface RealEstateForm {
   userId: string;
@@ -902,25 +904,20 @@ function RealEstateListing() {
 export default RealEstateListing;
 
 const RealEstateListingWrapper = styled.div`
+  ${flex({ justify: "", align: "" })}
   padding-top: 30px;
-  display: flex;
   height: 100%;
   width: 1300px;
   min-width: 700px;
 `;
 
 const RealEstateListingBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   padding: 50px;
   width: 100%;
 `;
 
 const RealEstateListingForm = styled.form`
   width: 100%;
-  display: flex;
-  flex-direction: column;
 `;
 
 const RealEstateListingTitle = styled.div`
@@ -944,10 +941,8 @@ const RadioInputWrapper = styled.div`
 `;
 
 const RealEstateListingContent = styled.div`
-  display: flex;
-  align-items: center;
+  ${flex({ justify: "", gap: "10px" })}
   padding: 10px 0 10px 30px;
-  gap: 10px;
   border-bottom: 1px solid ${palette.gray[0]};
   span {
     margin-left: 10px;
@@ -964,30 +959,24 @@ const RealEstateListingContent = styled.div`
     color: ${palette.gray[0]};
   }
   .optionsWrap {
-    display: flex;
+    ${flex({ justify: "", gap: "10px" })}
     flex-wrap: wrap;
     width: 600px;
-    gap: 10px;
   }
   .photoWrap {
-    display: flex;
+    ${flex({ justify: "", gap: "20px" })}
     flex-wrap: wrap;
     width: 600px;
     height: 250px;
     padding: 20px;
-    gap: 20px;
   }
   .photoLabel {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 80px;
-    height: 80px;
+    ${flex({})}
+    width: 70px;
+    height: 70px;
   }
   .labelWrap {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    ${flex({})}
     width: 500px;
     height: 200px;
   }

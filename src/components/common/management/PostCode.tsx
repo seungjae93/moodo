@@ -1,7 +1,7 @@
-import { useState } from "react";
 import styled from "styled-components";
-import palette from "../../../libs/styles/palette";
 
+import palette from "../../../libs/styles/palette";
+import flex from "../../../libs/styles/utilFlex";
 declare global {
   interface Window {
     daum: any;
@@ -52,12 +52,12 @@ export default function PostCode({ register }: PostCodeProps) {
 }
 
 const PostCodeWrapper = styled.div`
-  display: flex;
+  ${flex({ align: "", direction: "column" })}
+
   width: 500px;
-  flex-direction: column;
+
   .inputButtonBox {
-    display: flex;
-    gap: 10px;
+    ${flex({ gap: "10px" })}
     margin-bottom: 10px;
     .postcodeBtn {
       width: 60px;

@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
+import flex from "../../../libs/styles/utilFlex";
+
 function Header() {
   return (
     <>
@@ -28,9 +30,7 @@ function Header() {
 export default Header;
 
 const HeaderWrapper = styled.nav`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  ${flex({ justify: "center" })}
   position: fixed;
   width: 100%;
   min-width: 600px;
@@ -42,9 +42,7 @@ const HeaderWrapper = styled.nav`
 `;
 
 const ResponsiveWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 20px;
+  ${flex({ gap: "20px" })}
   .logo {
     width: 150px;
     font-size: 1.125rem;
@@ -52,11 +50,8 @@ const ResponsiveWrapper = styled.div`
     letter-spacing: 2px;
   }
   .nav {
+    ${flex({ justify: "space-around" })}
     width: 350px;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-
     .div {
       gap: 30px;
     }

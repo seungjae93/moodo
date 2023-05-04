@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
+import flex from "../../libs/styles/utilFlex";
+
 interface AuthFormProps {
   [key: string]: any;
 }
@@ -21,10 +23,7 @@ function AuthForm({ children }: AuthFormProps) {
 export default AuthForm;
 
 const AuthTemplateWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  ${flex({ direction: "column" })};
   height: 100%;
   min-height: 100vh;
 `;
