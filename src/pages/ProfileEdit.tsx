@@ -9,6 +9,7 @@ import Input from "../components/common/Input";
 import palette from "../libs/styles/palette";
 import PostCode from "../components/common/management/PostCode";
 import { profileApi } from "../apis/axios";
+import flex from "../libs/styles/utilFlex";
 
 interface ProfileEditForm {
   userId?: string;
@@ -235,17 +236,15 @@ function ProfileEdit() {
 export default ProfileEdit;
 
 const ProfileEditWrapper = styled.div`
+  ${flex({ align: "" })}
   padding-top: 30px;
-  display: flex;
   height: 100%;
   width: 1300px;
   min-width: 700px;
 `;
 
 const ProfileBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  ${flex({ direction: "column", justify: "" })}
   padding: 50px;
   width: 100%;
   .contentBox {
@@ -265,13 +264,9 @@ const ProfileTitle = styled.div`
 
 const ProfileForm = styled.form`
   width: 100%;
-  display: flex;
-  flex-direction: column;
 `;
 
 const ProfileSemiTitle = styled.div`
-  display: flex;
-  align-items: center;
   width: 150px;
   padding: 20px 20px 20px 0;
   font-weight: 350;
@@ -291,9 +286,7 @@ const ProfileContent = styled.div`
     border: 1px solid ${palette.gray[1]};
   }
   .profileWrap {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    ${flex({ direction: "column", gap: "20px", align: "" })}
   }
   .MyHomepageAddress {
     width: 100%;

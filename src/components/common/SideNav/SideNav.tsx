@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Avatar from "./Avatar";
+
 import palette from "../../../libs/styles/palette";
+import flex from "../../../libs/styles/utilFlex";
 
 function SideNav() {
   return (
@@ -46,12 +48,9 @@ const SideNavWrapper = styled.div`
 `;
 
 const SideNavBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+  ${flex({ direction: "column", gap: "20px" })}
   margin-top: 15px;
-  gap: 20px;
+
   h1 {
     margin-top: 10px;
     font-size: 24px;
@@ -70,9 +69,7 @@ const SideNavListWrapper = styled.div`
   margin-top: 30px;
 `;
 const SideNavList = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  ${flex({})}
   width: 100%;
   height: 50px;
   font-size: 20px;

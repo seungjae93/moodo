@@ -1,6 +1,8 @@
 import { UseFormRegisterReturn } from "react-hook-form";
 import styled from "styled-components";
+
 import palette from "../../libs/styles/palette";
+import flex from "../../libs/styles/utilFlex";
 
 interface TextAreaProps {
   label?: string;
@@ -24,11 +26,8 @@ export default function TextArea({
 }
 
 const TextAreaContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  ${flex({ gap: "20px" })}
   padding: 10px;
-  gap: 20px;
 `;
 
 const TextAreaLabel = styled.label`
