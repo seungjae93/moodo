@@ -223,10 +223,11 @@ function ProfileEdit() {
                 </div>
               </ProfileContent>
             </div>
-
-            <ButtonWithMarginTop type="submit" cyan fullWidth>
-              저장하기
-            </ButtonWithMarginTop>
+            <div className="btnWrapper">
+              <Button.Primary type="submit" size="large" fs="18px" fw="400">
+                저장하기
+              </Button.Primary>
+            </div>
           </ProfileForm>
         </ProfileBox>
       </ProfileEditWrapper>
@@ -264,9 +265,14 @@ const ProfileTitle = styled.div`
 
 const ProfileForm = styled.form`
   width: 100%;
+  .btnWrapper {
+    ${flex({})}
+    margin-top:15px;
+  }
 `;
 
 const ProfileSemiTitle = styled.div`
+  ${flex({ justify: "" })}
   width: 150px;
   padding: 20px 20px 20px 0;
   font-weight: 350;
@@ -320,8 +326,4 @@ const StLabel = styled.label`
     ring-offset-color: #ffffff;
     ring-color: #f97316;
   }
-`;
-
-const ButtonWithMarginTop = styled(Button)`
-  margin-top: 1rem;
 `;

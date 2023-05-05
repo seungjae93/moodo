@@ -1,44 +1,109 @@
-import styled, { css } from "styled-components";
-import palette from "../../../libs/styles/palette";
+import { ReactNode } from "react";
+import styled, { css, StyledComponentProps } from "styled-components";
 
-interface ButtonProps {
-  fullWidth?: string;
-  cyan?: string;
+import palette from "../../../libs/styles/palette";
+import flex from "../../../libs/styles/utilFlex";
+interface StyledButtonProps {
+  children?: ReactNode;
+  fs?: string;
+  bc?: string;
+  color?: string;
+  ma?: string;
+  fw?: string;
+  activeBc?: string;
+  hoverBc?: string;
+  size?: string;
+  type?: string;
   [key: string]: any;
 }
 
-const StyledButton = styled.button`
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: bold;
-  padding: 0.25rem 1rem;
-  color: white;
-  outline: none;
-  cursor: pointer;
+//primitive Button
+const PrimitiveButton = ({ children, ...restProps }: StyledButtonProps) => {
+  return (
+    <StyledButton {...restProps}>
+      <ButtonInner>{children}</ButtonInner>
+    </StyledButton>
+  );
+};
 
-  background: ${palette.gray[8]};
+//Primary Style
+const PrimaryButton = (props: StyledButtonProps) => {
+  return (
+    <PrimitiveButton
+      {...props}
+      bc={palette.gray[6]}
+      color="white"
+      activeBc={palette.gray[8]}
+    />
+  );
+};
+
+const Primary = PrimaryButton;
+
+const Button = { Primary };
+export default Button;
+
+const StyledButton = styled.button<StyledButtonProps>`
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: ${({ fs }) => fs};
+  background-color: ${({ bc }) => bc};
+  color: ${({ color }) => color};
+  margin: ${({ ma }) => ma};
+  font-weight: ${({ fw }) => fw};
   &:hover {
-    background: ${palette.gray[6]};
+    background-color: ${({ hoverBc }) => hoverBc};
+  }
+  &:active {
+    background-color: ${({ activeBc }) => activeBc};
+    transition: 0.2s;
   }
 
-  ${(props: ButtonProps) =>
-    props.fullWidth &&
-    css`
-      padding-top: 0.75rem;
-      padding-bottom: 0.75rem;
-      width: 100%;
-      font-size: 1.125rem;
-    `}
-  ${(props: ButtonProps) =>
-    props.cyan &&
-    css`
-      background: ${palette.gray[6]};
-      &:hover {
-        background: ${palette.gray[4]};
-      }
-    `}
+  ${({ size }) => {
+    switch (size) {
+      case "xLarge":
+        return css`
+          height: 50px;
+          width: 380px;
+        `;
+      case "large":
+        return css`
+          height: 50px;
+          width: 200px;
+        `;
+      case "medium":
+        return css`
+          height: 75px;
+          width: 120px;
+        `;
+      case "small":
+        return css`
+          height: 30px;
+          width: 80px;
+        `;
+      default:
+        return css`
+          height: 35px;
+          width: 100px;
+        `;
+    }
+  }}
+  ${({ outlined, bc }) => {
+    if (outlined) {
+      return css`
+        color: red;
+        border: 1px solid ${bc};
+        background-color: #fff;
+        font-weight: 600;
+        &:active {
+          background-color: #eeeeee;
+        }
+      `;
+    }
+  }}
 `;
 
-const Button = (props: ButtonProps) => <StyledButton {...props} />;
-export default Button;
+const ButtonInner = styled.div`
+  ${flex({ gap: "7px" })}
+`;

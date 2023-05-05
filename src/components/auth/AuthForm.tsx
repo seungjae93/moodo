@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+
 import { loginApi } from "../../apis/axios";
 import palette from "../../libs/styles/palette";
 import Button from "../common/Button/Button";
@@ -98,6 +99,7 @@ function AuthForm({ type }: AuthFormProps) {
               register={register("userId")}
               autoComplete="userId"
               label="아이디"
+              placeholder="아이디를 입력해주세요."
               name="userId"
               type="text"
             />
@@ -106,6 +108,7 @@ function AuthForm({ type }: AuthFormProps) {
               register={register("userPassword")}
               autoComplete="userPassword"
               label="비밀번호"
+              placeholder="비밀번호를 입력해주세요."
               name="userPassword"
               type="password"
             />
@@ -215,14 +218,9 @@ function AuthForm({ type }: AuthFormProps) {
             </WorningWord>
           </>
         )}
-        <ButtonWithMarginTop
-          type="submit"
-          cyan
-          fullWidth
-          style={{ marginTop: "1rem" }}
-        >
+        <Button.Primary type="submit" size="xLarge" fw="400" fs="20px">
           {text}
-        </ButtonWithMarginTop>
+        </Button.Primary>
       </form>
       <Footer>
         {type === "login" ? (
@@ -251,8 +249,4 @@ const Footer = styled.div`
       color: ${palette.cyan[4]};
     }
   }
-`;
-
-const ButtonWithMarginTop = styled(Button)`
-  margin-top: 1rem;
 `;

@@ -892,9 +892,11 @@ function RealEstateListing() {
             name="detail"
             label="상세설명"
           />
-          <ButtonWithMarginTop type="submit" cyan fullWidth>
-            매물 등록
-          </ButtonWithMarginTop>
+          <div className="btnWrapper">
+            <Button.Primary type="submit" size="large" fs="14px" fw="400">
+              매물 등록
+            </Button.Primary>
+          </div>
         </RealEstateListingForm>
       </RealEstateListingBox>
     </RealEstateListingWrapper>
@@ -918,6 +920,10 @@ const RealEstateListingBox = styled.div`
 
 const RealEstateListingForm = styled.form`
   width: 100%;
+  .btnWrapper {
+    ${flex({})}
+    margin-top:15px;
+  }
 `;
 
 const RealEstateListingTitle = styled.div`
@@ -996,8 +1002,4 @@ const StAvatarPreview = styled.img`
   width: 100px;
   height: 100px;
   background-color: transparent;
-`;
-
-const ButtonWithMarginTop = styled(Button)`
-  margin-top: 1rem;
 `;

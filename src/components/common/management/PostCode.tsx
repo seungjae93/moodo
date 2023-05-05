@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 import palette from "../../../libs/styles/palette";
 import flex from "../../../libs/styles/utilFlex";
+import Button from "../Button/Button";
 declare global {
   interface Window {
     daum: any;
@@ -35,9 +36,14 @@ export default function PostCode({ register }: PostCodeProps) {
       <PostCodeWrapper>
         <div className="inputButtonBox">
           <StInput id="addr" type="text" readOnly />
-          <button className="postcodeBtn" onClick={onClickAddr}>
+          <Button.Primary
+            className="postcodeBtn"
+            onClick={onClickAddr}
+            fw="400"
+            fs="14px"
+          >
             검색
-          </button>
+          </Button.Primary>
         </div>
         <StInput
           id="addrDetail"
