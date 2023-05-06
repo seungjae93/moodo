@@ -1,8 +1,16 @@
-import type { UseFormRegisterReturn } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { UseFormRegisterReturn } from "react-hook-form";
 import styled from "styled-components";
-import palette from "../../../libs/styles/palette";
 
+import palette from "../../../libs/styles/palette";
+import flex from "../../../libs/styles/utilFlex";
+interface RadioProps {
+  id: string;
+  label: string;
+  value: string;
+}
 interface InputProps {
+  key?: string;
   id?: string;
   label?: string;
   name?: string;
@@ -12,33 +20,77 @@ interface InputProps {
   value?: string;
   required?: boolean;
   placeholder?: string;
+  options?: RadioProps[];
 }
 
 export default function RadioInput({
-  id,
   label,
-  value,
   name,
   kind = "radio",
   register,
   type,
   required,
+  options,
 }: InputProps) {
+  const [showInput, setShowInput] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("");
+
+  useEffect(() => {
+    setSelectedOption("");
+  }, [name]);
+
+  const handleInputChange = (value: string) => {
+    setSelectedOption(value);
+    setShowInput(value === "날짜 설정");
+  };
+
   return (
     <div>
-      {kind === "radio" || kind === "checkbox" ? (
+      {kind === "radio" ? (
         <StRadioBtnWrap>
-          <div className="radioBtn">
+          {options &&
+            options.map(({ id, label, value }) => (
+              <div className="radioBtn" key={id}>
+                <input
+                  id={id}
+                  required={required}
+                  {...register}
+                  name={name}
+                  type={type}
+                  value={value}
+                  checked={selectedOption === value}
+                  onClick={() => handleInputChange(value)}
+                />
+                <label htmlFor={id}>{label}</label>
+              </div>
+            ))}
+          {showInput && (
             <input
-              id={id}
-              required={required}
+              type="text"
+              name="moveInDate"
+              placeholder="날짜를 입력하세요"
               {...register}
-              name={name}
-              type={type}
-              value={value}
             />
-            <label htmlFor={id}>{label}</label>
-          </div>
+          )}
+        </StRadioBtnWrap>
+      ) : null}
+
+      {kind === "checkbox" ? (
+        <StRadioBtnWrap>
+          {options &&
+            options.map(({ id, label, value }) => (
+              <div className="radioBtn" key={id}>
+                <input
+                  id={id}
+                  required={required}
+                  {...register}
+                  name={name}
+                  type={type}
+                  value={value}
+                />
+                <label htmlFor={id}>{label}</label>
+              </div>
+            ))}
         </StRadioBtnWrap>
       ) : null}
 
@@ -90,7 +142,8 @@ export default function RadioInput({
 const StRadioBtnWrap = styled.div`
   padding-bottom: 15px;
   padding-top: 15px;
-  display: flex;
+  ${flex({ gap: "20px", justify: "" })}
+  flex-wrap: wrap;
 
   .radioBtn {
     font-size: 17px;
