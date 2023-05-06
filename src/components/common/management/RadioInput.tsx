@@ -35,14 +35,14 @@ export default function RadioInput({
   const [showInput, setShowInput] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
 
-  useEffect(() => {
-    setSelectedOption("");
-  }, [name]);
-
   const handleInputChange = (value: string) => {
     setSelectedOption(value);
     setShowInput(value === "날짜 설정");
   };
+
+  useEffect(() => {
+    setSelectedOption("");
+  }, [name]);
 
   return (
     <div>
@@ -64,14 +64,6 @@ export default function RadioInput({
                 <label htmlFor={id}>{label}</label>
               </div>
             ))}
-          {showInput && (
-            <input
-              type="text"
-              name="moveInDate"
-              placeholder="날짜를 입력하세요"
-              {...register}
-            />
-          )}
         </StRadioBtnWrap>
       ) : null}
 
