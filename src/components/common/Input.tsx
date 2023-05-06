@@ -47,7 +47,7 @@ export default function Input({
                 marginBottom: "0.5rem",
                 padding: "0.5rem",
                 border: "1px solid #e2e8f0",
-                borderRadius: "0 0.25rem 0.25rem 0",
+                borderRadius: "5px",
                 boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
                 color: "#718096",
               }}
