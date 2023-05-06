@@ -218,9 +218,11 @@ function AuthForm({ type }: AuthFormProps) {
             </WorningWord>
           </>
         )}
-        <Button.Primary type="submit" size="xLarge" fw="400" fs="20px">
-          {text}
-        </Button.Primary>
+        <StBtnWrapper>
+          <Button.Primary type="submit" size="xLarge" fw="400" fs="20px">
+            {text}
+          </Button.Primary>
+        </StBtnWrapper>
       </form>
       <Footer>
         {type === "login" ? (
@@ -236,6 +238,9 @@ function AuthForm({ type }: AuthFormProps) {
 
 export default AuthForm;
 
+const StBtnWrapper = styled.div`
+  padding-top: 5px;
+`;
 const Footer = styled.div`
   margin-top: 2rem;
   text-align: center;
