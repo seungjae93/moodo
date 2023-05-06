@@ -42,6 +42,7 @@ interface RealEstateForm {
   options?: string;
   images?: FileList;
   detail?: string;
+  moveInDateInput?: string;
 }
 
 const typeOfProperties = [
@@ -142,6 +143,7 @@ function RealEstateListing() {
       lowestFloor: "",
       highestFloor: "",
       detail: "",
+      moveInDateInput: "",
     },
   });
 
@@ -229,11 +231,12 @@ function RealEstateListing() {
       </>
     );
   };
-  const typeOfProperty = watch("typeOfProperty");
-  const transactionType = watch("transactionType");
+  const typeOfPropertyWatch = watch("typeOfProperty");
+  const transactionTypeWatch = watch("transactionType");
+  const moveInDateWatch = watch("moveInDate");
 
   const isResidence = ["원/투룸", "주택/빌라", "아파트"].includes(
-    typeOfProperty
+    typeOfPropertyWatch
   );
 
   //이미지 미리보기
@@ -327,7 +330,7 @@ function RealEstateListing() {
             />
           </RealEstateListingContent>
           <RealEstateListingContent>
-            {transactionType === "월세" && (
+            {transactionTypeWatch === "월세" && (
               <>
                 <div className="contentTitle">가격 정보</div>
                 <NumberInputGroup
@@ -345,7 +348,7 @@ function RealEstateListing() {
                 <span>만원</span>
               </>
             )}
-            {transactionType === "전세" && (
+            {transactionTypeWatch === "전세" && (
               <>
                 <div className="contentTitle">가격 정보</div>
                 <NumberInputGroup
@@ -357,7 +360,7 @@ function RealEstateListing() {
                 <div className="marginLeft">|</div>
               </>
             )}
-            {transactionType === "매매" && (
+            {transactionTypeWatch === "매매" && (
               <>
                 <div className="contentTitle">가격 정보</div>
                 <NumberInputGroup
@@ -389,11 +392,31 @@ function RealEstateListing() {
               options={moveInDate}
               name="moveInDate"
             />
+            {moveInDateWatch === "날짜 설정" && (
+              <>
+                <input
+                  type="text"
+                  placeholder="yyyy-mm-dd"
+                  {...register("moveInDateInput")}
+                  style={{
+                    width: "150px",
+                    height: "30px",
+                    fontSize: "16px",
+                    fontWeight: "400",
+                    textAlign: "center",
+                    border: "1px solid #e2e8f0",
+                    borderRadius: "0 0.25rem 0.25rem 0",
+                    boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+                  }}
+                />
+                <span>이후</span>
+              </>
+            )}
           </RealEstateListingContent>
           <RealEstateListingSemiTitle>매물 정보</RealEstateListingSemiTitle>
-          {typeOfProperty === "원/투룸" && <>{propertyRoomVilla()}</>}
-          {typeOfProperty === "주택/빌라" && <>{propertyRoomVilla()}</>}
-          {typeOfProperty === "아파트" && (
+          {transactionTypeWatch === "원/투룸" && <>{propertyRoomVilla()}</>}
+          {transactionTypeWatch === "주택/빌라" && <>{propertyRoomVilla()}</>}
+          {transactionTypeWatch === "아파트" && (
             <>
               {propertyApartmentOffice()}
 
@@ -404,8 +427,10 @@ function RealEstateListing() {
               </RealEstateListingContent>
             </>
           )}
-          {typeOfProperty === "상가/사무실" && <>{propertyApartmentOffice()}</>}
-          {typeOfProperty === "건물" && (
+          {transactionTypeWatch === "상가/사무실" && (
+            <>{propertyApartmentOffice()}</>
+          )}
+          {transactionTypeWatch === "건물" && (
             <>
               <RealEstateListingContent>
                 <div className="contentTitle">면적</div>
