@@ -259,7 +259,6 @@ function RealEstateListing() {
     const { address, addressDetail } = data;
     const addressOfProperty = `${address},${addressDetail}`;
     const formData = new FormData();
-
     formData.append("userId", userId?.userId || "");
     formData.append("typeOfProperty", data?.typeOfProperty || "");
     formData.append("addressOfProperty", addressOfProperty || "");
@@ -268,7 +267,9 @@ function RealEstateListing() {
     formData.append("monthly", data?.monthly || "");
     formData.append("price", data?.price || "");
     formData.append("maintenanceCost", data?.maintenanceCost || "");
-    formData.append("moveInDate", data?.moveInDate || "");
+    moveInDateWatch === "날씨 설정"
+      ? formData.append("moveInDate", data?.moveInDateInput || "")
+      : formData.append("moveInDate", data?.moveInDate || "");
     formData.append("supplyArea", data?.supplyArea || "");
     formData.append("exclusiveArea", data?.exclusiveArea || "");
     formData.append("numOfRoom", data?.numOfRoom || "");
@@ -396,8 +397,13 @@ function RealEstateListing() {
               <>
                 <input
                   type="text"
-                  placeholder="yyyy-mm-dd"
-                  {...register("moveInDateInput")}
+                  placeholder="yyyy.mm.dd"
+                  {...register("moveInDateInput", {
+                    pattern: {
+                      value: /^\d{4}\.\d{2}\.\d{2}$/,
+                      message: "yyyy.mm.dd 형식으로 입력해주세요",
+                    },
+                  })}
                   style={{
                     width: "150px",
                     height: "30px",

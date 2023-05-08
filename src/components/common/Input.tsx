@@ -8,6 +8,7 @@ interface InputProps {
   type?: string;
   required?: boolean;
   placeholder?: string;
+  readonly?: boolean;
 }
 
 export default function Input({
@@ -18,6 +19,7 @@ export default function Input({
   type,
   placeholder,
   required,
+  readonly,
 }: InputProps) {
   return (
     <div>
@@ -118,6 +120,7 @@ export default function Input({
               {...register}
               type={type}
               placeholder={placeholder}
+              readOnly={readonly}
               style={{
                 width: "100%",
                 padding: "0.5rem",

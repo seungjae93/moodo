@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
@@ -36,29 +36,32 @@ function AuthForm({ type }: AuthFormProps) {
     try {
       const { data }: AxiosResponse = await loginApi.login(formData);
       localStorage.setItem("token", data.token);
+      localStorage.setItem("userKey", data.userKey);
       setTimeout(() => {
         localStorage.clear();
       }, 3600000);
       alert("로그인 성공!");
       navigate("/profileEdit");
     } catch (error) {
-      //status 나오면 작성
-      console.error(error);
+      if (error instanceof AxiosError) {
+        //커스텀 타입 가드,
+        console.error(error.response?.data);
+        const { status } = error?.response?.request;
+        if (status === undefined || null) return;
+        else if (status === 401)
+          alert("아이디 혹은 비밀번호가 일치하지 않습니다.");
+      }
     }
   };
 
-  const { mutate, isLoading, isError, error } = useMutation(
-    async (formData: FormData) => {
-      try {
-        await loginApi.create(formData);
+  const { mutate } = useMutation(
+    (formData: FormData) => loginApi.create(formData),
+    {
+      onSuccess: () => {
         // 성공적으로 회원가입이 완료되었을 때의 로직
         alert("회원가입을 축하합니다!");
         navigate("/");
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    {
+      },
       onError: (error) => {
         console.error(error);
       },
