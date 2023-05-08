@@ -1,7 +1,12 @@
 import React from "react";
+import MyEstateCard from "../components/common/management/MyEstateCard";
 
 function RealEstateManage() {
-  return <div>RealEstateManage</div>;
+  return (
+    <>
+      <MyEstateCard />
+    </>
+  );
 }
 
 export default RealEstateManage;

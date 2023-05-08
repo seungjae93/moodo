@@ -11,6 +11,23 @@ const getToken = () => {
   return token ? `Bearer ${token}` : null;
 };
 
+function setCookie(name: string, value: string, days: number): void {
+  let expires = "";
+  if (days) {
+    const date = new Date();
+    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+    expires = `; expires=${date.toUTCString()}`;
+  }
+  document.cookie = `${name}=${value || ""}${expires}; path=/; samesite=lax;`;
+}
+
+const token = localStorage.getItem("token");
+const userKey = localStorage.getItem("userKey");
+if (token && userKey) {
+  setCookie("token", token, 30);
+  setCookie("userKey", userKey, 30);
+}
+
 instance.interceptors.request.use((config) => {
   const token = getToken();
   if (token) {
@@ -21,6 +38,7 @@ instance.interceptors.request.use((config) => {
 
 instance.interceptors.response.use(
   (res) => {
+    console.log(res);
     return res;
   },
   (error) => {

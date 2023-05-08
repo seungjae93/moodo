@@ -25,8 +25,8 @@ interface ProfileEditForm {
 }
 
 function ProfileEdit() {
-  // const { data, isLoading } = useQuery(["profileData"], profileApi.get);
-  // console.log(data);
+  const { data, isLoading } = useQuery(["profileData"], profileApi.get);
+  console.log(data);
 
   const { mutate, isError, error } = useMutation(
     async (formData: FormData) => {
@@ -42,7 +42,7 @@ function ProfileEdit() {
     }
   );
 
-  const { register, watch, handleSubmit } = useForm<ProfileEditForm>({
+  const { register, watch, handleSubmit, setValue } = useForm<ProfileEditForm>({
     mode: "onChange",
   });
 
@@ -52,6 +52,9 @@ function ProfileEdit() {
   const userProfileImg = watch("userProfileImg");
   const userBusinessLicense = watch("userBusinessLicense");
 
+  // useEffect(() => {
+  //   if(data?.email) setValue("userName" ,data?.email )
+  // } , [data , setValue])
   useEffect(() => {
     if (userProfileImg && userProfileImg.length > 0) {
       const userProfileImgFile = userProfileImg[0];
@@ -151,6 +154,7 @@ function ProfileEdit() {
                   name="userPhoneNumber"
                   type="text"
                   kind="profile"
+                  readonly
                 />
               </ProfileContent>
             </div>
@@ -189,7 +193,9 @@ function ProfileEdit() {
                   <StLabel htmlFor="userProfileImg">
                     사진 변경
                     <input
-                      {...register("userProfileImg")}
+                      {...register("userProfileImg", {
+                        required: "필수 선택 항목입니다",
+                      })}
                       id="userProfileImg"
                       type="file"
                       accept="image/*"
@@ -213,7 +219,9 @@ function ProfileEdit() {
                   <StLabel htmlFor="userBusinessLicense">
                     사진 변경
                     <input
-                      {...register("userBusinessLicense")}
+                      {...register("userBusinessLicense", {
+                        required: "필수 선택 항목입니다",
+                      })}
                       id="userBusinessLicense"
                       type="file"
                       accept="image/*"
