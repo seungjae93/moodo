@@ -8,30 +8,16 @@ export const instance = axios.create({
 
 const getToken = () => {
   const token = localStorage.getItem("token");
-  return token ? `Bearer ${token}` : null;
+  const userKey = localStorage.getItem("userKey");
+  return token && userKey ? { token: token, userKey: userKey } : null;
 };
-
-function setCookie(name: string, value: string, days: number): void {
-  let expires = "";
-  if (days) {
-    const date = new Date();
-    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-    expires = `; expires=${date.toUTCString()}`;
-  }
-  document.cookie = `${name}=${value || ""}${expires}; path=/; samesite=lax;`;
-}
-
-const token = localStorage.getItem("token");
-const userKey = localStorage.getItem("userKey");
-if (token && userKey) {
-  setCookie("token", token, 30);
-  setCookie("userKey", userKey, 30);
-}
 
 instance.interceptors.request.use((config) => {
   const token = getToken();
   if (token) {
-    config.headers["Authorization"] = getToken();
+    const { token: authToken, userKey } = token;
+    config.headers["Authorization"] = `Bearer ${authToken}`;
+    config.headers["UserKey"] = userKey;
   }
   return config;
 });
