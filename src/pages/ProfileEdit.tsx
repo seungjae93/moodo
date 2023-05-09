@@ -10,6 +10,7 @@ import palette from "../libs/styles/palette";
 import PostCode from "../components/common/management/PostCode";
 import { profileApi } from "../apis/axios";
 import flex from "../libs/styles/utilFlex";
+import useUser from "../hooks/useUser";
 
 interface ProfileEditForm {
   userId?: string;
@@ -24,35 +25,9 @@ interface ProfileEditForm {
   userBusinessLicense: FileList;
 }
 
-interface ProfileData {
-  userId: string;
-  userName: string;
-  userEmail: string;
-  userPhoneNumber: string;
-  userCompanyName: string | null;
-  userCompanyTelNumber: string | null;
-  userBusinessLocation: string | null;
-  userBusinessLicenseImgUrl: string | null;
-  userProfileImgUrl: string | null;
-}
-interface ApiResponse {
-  user: ProfileData;
-}
-
 function ProfileEdit() {
-  const { data, isLoading }: { data?: ApiResponse; isLoading: boolean } =
-    useQuery(["profileData"], profileApi.get);
+  const { user } = useUser();
 
-  const {
-    userId,
-    userName,
-    userPhoneNumber,
-    userCompanyName,
-    userCompanyTelNumber,
-    userBusinessLocation,
-  } = data?.user ?? {};
-
-  console.log(data);
   const { mutate, isError, error } = useMutation(
     async (formData: FormData) => {
       await profileApi.post(formData);
@@ -78,15 +53,17 @@ function ProfileEdit() {
   const userBusinessLicense = watch("userBusinessLicense");
 
   useEffect(() => {
-    if (userId) setValue("userId", userId);
-    if (userName) setValue("userName", userName);
-    if (userPhoneNumber) setValue("userPhoneNumber", userPhoneNumber);
-    if (userCompanyName) setValue("userCompanyName", userCompanyName);
-    if (userCompanyTelNumber)
-      setValue("userCompanyTelNumber", userCompanyTelNumber);
-    if (userBusinessLocation)
-      setValue("userBusinessLocation", userBusinessLocation);
-  }, [data, setValue]);
+    if (user?.userId) setValue("userId", user?.userId);
+    if (user?.userName) setValue("userName", user?.userName);
+    if (user?.userPhoneNumber)
+      setValue("userPhoneNumber", user?.userPhoneNumber);
+    if (user?.userCompanyName)
+      setValue("userCompanyName", user?.userCompanyName);
+    if (user?.userCompanyTelNumber)
+      setValue("userCompanyTelNumber", user?.userCompanyTelNumber);
+    if (user?.userBusinessLocation)
+      setValue("userBusinessLocation", user?.userBusinessLocation);
+  }, [user, setValue]);
 
   useEffect(() => {
     if (userProfileImg && userProfileImg.length > 0) {
