@@ -24,10 +24,35 @@ interface ProfileEditForm {
   userBusinessLicense: FileList;
 }
 
-function ProfileEdit() {
-  const { data, isLoading } = useQuery(["profileData"], profileApi.get);
-  console.log(data);
+interface ProfileData {
+  userId: string;
+  userName: string;
+  userEmail: string;
+  userPhoneNumber: string;
+  userCompanyName: string | null;
+  userCompanyTelNumber: string | null;
+  userBusinessLocation: string | null;
+  userBusinessLicenseImgUrl: string | null;
+  userProfileImgUrl: string | null;
+}
+interface ApiResponse {
+  user: ProfileData;
+}
 
+function ProfileEdit() {
+  const { data, isLoading }: { data?: ApiResponse; isLoading: boolean } =
+    useQuery(["profileData"], profileApi.get);
+
+  const {
+    userId,
+    userName,
+    userPhoneNumber,
+    userCompanyName,
+    userCompanyTelNumber,
+    userBusinessLocation,
+  } = data?.user ?? {};
+
+  console.log(data);
   const { mutate, isError, error } = useMutation(
     async (formData: FormData) => {
       await profileApi.post(formData);
@@ -52,9 +77,17 @@ function ProfileEdit() {
   const userProfileImg = watch("userProfileImg");
   const userBusinessLicense = watch("userBusinessLicense");
 
-  // useEffect(() => {
-  //   if(data?.email) setValue("userName" ,data?.email )
-  // } , [data , setValue])
+  useEffect(() => {
+    if (userId) setValue("userId", userId);
+    if (userName) setValue("userName", userName);
+    if (userPhoneNumber) setValue("userPhoneNumber", userPhoneNumber);
+    if (userCompanyName) setValue("userCompanyName", userCompanyName);
+    if (userCompanyTelNumber)
+      setValue("userCompanyTelNumber", userCompanyTelNumber);
+    if (userBusinessLocation)
+      setValue("userBusinessLocation", userBusinessLocation);
+  }, [data, setValue]);
+
   useEffect(() => {
     if (userProfileImg && userProfileImg.length > 0) {
       const userProfileImgFile = userProfileImg[0];

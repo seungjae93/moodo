@@ -267,9 +267,8 @@ function RealEstateListing() {
     formData.append("monthly", data?.monthly || "");
     formData.append("price", data?.price || "");
     formData.append("maintenanceCost", data?.maintenanceCost || "");
-    moveInDateWatch === "날씨 설정"
-      ? formData.append("moveInDate", data?.moveInDateInput || "")
-      : formData.append("moveInDate", data?.moveInDate || "");
+    formData.append("moveInDateInput", data?.moveInDateInput || "");
+    formData.append("moveInDate", data?.moveInDate || "");
     formData.append("supplyArea", data?.supplyArea || "");
     formData.append("exclusiveArea", data?.exclusiveArea || "");
     formData.append("numOfRoom", data?.numOfRoom || "");
