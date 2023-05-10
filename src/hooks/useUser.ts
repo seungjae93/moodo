@@ -6,11 +6,11 @@ interface ProfileData {
   userName: string;
   userEmail: string;
   userPhoneNumber: string;
-  userCompanyName: string | null;
-  userCompanyTelNumber: string | null;
-  userBusinessLocation: string | null;
-  userBusinessLicenseImgUrl: string | null;
-  userProfileImgUrl: string | null;
+  userCompanyName: string;
+  userCompanyTelNumber: string;
+  userBusinessLocation: string;
+  userBusinessLicenseImgUrl: string;
+  userProfileImgUrl: string;
 }
 interface ApiResponse {
   user: ProfileData;

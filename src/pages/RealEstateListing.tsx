@@ -3,6 +3,13 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from "react-beautiful-dnd";
+import { v4 as uuidv4 } from "uuid";
 
 import { AiOutlinePlus } from "react-icons/ai";
 import { estateApi } from "../apis/axios";
@@ -239,7 +246,7 @@ function RealEstateListing() {
     typeOfPropertyWatch
   );
 
-  //이미지 미리보기
+  //imagesPreview
   const [imagesPreview, setImagesPreview] = useState<string[]>([]);
   const images = watch("images");
 
@@ -253,6 +260,18 @@ function RealEstateListing() {
       setImagesPreview([]);
     }
   }, [images]);
+
+  //images dnd
+  const onDragEnd = ({ destination, source }: DropResult) => {
+    // 드래그 앤 드롭 종료 시 실행되는 콜백 함수
+    if (!destination) {
+      return;
+    }
+    const updatedImagesPreview = Array.from(imagesPreview);
+    const [draggedImage] = updatedImagesPreview.splice(source.index, 1);
+    updatedImagesPreview.splice(destination.index, 0, draggedImage);
+    setImagesPreview(updatedImagesPreview);
+  };
 
   //handleSubmit
   const onValid = (data: RealEstateForm) => {
@@ -291,7 +310,7 @@ function RealEstateListing() {
     }
     mutate(formData);
   };
-  console.log(watch());
+
   return (
     <RealEstateListingWrapper>
       <SideNav />
@@ -301,7 +320,7 @@ function RealEstateListing() {
           onSubmit={handleSubmit(onValid)}
           encType="multipart/form-data"
         >
-          <RealEstateListingSemiTitle>매물 종류</RealEstateListingSemiTitle>
+          <RealEstateListingSemiTitle>매물종류</RealEstateListingSemiTitle>
           <RadioInputWrapper>
             <RadioInput
               register={register("typeOfProperty", {
@@ -526,30 +545,56 @@ function RealEstateListing() {
           )}
 
           <RealEstateListingSemiTitle>사진 추가</RealEstateListingSemiTitle>
-          <RealEstateListingContent>
-            <div className="contentTitle">사진</div>
-            <div className="photoWrap">
-              {imagesPreview.length > 0 ? (
-                imagesPreview.map((preview, index) => (
-                  <StAvatarPreview key={index} src={preview} alt="Image" />
-                ))
-              ) : (
-                <div className="labelWrap">
-                  <label htmlFor="picture" className="photoLabel">
-                    <AiOutlinePlus className="photoIcon" />
-                    <input
-                      {...register("images")}
-                      id="picture"
-                      type="file"
-                      multiple
-                      accept="image/*"
-                      className="photoInput"
-                    />
-                  </label>
-                </div>
-              )}
-            </div>
-          </RealEstateListingContent>
+          <DragDropContext onDragEnd={onDragEnd}>
+            <RealEstateListingContent>
+              <div className="contentTitle">사진</div>
+              <Droppable droppableId="one">
+                {(provided) => (
+                  <div
+                    className="photoWrap"
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                  >
+                    {imagesPreview.length > 0 ? (
+                      imagesPreview.map((preview, index) => (
+                        <Draggable
+                          key={preview}
+                          draggableId={preview}
+                          index={index}
+                        >
+                          {(provided) => (
+                            <StAvatarPreview
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              key={uuidv4()}
+                              src={preview}
+                              alt="Image"
+                            />
+                          )}
+                        </Draggable>
+                      ))
+                    ) : (
+                      <div className="labelWrap">
+                        <label htmlFor="picture" className="photoLabel">
+                          <AiOutlinePlus className="photoIcon" />
+                          <input
+                            {...register("images")}
+                            id="picture"
+                            type="file"
+                            multiple
+                            accept="image/*"
+                            className="photoInput"
+                          />
+                        </label>
+                      </div>
+                    )}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </RealEstateListingContent>
+          </DragDropContext>
           <div style={{ marginTop: "20px" }}>
             · 첫번째로 등록한 사진이 대표 사진이 되며 대표사진은 변경할 수
             있습니다.
@@ -644,7 +689,7 @@ const RealEstateListingContent = styled.div`
     width: 600px;
   }
   .photoWrap {
-    ${flex({ justify: "", gap: "20px" })}
+    ${flex({ justify: "", gap: "10px" })}
     flex-wrap: wrap;
     width: 600px;
     height: 250px;
