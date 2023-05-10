@@ -27,7 +27,6 @@ interface ProfileEditForm {
 
 function ProfileEdit() {
   const { user } = useUser();
-
   const { mutate, isError, error } = useMutation(
     async (formData: FormData) => {
       await profileApi.post(formData);
@@ -62,7 +61,7 @@ function ProfileEdit() {
     if (user?.userCompanyTelNumber)
       setValue("userCompanyTelNumber", user?.userCompanyTelNumber);
     if (user?.userBusinessLocation)
-      setValue("userBusinessLocation", user?.userBusinessLocation);
+      setValue("addressDetail", user?.userBusinessLocation);
   }, [user, setValue]);
 
   useEffect(() => {
@@ -75,7 +74,6 @@ function ProfileEdit() {
       setLicensePreview(URL.createObjectURL(userBusinessLicenseFile));
     }
   }, [userProfileImg, userBusinessLicense]);
-  console.log(watch());
 
   const onValid = (data: ProfileEditForm) => {
     const { address, addressDetail } = data;
@@ -88,12 +86,12 @@ function ProfileEdit() {
     formData.append("userCompanyName", data?.userCompanyName || "");
     formData.append("userBusinessLocation", userBusinessLocation || "");
     if (data?.userProfileImg) {
-      for (const file of data.userProfileImg) {
+      for (const file of data.userProfileImg || [""]) {
         formData.append("userProfileImg", file);
       }
     }
     if (data?.userBusinessLicense) {
-      for (const file of data.userBusinessLicense) {
+      for (const file of data.userBusinessLicense || [""]) {
         formData.append("userBusinessLicense", file);
       }
     }

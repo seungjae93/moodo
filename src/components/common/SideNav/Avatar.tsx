@@ -1,11 +1,9 @@
 import styled from "styled-components";
+import useUser from "../../../hooks/useUser";
 
-interface AvatarProps {
-  image: string;
-}
-
-function Avatar({ image }: AvatarProps) {
-  return <ImageWrapper src={image} alt="avatar" />;
+function Avatar() {
+  const { user } = useUser();
+  return <ImageWrapper src={user?.userProfileImgUrl} alt="avatar" />;
 }
 
 export default Avatar;
