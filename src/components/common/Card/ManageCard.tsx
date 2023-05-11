@@ -34,6 +34,7 @@ export default ManageCard;
 const StManageCard = {
   Wrapper: styled.div`
     ${flex({ justify: "space-between" })}
+    cursor: pointer;
     background-color: white;
     width: 100%;
     height: 180px;
@@ -69,7 +70,7 @@ const StManageCard = {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-weight: 350;
+    font-weight: 400;
     margin-bottom: 10px;
   `,
   ButtonBox: styled.div`
