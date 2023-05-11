@@ -21,6 +21,7 @@ import TextArea from "../components/common/Textarea";
 import Button from "../components/common/Button/Button";
 import PostCode from "../components/common/management/PostCode";
 import flex from "../libs/styles/utilFlex";
+import DragabbleImage from "../components/common/management/DragabbleImage";
 
 interface RealEstateForm {
   userId: string;
@@ -249,7 +250,6 @@ function RealEstateListing() {
   //imagesPreview
   const [imagesPreview, setImagesPreview] = useState<string[]>([]);
   const images = watch("images");
-
   useEffect(() => {
     if (images && images.length > 0) {
       const previewArray = Array.from(images)
@@ -262,12 +262,24 @@ function RealEstateListing() {
   }, [images]);
 
   //images dnd
+  // const onDragEnd = ({ destination, source }: DropResult) => {
+  //   // 드래그 앤 드롭 종료 시 실행되는 콜백 함수
+
+  //   if (!destination) {
+  //     return;
+  //   }
+  //   const updatedImagesPreview = Array.from(imagesPreview);
+  //   const [draggedImage] = updatedImagesPreview.splice(source.index, 1);
+  //   updatedImagesPreview.splice(destination.index, 0, draggedImage);
+  //   setImagesPreview(updatedImagesPreview);
+  // };
   const onDragEnd = ({ destination, source }: DropResult) => {
     // 드래그 앤 드롭 종료 시 실행되는 콜백 함수
+
     if (!destination) {
       return;
     }
-    const updatedImagesPreview = Array.from(imagesPreview);
+    const updatedImagesPreview = [...imagesPreview];
     const [draggedImage] = updatedImagesPreview.splice(source.index, 1);
     updatedImagesPreview.splice(destination.index, 0, draggedImage);
     setImagesPreview(updatedImagesPreview);
@@ -545,10 +557,10 @@ function RealEstateListing() {
           )}
 
           <RealEstateListingSemiTitle>사진 추가</RealEstateListingSemiTitle>
-          <DragDropContext onDragEnd={onDragEnd}>
-            <RealEstateListingContent>
-              <div className="contentTitle">사진</div>
-              <Droppable droppableId="one">
+          <RealEstateListingContent>
+            <div className="contentTitle">사진</div>
+            <DragDropContext onDragEnd={onDragEnd}>
+              <Droppable droppableId="imageList" direction="horizontal">
                 {(provided) => (
                   <div
                     className="photoWrap"
@@ -557,22 +569,11 @@ function RealEstateListing() {
                   >
                     {imagesPreview.length > 0 ? (
                       imagesPreview.map((preview, index) => (
-                        <Draggable
+                        <DragabbleImage
                           key={preview}
-                          draggableId={preview}
+                          preview={preview}
                           index={index}
-                        >
-                          {(provided) => (
-                            <StAvatarPreview
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              key={uuidv4()}
-                              src={preview}
-                              alt="Image"
-                            />
-                          )}
-                        </Draggable>
+                        />
                       ))
                     ) : (
                       <div className="labelWrap">
@@ -593,8 +594,8 @@ function RealEstateListing() {
                   </div>
                 )}
               </Droppable>
-            </RealEstateListingContent>
-          </DragDropContext>
+            </DragDropContext>
+          </RealEstateListingContent>
           <div style={{ marginTop: "20px" }}>
             · 첫번째로 등록한 사진이 대표 사진이 되며 대표사진은 변경할 수
             있습니다.
@@ -715,10 +716,4 @@ const RealEstateListingContent = styled.div`
     color: ${palette.gray[3]};
     cursor: pointer;
   }
-`;
-
-const StAvatarPreview = styled.img`
-  width: 100px;
-  height: 100px;
-  background-color: transparent;
 `;
