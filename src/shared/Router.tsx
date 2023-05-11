@@ -6,6 +6,7 @@ import Header from "../components/common/Header/Header";
 import ProfileEdit from "../pages/ProfileEdit";
 import RealEstateListing from "../pages/RealEstateListing";
 import RealEstateManage from "../pages/RealEstateManage";
+import MemberManage from "../pages/MemberManage";
 import PrivateRoutes from "./PrivateRoutes";
 
 function Router() {
@@ -19,6 +20,7 @@ function Router() {
           <Route path="/profileEdit" element={<ProfileEdit />} />
           <Route path="/realEstateListing" element={<RealEstateListing />} />
           <Route path="/realEstateManage" element={<RealEstateManage />} />
+          <Route path="/memberManage" element={<MemberManage />} />
         </Route>
       </Routes>
     </BrowserRouter>

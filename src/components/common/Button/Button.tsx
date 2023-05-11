@@ -1,8 +1,9 @@
 import { ReactNode } from "react";
-import styled, { css, StyledComponentProps } from "styled-components";
+import styled, { css } from "styled-components";
 
 import palette from "../../../libs/styles/palette";
 import flex from "../../../libs/styles/utilFlex";
+import { pathToFileURL } from "url";
 interface StyledButtonProps {
   children?: ReactNode;
   fs?: string;
@@ -33,6 +34,7 @@ const PrimaryButton = (props: StyledButtonProps) => {
       {...props}
       bc={palette.gray[6]}
       color="white"
+      hoverBc={palette.gray[4]}
       activeBc={palette.gray[8]}
     />
   );
@@ -84,7 +86,7 @@ const StyledButton = styled.button<StyledButtonProps>`
         `;
       default:
         return css`
-          height: 35px;
+          height: 155px;
           width: 100px;
         `;
     }
@@ -96,8 +98,11 @@ const StyledButton = styled.button<StyledButtonProps>`
         border: 1px solid ${bc};
         background-color: #fff;
         font-weight: 600;
+        &:hover {
+          background-color: #fff;
+        }
         &:active {
-          background-color: #eeeeee;
+          background-color: #c9c9c9;
         }
       `;
     }
