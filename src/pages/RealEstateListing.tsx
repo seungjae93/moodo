@@ -3,13 +3,7 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import {
-  DragDropContext,
-  Droppable,
-  Draggable,
-  DropResult,
-} from "react-beautiful-dnd";
-import { v4 as uuidv4 } from "uuid";
+import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 
 import { AiOutlinePlus } from "react-icons/ai";
 import { estateApi } from "../apis/axios";
@@ -124,7 +118,6 @@ function RealEstateListing() {
     register,
     watch,
     handleSubmit,
-    setValue,
     formState: { isSubmitting, isDirty, errors },
   } = useForm<RealEstateForm>({
     mode: "onChange",
@@ -252,7 +245,7 @@ function RealEstateListing() {
   const images = watch("images");
   useEffect(() => {
     if (images && images.length > 0) {
-      const previewArray = Array.from(images)
+      const previewArray = [...images]
         .slice(0, 8)
         .map((file) => URL.createObjectURL(file));
       setImagesPreview(previewArray);
@@ -262,17 +255,7 @@ function RealEstateListing() {
   }, [images]);
 
   //images dnd
-  // const onDragEnd = ({ destination, source }: DropResult) => {
-  //   // 드래그 앤 드롭 종료 시 실행되는 콜백 함수
 
-  //   if (!destination) {
-  //     return;
-  //   }
-  //   const updatedImagesPreview = Array.from(imagesPreview);
-  //   const [draggedImage] = updatedImagesPreview.splice(source.index, 1);
-  //   updatedImagesPreview.splice(destination.index, 0, draggedImage);
-  //   setImagesPreview(updatedImagesPreview);
-  // };
   const onDragEnd = ({ destination, source }: DropResult) => {
     // 드래그 앤 드롭 종료 시 실행되는 콜백 함수
 
