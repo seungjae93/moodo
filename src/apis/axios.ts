@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from "axios";
-import { Params } from "react-router-dom";
 
 export const instance = axios.create({
   baseURL: process.env.REACT_APP_SERVER_API,
@@ -54,8 +53,8 @@ export const profileApi = {
     await instance.post("/profile", formData);
   },
   get: async (): Promise<void> => {
-    const response = await instance.get("/profile");
-    return response.data;
+    const { data } = await instance.get("/profile");
+    return data;
   },
 };
 
@@ -63,5 +62,9 @@ export const profileApi = {
 export const estateApi = {
   post: async (formData: FormData): Promise<void> => {
     await instance.post("/estate", formData);
+  },
+  getList: async (): Promise<void> => {
+    const { data } = await instance.get("/estate/list");
+    return data;
   },
 };

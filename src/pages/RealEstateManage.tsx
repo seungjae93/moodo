@@ -1,9 +1,28 @@
 import styled from "styled-components";
+import { useQuery } from "@tanstack/react-query";
 
 import SideNav from "../components/common/SideNav/SideNav";
-import MyEstateCard from "../components/common/management/MyEstateCard";
+import ManageCard from "../components/common/Card/ManageCard";
 import flex from "../libs/styles/utilFlex";
+import { estateApi } from "../apis/axios";
+import RadioInput from "../components/common/management/RadioInput";
+
+const typeOfProperties = [
+  { id: "typeOfProperty-1", label: "원/투룸", value: "원/투룸" },
+  { id: "typeOfProperty-2", label: "주택/빌라", value: "주택/빌라" },
+  { id: "typeOfProperty-3", label: "아파트", value: "아파트" },
+  { id: "typeOfProperty-4", label: "상가/사무실", value: "상가/사무실" },
+  { id: "typeOfProperty-5", label: "건물", value: "건물" },
+];
+
 function RealEstateManage() {
+  const { data } = useQuery(["estateList"], estateApi.getList, {
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+  console.log(data);
+
   return (
     <>
       <StRealEstateManage.Wrapper>
@@ -11,7 +30,19 @@ function RealEstateManage() {
         <StRealEstateManage.Box>
           <StRealEstateManage.Title>매물 관리</StRealEstateManage.Title>
           <StRealEstateManage.SemiTitle>매물종류</StRealEstateManage.SemiTitle>
-          <MyEstateCard />
+          <StRealEstateManage.InputBox>
+            <RadioInput
+              type="radio"
+              options={typeOfProperties}
+              name="typeOfProperty"
+            />
+          </StRealEstateManage.InputBox>
+          <StRealEstateManage.CardBox>
+            <ManageCard />
+            <ManageCard />
+            <ManageCard />
+            <ManageCard />
+          </StRealEstateManage.CardBox>
         </StRealEstateManage.Box>
       </StRealEstateManage.Wrapper>
     </>
@@ -45,5 +76,11 @@ const StRealEstateManage = {
     font-weight: 400;
     font-size: 16px;
     border-bottom: 1px solid #000000;
+  `,
+  InputBox: styled.div`
+    ${flex({ justify: "" })}
+  `,
+  CardBox: styled.div`
+    ${flex({ direction: "column", gap: "15px" })}
   `,
 };
