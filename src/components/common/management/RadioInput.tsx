@@ -32,18 +32,6 @@ export default function RadioInput({
   required,
   options,
 }: InputProps) {
-  // const [showInput, setShowInput] = useState(false);
-  // const [selectedOption, setSelectedOption] = useState("");
-
-  // const handleInputChange = (value: string) => {
-  //   setSelectedOption(value);
-  //   setShowInput(value === "날짜 설정");
-  // };
-
-  // useEffect(() => {
-  //   setSelectedOption("");
-  // }, [name]);
-
   return (
     <div>
       {kind === "radio" ? (
@@ -58,8 +46,6 @@ export default function RadioInput({
                   name={name}
                   type={type}
                   value={value}
-                  // checked={selectedOption === value}
-                  // onClick={() => handleInputChange(value)}
                 />
                 <label htmlFor={id}>{label}</label>
               </div>
