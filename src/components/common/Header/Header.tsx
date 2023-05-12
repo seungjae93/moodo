@@ -39,6 +39,7 @@ const HeaderWrapper = styled.nav`
   font-size: 14px;
   padding: 20px 60px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
+  z-index: 100;
 `;
 
 const ResponsiveWrapper = styled.div`

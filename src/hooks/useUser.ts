@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+
 import { profileApi } from "../apis/axios";
 
 interface ProfileData {

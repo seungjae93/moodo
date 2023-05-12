@@ -1,11 +1,10 @@
 import styled from "styled-components";
-import { useQuery } from "@tanstack/react-query";
 
 import SideNav from "../components/common/SideNav/SideNav";
 import ManageCard from "../components/common/Card/ManageCard";
 import flex from "../libs/styles/utilFlex";
-import { estateApi } from "../apis/axios";
 import RadioInput from "../components/common/management/RadioInput";
+import useEstateList from "../hooks/useEstateList";
 
 const typeOfProperties = [
   { id: "typeOfProperty-1", label: "원/투룸", value: "원/투룸" },
@@ -16,13 +15,7 @@ const typeOfProperties = [
 ];
 
 function RealEstateManage() {
-  const { data } = useQuery(["estateList"], estateApi.getList, {
-    onError: (error) => {
-      console.error(error);
-    },
-  });
-  console.log(data);
-
+  const { estateList } = useEstateList();
   return (
     <>
       <StRealEstateManage.Wrapper>
@@ -38,10 +31,9 @@ function RealEstateManage() {
             />
           </StRealEstateManage.InputBox>
           <StRealEstateManage.CardBox>
-            <ManageCard />
-            <ManageCard />
-            <ManageCard />
-            <ManageCard />
+            {estateList?.map((estate) => (
+              <ManageCard key={estate?.estateId} estate={estate} />
+            ))}
           </StRealEstateManage.CardBox>
         </StRealEstateManage.Box>
       </StRealEstateManage.Wrapper>
