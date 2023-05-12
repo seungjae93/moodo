@@ -271,7 +271,7 @@ function RealEstateListing() {
   //handleSubmit
   const onValid = (data: RealEstateForm) => {
     const { address, addressDetail } = data;
-    const addressOfProperty = `${address},${addressDetail}`;
+    const addressOfProperty = `${address}, ${addressDetail}`;
     const formData = new FormData();
     formData.append("userId", userId?.userId || "");
     formData.append("typeOfProperty", data?.typeOfProperty || "");
@@ -433,9 +433,9 @@ function RealEstateListing() {
             )}
           </RealEstateListingContent>
           <RealEstateListingSemiTitle>매물 정보</RealEstateListingSemiTitle>
-          {transactionTypeWatch === "원/투룸" && <>{propertyRoomVilla()}</>}
-          {transactionTypeWatch === "주택/빌라" && <>{propertyRoomVilla()}</>}
-          {transactionTypeWatch === "아파트" && (
+          {typeOfPropertyWatch === "원/투룸" && <>{propertyRoomVilla()}</>}
+          {typeOfPropertyWatch === "주택/빌라" && <>{propertyRoomVilla()}</>}
+          {typeOfPropertyWatch === "아파트" && (
             <>
               {propertyApartmentOffice()}
 
@@ -446,10 +446,10 @@ function RealEstateListing() {
               </RealEstateListingContent>
             </>
           )}
-          {transactionTypeWatch === "상가/사무실" && (
+          {typeOfPropertyWatch === "상가/사무실" && (
             <>{propertyApartmentOffice()}</>
           )}
-          {transactionTypeWatch === "건물" && (
+          {typeOfPropertyWatch === "건물" && (
             <>
               <RealEstateListingContent>
                 <div className="contentTitle">면적</div>

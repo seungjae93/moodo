@@ -1,20 +1,79 @@
-import React from "react";
 import styled from "styled-components";
 
 import Button from "../Button/Button";
 import flex from "../../../libs/styles/utilFlex";
+import palette from "../../../libs/styles/palette";
 
-function ManageCard() {
+interface ImageData {
+  imgOfPropertyId: number;
+  estateId: string;
+  imgOfUrl: string;
+  imgIndex: number;
+}
+interface EstateListData {
+  estateId: string;
+  typeOfProperty: string;
+  addressOfProperty: string;
+  transactionType: string;
+  deposit: string;
+  monthly: string;
+  price: string;
+  exclusiveArea: string;
+  numOfRoom: string;
+  numOfBath: string;
+  imgs: ImageData[];
+}
+interface ManageCardProps {
+  estate: EstateListData;
+}
+
+function ManageCard({ estate }: ManageCardProps) {
+  console.log(estate);
+  const {
+    estateId,
+    typeOfProperty,
+    addressOfProperty,
+    transactionType,
+    deposit,
+    monthly,
+    price,
+    exclusiveArea,
+    numOfRoom,
+    numOfBath,
+    imgs,
+  } = estate;
+  const openNewWindow = () => {
+    window.open("http://localhost:3000/realEstateListing", "_blank");
+  };
+
   return (
-    <StManageCard.Wrapper>
-      <StManageCard.Image />
+    <StManageCard.Wrapper onClick={openNewWindow}>
+      <StManageCard.Image src={imgs[0]?.imgOfUrl} />
       <StManageCard.ContentBox>
-        <StManageCard.Title>레미안크레시티</StManageCard.Title>
-        <StManageCard.Content>보증금: 8억</StManageCard.Content>
-        <StManageCard.Content>월세: 200만원</StManageCard.Content>
-        <StManageCard.Content>서울시 성동구 금호동2가 1</StManageCard.Content>
+        <StManageCard.Title>{typeOfProperty}</StManageCard.Title>
+        <StManageCard.Content style={{ color: palette.cyan[5] }}>
+          {transactionType === "월세"
+            ? "월세"
+            : transactionType === "매매"
+            ? "매매"
+            : transactionType === "전세"
+            ? "전세"
+            : null}
+        </StManageCard.Content>
         <StManageCard.Content>
-          방 3개 | 화장실 2개 | 81.2m2(24평)
+          {transactionType === "월세"
+            ? `${deposit}만원 / ${monthly}만원`
+            : transactionType === "매매"
+            ? `매매가 ${price}억`
+            : transactionType === "전세"
+            ? `${deposit}억`
+            : null}
+        </StManageCard.Content>
+        <StManageCard.Content>{addressOfProperty}</StManageCard.Content>
+        <StManageCard.Content>
+          {typeOfProperty === "상가/사무실" || typeOfProperty === "건물"
+            ? `${exclusiveArea}m²`
+            : `방 ${numOfRoom}개 | 화장실 ${numOfBath}개 | ${exclusiveArea}m² `}
         </StManageCard.Content>
       </StManageCard.ContentBox>
       <StManageCard.ButtonBox>
