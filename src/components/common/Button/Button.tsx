@@ -3,7 +3,6 @@ import styled, { css } from "styled-components";
 
 import palette from "../../../libs/styles/palette";
 import flex from "../../../libs/styles/utilFlex";
-import { pathToFileURL } from "url";
 interface StyledButtonProps {
   children?: ReactNode;
   fs?: string;
@@ -91,18 +90,18 @@ const StyledButton = styled.button<StyledButtonProps>`
         `;
     }
   }}
-  ${({ outlined, bc }) => {
+  ${({ outlined, borderColor, color }) => {
     if (outlined) {
       return css`
-        color: red;
-        border: 1px solid ${bc};
+        color: ${color || "red"};
+        border: 1px solid ${borderColor};
         background-color: #fff;
         font-weight: 600;
         &:hover {
           background-color: #fff;
         }
         &:active {
-          background-color: #c9c9c9;
+          background-color: ${palette.cyan[5]};
         }
       `;
     }

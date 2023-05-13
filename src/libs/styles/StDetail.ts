@@ -25,4 +25,31 @@ export const StDetail = {
       color: ${palette.gray[1]};
     }
   `,
+  Map: styled.div`
+    width: 100%;
+    height: 600px;
+  `,
+  ImgInfoWrapper: styled.div`
+    ${flex({ gap: "30px" })}
+  `,
+  ImgWrapper: styled.div`
+    ${flex({ justify: "", direction: "column" })}
+    width:100%;
+    margin-top: 50px;
+  `,
+  ImgBox: styled.div`
+    ${flex({ align: "", gap: "15px" })}
+    flex-wrap: wrap;
+    margin-top: 15px;
+  `,
+  SummaryWrapper: styled.div`
+    ${flex({
+      direction: "column",
+      align: "",
+      justify: "flex-start",
+      gap: "30px",
+    })}
+    width: 400px;
+    height: 500px;
+  `,
 };

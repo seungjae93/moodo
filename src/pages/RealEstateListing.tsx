@@ -99,9 +99,8 @@ function RealEstateListing() {
     async (formData: FormData) => {
       try {
         await estateApi.post(formData);
-        // 성공적으로 회원가입이 완료되었을 때의 로직
         alert("등록이 완료되었습니다!");
-        navigate("/");
+        navigate("/realEstateManage");
       } catch (error) {
         console.error(error);
       }
@@ -610,7 +609,7 @@ function RealEstateListing() {
 export default RealEstateListing;
 
 const RealEstateListingWrapper = styled.div`
-  ${flex({ justify: "", align: "" })}
+  ${flex({ align: "" })}
   padding-top: 30px;
   height: 100%;
   width: 1300px;
