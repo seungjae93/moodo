@@ -67,4 +67,8 @@ export const estateApi = {
     const { data } = await instance.get("/estate/list");
     return data;
   },
+  get: async (estateId: string): Promise<void> => {
+    const { data } = await instance.get(`/estate/${estateId}`);
+    return data;
+  },
 };
