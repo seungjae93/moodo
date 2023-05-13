@@ -28,7 +28,6 @@ interface ManageCardProps {
 }
 
 function ManageCard({ estate }: ManageCardProps) {
-  console.log(estate);
   const {
     estateId,
     typeOfProperty,
@@ -43,7 +42,7 @@ function ManageCard({ estate }: ManageCardProps) {
     imgs,
   } = estate;
   const openNewWindow = () => {
-    window.open("http://localhost:3000/realEstateListing", "_blank");
+    window.open(`http://localhost:3000/realEstateManage/${estateId}`, "_blank");
   };
 
   return (

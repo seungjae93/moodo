@@ -268,7 +268,7 @@ const ProfileBox = styled.div`
     width: 100%;
     display: flex;
     gap: 20px;
-    border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid ${palette.gray[0]};
   }
 `;
 const ProfileTitle = styled.div`

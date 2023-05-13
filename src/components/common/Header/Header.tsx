@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-
 import flex from "../../../libs/styles/utilFlex";
 
 function Header() {
