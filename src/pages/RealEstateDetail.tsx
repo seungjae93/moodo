@@ -8,6 +8,7 @@ import RoomInfo from "../components/common/Detail/RoomInfo";
 import AdditionalInfo from "../components/common/Detail/AdditionalInfo";
 import DetailDesc from "../components/common/Detail/DetailDesc";
 import DetailMap from "../components/common/Detail/DetailMap";
+import ImgInfo from "../components/common/Detail/ImgInfo";
 
 function RealEstateDetail() {
   const estateId = useParams().id as string;
@@ -16,6 +17,7 @@ function RealEstateDetail() {
   );
   return (
     <StRealEstateDetail.Wrapper>
+      <ImgInfo />
       <RoomInfo />
       <AdditionalInfo />
       <DetailDesc />
@@ -31,7 +33,7 @@ const StRealEstateDetail = {
     ${flex({ justify: "", direction: "column" })}
     width: 1028px;
     padding-top: 50px;
-    height: 100vh;
+    height: 190vh;
     margin: auto;
   `,
 };
