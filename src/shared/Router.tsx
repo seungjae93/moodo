@@ -6,6 +6,7 @@ import Header from "../components/common/Header/Header";
 import ProfileEdit from "../pages/ProfileEdit";
 import RealEstateListing from "../pages/RealEstateListing";
 import RealEstateManage from "../pages/RealEstateManage";
+import RealEstateDetail from "../pages/RealEstateDetail";
 import MemberManage from "../pages/MemberManage";
 import PrivateRoutes from "./PrivateRoutes";
 
@@ -20,6 +21,7 @@ function Router() {
           <Route path="/profileEdit" element={<ProfileEdit />} />
           <Route path="/realEstateListing" element={<RealEstateListing />} />
           <Route path="/realEstateManage" element={<RealEstateManage />} />
+          <Route path="/realEstateManage/:id" element={<RealEstateDetail />} />
           <Route path="/memberManage" element={<MemberManage />} />
         </Route>
       </Routes>
