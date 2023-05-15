@@ -1,8 +1,10 @@
 import styled from "styled-components";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 import Button from "../Button/Button";
 import flex from "../../../libs/styles/utilFlex";
 import palette from "../../../libs/styles/palette";
+import { estateApi } from "../../../apis/axios";
 
 interface ImageData {
   imgOfPropertyId: number;
@@ -28,6 +30,7 @@ interface ManageCardProps {
 }
 
 function ManageCard({ estate }: ManageCardProps) {
+  const queryClient = useQueryClient();
   const {
     estateId,
     typeOfProperty,
@@ -43,6 +46,20 @@ function ManageCard({ estate }: ManageCardProps) {
   } = estate;
   const openNewWindow = () => {
     window.open(`http://localhost:3000/realEstateManage/${estateId}`, "_blank");
+  };
+
+  const { mutate: postDeleteMutate } = useMutation({
+    mutationFn: () => estateApi.delete(estateId),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["estateList"]);
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
+  const postDeleteHandler = () => {
+    postDeleteMutate();
   };
 
   return (
@@ -79,7 +96,13 @@ function ManageCard({ estate }: ManageCardProps) {
         <Button.Primary size="medium" fw="400" fs="20px">
           수정
         </Button.Primary>
-        <Button.Primary outlined size="medium" fw="400" fs="20px">
+        <Button.Primary
+          outlined
+          size="medium"
+          fw="400"
+          fs="20px"
+          onClick={postDeleteHandler}
+        >
           삭제
         </Button.Primary>
       </StManageCard.ButtonBox>

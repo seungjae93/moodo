@@ -6,10 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 import { loginApi } from "../../apis/axios";
+import { WorningWord } from "../common/WorningWord";
 import palette from "../../libs/styles/palette";
 import Button from "../common/Button/Button";
 import Input from "../common/Input";
-import { WorningWord } from "../common/WorningWord";
 
 const textMap = {
   login: "로그인",
@@ -37,6 +37,7 @@ function AuthForm({ type }: AuthFormProps) {
       const { data }: AxiosResponse = await loginApi.login(formData);
       localStorage.setItem("token", data.token);
       localStorage.setItem("userKey", data.userKey);
+      localStorage.setItem("approved", data.approved);
       setTimeout(() => {
         localStorage.clear();
       }, 3600000);
