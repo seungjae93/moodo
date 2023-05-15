@@ -71,4 +71,8 @@ export const estateApi = {
     const { data } = await instance.get(`/estate/${estateId}`);
     return data;
   },
+  delete: async (estateId: string): Promise<void> => {
+    const { data } = await instance.delete(`/estate/${estateId}`);
+    return data;
+  },
 };

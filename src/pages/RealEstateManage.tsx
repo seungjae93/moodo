@@ -16,6 +16,7 @@ const typeOfProperties = [
 
 function RealEstateManage() {
   const { estateList } = useEstateList();
+
   return (
     <>
       <StRealEstateManage.Wrapper>

@@ -1,20 +1,19 @@
 import { useEffect, useState } from "react";
-import styled from "styled-components";
+
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
-
 import { AiOutlinePlus } from "react-icons/ai";
 import { estateApi } from "../apis/axios";
+
+import { StRealEstateListing } from "../libs/styles/StRealEstateListing";
 import SideNav from "../components/common/SideNav/SideNav";
 import NumberInputGroup from "../components/common/management/NumberInputGroup";
 import RadioInput from "../components/common/management/RadioInput";
-import palette from "../libs/styles/palette";
 import TextArea from "../components/common/Textarea";
 import Button from "../components/common/Button/Button";
 import PostCode from "../components/common/management/PostCode";
-import flex from "../libs/styles/utilFlex";
 import DragabbleImage from "../components/common/management/DragabbleImage";
 
 interface RealEstateForm {
@@ -90,11 +89,7 @@ const options = [
 
 function RealEstateListing() {
   const navigate = useNavigate();
-  const userId = {
-    userId: "q376t5k2",
-    age: 30,
-    email: "johndoe@example.com",
-  };
+
   const { mutate } = useMutation(
     async (formData: FormData) => {
       try {
@@ -150,7 +145,7 @@ function RealEstateListing() {
   const propertyRoomVilla = () => {
     return (
       <>
-        <RealEstateListingContent>
+        <StRealEstateListing.Content>
           <div className="contentTitle">면적</div>
           <NumberInputGroup
             type="supplyArea"
@@ -165,8 +160,8 @@ function RealEstateListing() {
             register={register}
           />
           <span>m²</span>
-        </RealEstateListingContent>
-        <RealEstateListingContent>
+        </StRealEstateListing.Content>
+        <StRealEstateListing.Content>
           <div className="contentTitle">방 개수</div>
           <NumberInputGroup
             type="numOfRoom"
@@ -181,8 +176,8 @@ function RealEstateListing() {
             register={register}
           />
           <span>개</span>
-        </RealEstateListingContent>
-        <RealEstateListingContent>
+        </StRealEstateListing.Content>
+        <StRealEstateListing.Content>
           <div className="contentTitle">층수</div>
           <NumberInputGroup
             type="numOfFloor"
@@ -193,14 +188,14 @@ function RealEstateListing() {
           <div className="marginLeft">|</div>
           <NumberInputGroup type="floor" label="해당층수" register={register} />
           <span>층</span>
-        </RealEstateListingContent>
+        </StRealEstateListing.Content>
       </>
     );
   };
   const propertyApartmentOffice = () => {
     return (
       <>
-        <RealEstateListingContent>
+        <StRealEstateListing.Content>
           <div className="contentTitle">면적</div>
           <NumberInputGroup
             type="supplyArea"
@@ -215,8 +210,8 @@ function RealEstateListing() {
             register={register}
           />
           <span>m²</span>
-        </RealEstateListingContent>
-        <RealEstateListingContent>
+        </StRealEstateListing.Content>
+        <StRealEstateListing.Content>
           <div className="contentTitle">층수</div>
           <NumberInputGroup
             type="numOfFloor"
@@ -227,7 +222,7 @@ function RealEstateListing() {
           <div className="marginLeft">|</div>
           <NumberInputGroup type="floor" label="해당층수" register={register} />
           <span>층</span>
-        </RealEstateListingContent>
+        </StRealEstateListing.Content>
       </>
     );
   };
@@ -272,7 +267,6 @@ function RealEstateListing() {
     const { address, addressDetail } = data;
     const addressOfProperty = `${address}, ${addressDetail}`;
     const formData = new FormData();
-    formData.append("userId", userId?.userId || "");
     formData.append("typeOfProperty", data?.typeOfProperty || "");
     formData.append("addressOfProperty", addressOfProperty || "");
     formData.append("transactionType", data?.transactionType || "");
@@ -306,16 +300,18 @@ function RealEstateListing() {
   };
 
   return (
-    <RealEstateListingWrapper>
+    <StRealEstateListing.Wrapper>
       <SideNav />
-      <RealEstateListingBox>
-        <RealEstateListingTitle>매물 등록</RealEstateListingTitle>
-        <RealEstateListingForm
+      <StRealEstateListing.Box>
+        <StRealEstateListing.Title>매물 등록</StRealEstateListing.Title>
+        <StRealEstateListing.Form
           onSubmit={handleSubmit(onValid)}
           encType="multipart/form-data"
         >
-          <RealEstateListingSemiTitle>매물종류</RealEstateListingSemiTitle>
-          <RadioInputWrapper>
+          <StRealEstateListing.SemiTitle>
+            매물종류
+          </StRealEstateListing.SemiTitle>
+          <StRealEstateListing.Wrapper>
             <RadioInput
               register={register("typeOfProperty", {
                 required: "필수 선택 항목입니다",
@@ -324,14 +320,18 @@ function RealEstateListing() {
               options={typeOfProperties}
               name="typeOfProperty"
             />
-          </RadioInputWrapper>
-          <RealEstateListingSemiTitle>매물 위치</RealEstateListingSemiTitle>
-          <RealEstateListingContent>
+          </StRealEstateListing.Wrapper>
+          <StRealEstateListing.SemiTitle>
+            매물 위치
+          </StRealEstateListing.SemiTitle>
+          <StRealEstateListing.Content>
             <div className="contentTitle">주소</div>
             <PostCode register={register} />
-          </RealEstateListingContent>
-          <RealEstateListingSemiTitle>거래 정보</RealEstateListingSemiTitle>
-          <RealEstateListingContent>
+          </StRealEstateListing.Content>
+          <StRealEstateListing.SemiTitle>
+            거래 정보
+          </StRealEstateListing.SemiTitle>
+          <StRealEstateListing.Content>
             <div className="contentTitle">거래 유형</div>
             <RadioInput
               register={register("transactionType", {
@@ -341,8 +341,8 @@ function RealEstateListing() {
               options={transactionTypes}
               name="transactionType"
             />
-          </RealEstateListingContent>
-          <RealEstateListingContent>
+          </StRealEstateListing.Content>
+          <StRealEstateListing.Content>
             {transactionTypeWatch === "월세" && (
               <>
                 <div className="contentTitle">가격 정보</div>
@@ -385,8 +385,8 @@ function RealEstateListing() {
                 <div className="marginLeft">|</div>
               </>
             )}
-          </RealEstateListingContent>
-          <RealEstateListingContent>
+          </StRealEstateListing.Content>
+          <StRealEstateListing.Content>
             <div className="contentTitle">관리비</div>
             <NumberInputGroup
               type="maintenanceCost"
@@ -394,8 +394,8 @@ function RealEstateListing() {
               register={register}
             />
             <span>만원</span>
-          </RealEstateListingContent>
-          <RealEstateListingContent>
+          </StRealEstateListing.Content>
+          <StRealEstateListing.Content>
             <div className="contentTitle">입주가능일</div>
             <RadioInput
               register={register("moveInDate", {
@@ -430,19 +430,21 @@ function RealEstateListing() {
                 <span>이후</span>
               </>
             )}
-          </RealEstateListingContent>
-          <RealEstateListingSemiTitle>매물 정보</RealEstateListingSemiTitle>
+          </StRealEstateListing.Content>
+          <StRealEstateListing.SemiTitle>
+            매물 정보
+          </StRealEstateListing.SemiTitle>
           {typeOfPropertyWatch === "원/투룸" && <>{propertyRoomVilla()}</>}
           {typeOfPropertyWatch === "주택/빌라" && <>{propertyRoomVilla()}</>}
           {typeOfPropertyWatch === "아파트" && (
             <>
               {propertyApartmentOffice()}
 
-              <RealEstateListingContent>
+              <StRealEstateListing.Content>
                 <div className="contentTitle">동</div>
                 <NumberInputGroup type="dong" label="동" register={register} />
                 <span>동</span>
-              </RealEstateListingContent>
+              </StRealEstateListing.Content>
             </>
           )}
           {typeOfPropertyWatch === "상가/사무실" && (
@@ -450,7 +452,7 @@ function RealEstateListing() {
           )}
           {typeOfPropertyWatch === "건물" && (
             <>
-              <RealEstateListingContent>
+              <StRealEstateListing.Content>
                 <div className="contentTitle">면적</div>
                 <NumberInputGroup
                   type="supplyArea"
@@ -465,8 +467,8 @@ function RealEstateListing() {
                   register={register}
                 />
                 <span>m²</span>
-              </RealEstateListingContent>
-              <RealEstateListingContent>
+              </StRealEstateListing.Content>
+              <StRealEstateListing.Content>
                 <div className="contentTitle">층수</div>
                 <NumberInputGroup
                   type="lowestFloor"
@@ -481,14 +483,16 @@ function RealEstateListing() {
                   register={register}
                 />
                 <span>층</span>
-              </RealEstateListingContent>
+              </StRealEstateListing.Content>
             </>
           )}
 
           {isResidence && (
             <>
-              <RealEstateListingSemiTitle>추가 정보</RealEstateListingSemiTitle>
-              <RealEstateListingContent>
+              <StRealEstateListing.SemiTitle>
+                추가 정보
+              </StRealEstateListing.SemiTitle>
+              <StRealEstateListing.Content>
                 <div className="contentTitle">주차 여부</div>
                 <RadioInput
                   register={register("parking", {
@@ -498,8 +502,8 @@ function RealEstateListing() {
                   options={parkingAvailability}
                   name="parking"
                 />
-              </RealEstateListingContent>
-              <RealEstateListingContent>
+              </StRealEstateListing.Content>
+              <StRealEstateListing.Content>
                 <div className="contentTitle">엘리베이터</div>
                 <RadioInput
                   register={register("elevator", {
@@ -509,8 +513,8 @@ function RealEstateListing() {
                   options={elevator}
                   name="elevator"
                 />
-              </RealEstateListingContent>
-              <RealEstateListingContent>
+              </StRealEstateListing.Content>
+              <StRealEstateListing.Content>
                 <div className="contentTitle">반려동물</div>
                 <RadioInput
                   register={register("pet", {
@@ -520,8 +524,8 @@ function RealEstateListing() {
                   options={pet}
                   name="pet"
                 />
-              </RealEstateListingContent>
-              <RealEstateListingContent>
+              </StRealEstateListing.Content>
+              <StRealEstateListing.Content>
                 <div className="contentTitle">옵션</div>
                 <div className="optionsWrap">
                   <RadioInput
@@ -534,12 +538,14 @@ function RealEstateListing() {
                     name="options"
                   />
                 </div>
-              </RealEstateListingContent>
+              </StRealEstateListing.Content>
             </>
           )}
 
-          <RealEstateListingSemiTitle>사진 추가</RealEstateListingSemiTitle>
-          <RealEstateListingContent>
+          <StRealEstateListing.SemiTitle>
+            사진 추가
+          </StRealEstateListing.SemiTitle>
+          <StRealEstateListing.Content>
             <div className="contentTitle">사진</div>
             <DragDropContext onDragEnd={onDragEnd}>
               <Droppable droppableId="imageList" direction="horizontal">
@@ -577,7 +583,7 @@ function RealEstateListing() {
                 )}
               </Droppable>
             </DragDropContext>
-          </RealEstateListingContent>
+          </StRealEstateListing.Content>
           <div style={{ marginTop: "20px" }}>
             · 첫번째로 등록한 사진이 대표 사진이 되며 대표사진은 변경할 수
             있습니다.
@@ -589,7 +595,9 @@ function RealEstateListing() {
           <div style={{ marginTop: "20px", marginBottom: "20px" }}>
             · 사진의 크기는 최대 5MB까지 가능합니다.
           </div>
-          <RealEstateListingSemiTitle>상세 설명</RealEstateListingSemiTitle>
+          <StRealEstateListing.SemiTitle>
+            상세 설명
+          </StRealEstateListing.SemiTitle>
           <TextArea
             register={register("detail")}
             name="detail"
@@ -600,102 +608,10 @@ function RealEstateListing() {
               매물 등록
             </Button.Primary>
           </div>
-        </RealEstateListingForm>
-      </RealEstateListingBox>
-    </RealEstateListingWrapper>
+        </StRealEstateListing.Form>
+      </StRealEstateListing.Box>
+    </StRealEstateListing.Wrapper>
   );
 }
 
 export default RealEstateListing;
-
-const RealEstateListingWrapper = styled.div`
-  ${flex({ align: "" })}
-  padding-top: 30px;
-  height: 100%;
-  width: 1300px;
-  min-width: 700px;
-`;
-
-const RealEstateListingBox = styled.div`
-  padding: 50px;
-  width: 100%;
-`;
-
-const RealEstateListingForm = styled.form`
-  width: 100%;
-  .btnWrapper {
-    ${flex({})}
-    margin-top:15px;
-  }
-`;
-
-const RealEstateListingTitle = styled.div`
-  width: 100%;
-  padding: 0 20px 10px 0;
-  font-weight: 700;
-  font-size: 24px;
-  border-bottom: 3px solid black;
-`;
-
-const RealEstateListingSemiTitle = styled.div`
-  width: 100%;
-  padding: 20px 20px 10px 0;
-  font-weight: 400;
-  font-size: 16px;
-  border-bottom: 1px solid #000000;
-`;
-
-const RadioInputWrapper = styled.div`
-  display: flex;
-`;
-
-const RealEstateListingContent = styled.div`
-  ${flex({ justify: "", gap: "10px" })}
-  padding: 10px 0 10px 30px;
-  border-bottom: 1px solid ${palette.gray[0]};
-  span {
-    margin-left: 10px;
-  }
-  .contentTitle {
-    width: 80px;
-    text-align: center;
-  }
-  .marginLeft {
-    margin-left: 30px;
-    margin-bottom: 5px;
-    font-size: 25px;
-    text-align: center;
-    color: ${palette.gray[0]};
-  }
-  .optionsWrap {
-    ${flex({ justify: "", gap: "10px" })}
-    width: 600px;
-  }
-  .photoWrap {
-    ${flex({ justify: "", gap: "10px" })}
-    flex-wrap: wrap;
-    width: 600px;
-    height: 250px;
-    padding: 20px;
-  }
-  .photoLabel {
-    ${flex({})}
-    width: 70px;
-    height: 70px;
-  }
-  .labelWrap {
-    ${flex({})}
-    width: 100%;
-    height: 200px;
-  }
-  .photoInput {
-    width: 10px;
-    opacity: 0;
-    cursor: pointer;
-  }
-  .photoIcon {
-    font-size: 50px;
-    color: ${palette.gray[3]};
-    cursor: pointer;
-  }
-`;
