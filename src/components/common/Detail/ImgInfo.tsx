@@ -106,6 +106,6 @@ const StImg = styled.img<StImgProps>`
     props.isLarge &&
     css`
       width: 600px;
-      height: 430px;
+      height: 400px;
     `}
 `;

@@ -50,6 +50,6 @@ export const StDetail = {
       gap: "30px",
     })}
     width: 400px;
-    height: 500px;
+    height: 400px;
   `,
 };
