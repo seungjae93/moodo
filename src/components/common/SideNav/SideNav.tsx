@@ -4,17 +4,19 @@ import Avatar from "./Avatar";
 
 import palette from "../../../libs/styles/palette";
 import flex from "../../../libs/styles/utilFlex";
+import useUser from "../../../hooks/useUser";
 
 function SideNav() {
+  const { user } = useUser();
   return (
     <>
       <StSideNav.Wrapper>
         <StSideNav.Box>
           <Avatar />
-          <h1>에이파트 부동산</h1>
+          <h1>{user?.userCompanyName}</h1>
           <div className="info">
-            대표 : 박영호 <br />
-            문의 : 02-2203-0508
+            대표 : {user?.userName} <br />
+            문의 : {user?.userCompanyTelNumber}
           </div>
         </StSideNav.Box>
         <StSideNav.ListWrapper>

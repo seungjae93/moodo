@@ -1,20 +1,23 @@
 import { useEffect, useState } from "react";
-
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
+
 import { AiOutlinePlus } from "react-icons/ai";
 import { estateApi } from "../apis/axios";
-
 import { StRealEstateListing } from "../libs/styles/StRealEstateListing";
+
 import SideNav from "../components/common/SideNav/SideNav";
-import NumberInputGroup from "../components/common/management/NumberInputGroup";
-import RadioInput from "../components/common/management/RadioInput";
+import NumberInputGroup from "../components/common/EstateListing/NumberInputGroup";
+import RadioInput from "../components/common/EstateListing/RadioInput";
 import TextArea from "../components/common/Textarea";
 import Button from "../components/common/Button/Button";
-import PostCode from "../components/common/management/PostCode";
-import DragabbleImage from "../components/common/management/DragabbleImage";
+import PostCode from "../components/common/EstateListing/PostCode";
+import DragabbleImage from "../components/common/EstateListing/DragabbleImage";
+import PropertyContent from "../components/common/EstateListing/PropertyContent";
+import PriceInfo from "../components/common/EstateListing/PriceInfo";
+import AdditionalInfo from "../components/common/EstateListing/AdditionalInfo";
 
 interface RealEstateForm {
   userId: string;
@@ -47,44 +50,87 @@ interface RealEstateForm {
 }
 
 const typeOfProperties = [
-  { id: "typeOfProperty-1", label: "원/투룸", value: "원/투룸" },
-  { id: "typeOfProperty-2", label: "주택/빌라", value: "주택/빌라" },
-  { id: "typeOfProperty-3", label: "아파트", value: "아파트" },
-  { id: "typeOfProperty-4", label: "상가/사무실", value: "상가/사무실" },
-  { id: "typeOfProperty-5", label: "건물", value: "건물" },
-];
-const transactionTypes = [
-  { id: "transactionType-1", label: "월세", value: "월세" },
-  { id: "transactionType-2", label: "전세", value: "전세" },
-  { id: "transactionType-3", label: "매매", value: "매매" },
-];
-const moveInDate = [
-  { id: "moveInDate-1", label: "즉시 입주", value: "즉시 입주" },
-  { id: "moveInDate-2", label: "날짜 협의", value: "날짜 협의" },
-  { id: "moveInDate-3", label: "날짜 설정", value: "날짜 설정" },
-];
-const parkingAvailability = [
-  { id: "parkingAvailability-1", label: "가능", value: "가능" },
-  { id: "parkingAvailability-2", label: "불가능", value: "불가능" },
-];
-const elevator = [
-  { id: "elevator-1", label: "있음", value: "있음" },
-  { id: "elevator-2", label: "없음", value: "없음" },
-];
-const pet = [
-  { id: "pet-1", label: "가능", value: "가능" },
-  { id: "pet-2", label: "불가능", value: "불가능" },
-];
+  "원/투룸",
+  "주택/빌라",
+  "아파트",
+  "상가/사무실",
+  "건물",
+].map((label, index) => ({
+  id: `typeOfProperty-${index + 1}`,
+  label,
+  value: label,
+}));
+
+const transactionTypes = ["월세", "전세", "매매"].map((label, index) => ({
+  id: `transactionType-${index + 1}`,
+  label,
+  value: label,
+}));
+
+const moveInDate = ["즉시 입주", "날짜 협의", "날짜 설정"].map(
+  (label, index) => ({
+    id: `moveInDate-${index + 1}`,
+    label,
+    value: label,
+  })
+);
+
+const parkingAvailability = ["가능", "불가능"].map((label, index) => ({
+  id: `parkingAvailability-${index + 1}`,
+  label,
+  value: label,
+}));
+
+const elevator = ["있음", "없음"].map((label, index) => ({
+  id: `elevator-${index + 1}`,
+  label,
+  value: label,
+}));
+
+const pet = ["가능", "불가능"].map((label, index) => ({
+  id: `pet-${index + 1}`,
+  label,
+  value: label,
+}));
+
 const options = [
-  { id: "options-1", label: "가스레인지", value: "가스레인지" },
-  { id: "options-2", label: "인덕션", value: "인덕션" },
-  { id: "options-3", label: "냉장고", value: "냉장고" },
-  { id: "options-4", label: "에어컨", value: "에어컨" },
-  { id: "options-5", label: "전자레인지", value: "전자레인지" },
-  { id: "options-6", label: "TV", value: "TV" },
-  { id: "options-7", label: "옷장", value: "옷장" },
-  { id: "options-8", label: "비데", value: "비데" },
-  { id: "options-9", label: "도어락", value: "도어락" },
+  "가스레인지",
+  "인덕션",
+  "냉장고",
+  "에어컨",
+  "전자레인지",
+  "TV",
+  "옷장",
+  "비데",
+  "도어락",
+].map((label, index) => ({
+  id: `options-${index + 1}`,
+  label,
+  value: label,
+}));
+
+//추가 정보
+const additionalInfoOptions = [
+  {
+    title: "주차 여부",
+    options: parkingAvailability,
+    name: "parking",
+  },
+  {
+    title: "엘리베이터",
+    options: elevator,
+    name: "elevator",
+  },
+  {
+    title: "반려동물",
+    options: pet,
+    name: "pet",
+  },
+  {
+    title: "옵션",
+    options: options,
+    name: "options",
+  },
 ];
 
 function RealEstateListing() {
@@ -142,90 +188,6 @@ function RealEstateListing() {
     },
   });
 
-  const propertyRoomVilla = () => {
-    return (
-      <>
-        <StRealEstateListing.Content>
-          <div className="contentTitle">면적</div>
-          <NumberInputGroup
-            type="supplyArea"
-            label="공급면적"
-            register={register}
-          />
-          <span>m²</span>
-          <div className="marginLeft">|</div>
-          <NumberInputGroup
-            type="exclusiveArea"
-            label="전용"
-            register={register}
-          />
-          <span>m²</span>
-        </StRealEstateListing.Content>
-        <StRealEstateListing.Content>
-          <div className="contentTitle">방 개수</div>
-          <NumberInputGroup
-            type="numOfRoom"
-            label="방 개수"
-            register={register}
-          />
-          <span>개</span>
-          <div className="marginLeft">|</div>
-          <NumberInputGroup
-            type="numOfBath"
-            label="화장실개수"
-            register={register}
-          />
-          <span>개</span>
-        </StRealEstateListing.Content>
-        <StRealEstateListing.Content>
-          <div className="contentTitle">층수</div>
-          <NumberInputGroup
-            type="numOfFloor"
-            label="건물층수"
-            register={register}
-          />
-          <span>층</span>
-          <div className="marginLeft">|</div>
-          <NumberInputGroup type="floor" label="해당층수" register={register} />
-          <span>층</span>
-        </StRealEstateListing.Content>
-      </>
-    );
-  };
-  const propertyApartmentOffice = () => {
-    return (
-      <>
-        <StRealEstateListing.Content>
-          <div className="contentTitle">면적</div>
-          <NumberInputGroup
-            type="supplyArea"
-            label="공급면적"
-            register={register}
-          />
-          <span>m²</span>
-          <div className="marginLeft">|</div>
-          <NumberInputGroup
-            type="exclusiveArea"
-            label="전용"
-            register={register}
-          />
-          <span>m²</span>
-        </StRealEstateListing.Content>
-        <StRealEstateListing.Content>
-          <div className="contentTitle">층수</div>
-          <NumberInputGroup
-            type="numOfFloor"
-            label="건물층수"
-            register={register}
-          />
-          <span>층</span>
-          <div className="marginLeft">|</div>
-          <NumberInputGroup type="floor" label="해당층수" register={register} />
-          <span>층</span>
-        </StRealEstateListing.Content>
-      </>
-    );
-  };
   const typeOfPropertyWatch = watch("typeOfProperty");
   const transactionTypeWatch = watch("transactionType");
   const moveInDateWatch = watch("moveInDate");
@@ -343,57 +305,34 @@ function RealEstateListing() {
             />
           </StRealEstateListing.Content>
           <StRealEstateListing.Content>
+            <div className="contentTitle">가격 정보</div>
             {transactionTypeWatch === "월세" && (
               <>
-                <div className="contentTitle">가격 정보</div>
-                <NumberInputGroup
-                  type="deposit"
-                  label="보증금"
-                  register={register}
-                />
-                <span>만원</span>
+                <PriceInfo type="deposit" label="보증금" register={register} />
                 <div className="marginLeft">|</div>
-                <NumberInputGroup
-                  type="monthly"
-                  label="월세"
-                  register={register}
-                />
-                <span>만원</span>
+                <PriceInfo type="monthly" label="월세" register={register} />
               </>
             )}
             {transactionTypeWatch === "전세" && (
               <>
-                <div className="contentTitle">가격 정보</div>
-                <NumberInputGroup
-                  type="deposit"
-                  label="보증금"
-                  register={register}
-                />
-                <span>만원</span>
+                <PriceInfo type="deposit" label="보증금" register={register} />
                 <div className="marginLeft">|</div>
               </>
             )}
             {transactionTypeWatch === "매매" && (
               <>
-                <div className="contentTitle">가격 정보</div>
-                <NumberInputGroup
-                  type="price"
-                  label="금액"
-                  register={register}
-                />
-                <span>만원</span>
+                <PriceInfo type="price" label="금액" register={register} />
                 <div className="marginLeft">|</div>
               </>
             )}
           </StRealEstateListing.Content>
           <StRealEstateListing.Content>
             <div className="contentTitle">관리비</div>
-            <NumberInputGroup
+            <PriceInfo
               type="maintenanceCost"
               label="관리비"
               register={register}
             />
-            <span>만원</span>
           </StRealEstateListing.Content>
           <StRealEstateListing.Content>
             <div className="contentTitle">입주가능일</div>
@@ -434,12 +373,15 @@ function RealEstateListing() {
           <StRealEstateListing.SemiTitle>
             매물 정보
           </StRealEstateListing.SemiTitle>
-          {typeOfPropertyWatch === "원/투룸" && <>{propertyRoomVilla()}</>}
-          {typeOfPropertyWatch === "주택/빌라" && <>{propertyRoomVilla()}</>}
+          {typeOfPropertyWatch === "원/투룸" && (
+            <PropertyContent type="roomVilla" register={register} />
+          )}
+          {typeOfPropertyWatch === "주택/빌라" && (
+            <PropertyContent type="roomVilla" register={register} />
+          )}
           {typeOfPropertyWatch === "아파트" && (
             <>
-              {propertyApartmentOffice()}
-
+              <PropertyContent type="apartmentOffice" register={register} />
               <StRealEstateListing.Content>
                 <div className="contentTitle">동</div>
                 <NumberInputGroup type="dong" label="동" register={register} />
@@ -448,43 +390,10 @@ function RealEstateListing() {
             </>
           )}
           {typeOfPropertyWatch === "상가/사무실" && (
-            <>{propertyApartmentOffice()}</>
+            <PropertyContent type="apartmentOffice" register={register} />
           )}
           {typeOfPropertyWatch === "건물" && (
-            <>
-              <StRealEstateListing.Content>
-                <div className="contentTitle">면적</div>
-                <NumberInputGroup
-                  type="supplyArea"
-                  label="공급면적"
-                  register={register}
-                />
-                <span>m²</span>
-                <div className="marginLeft">|</div>
-                <NumberInputGroup
-                  type="exclusiveArea"
-                  label="전용"
-                  register={register}
-                />
-                <span>m²</span>
-              </StRealEstateListing.Content>
-              <StRealEstateListing.Content>
-                <div className="contentTitle">층수</div>
-                <NumberInputGroup
-                  type="lowestFloor"
-                  label="저층"
-                  register={register}
-                />
-                <span>층</span>
-                <div className="marginLeft">|</div>
-                <NumberInputGroup
-                  type="highestFloor"
-                  label="최상층"
-                  register={register}
-                />
-                <span>층</span>
-              </StRealEstateListing.Content>
-            </>
+            <PropertyContent type="building" register={register} />
           )}
 
           {isResidence && (
@@ -492,53 +401,15 @@ function RealEstateListing() {
               <StRealEstateListing.SemiTitle>
                 추가 정보
               </StRealEstateListing.SemiTitle>
-              <StRealEstateListing.Content>
-                <div className="contentTitle">주차 여부</div>
-                <RadioInput
-                  register={register("parking", {
-                    required: "필수 선택 항목입니다",
-                  })}
-                  type="radio"
-                  options={parkingAvailability}
-                  name="parking"
+              {additionalInfoOptions?.map((info) => (
+                <AdditionalInfo
+                  key={info.title}
+                  title={info.title}
+                  options={info.options}
+                  name={info.name}
+                  register={register}
                 />
-              </StRealEstateListing.Content>
-              <StRealEstateListing.Content>
-                <div className="contentTitle">엘리베이터</div>
-                <RadioInput
-                  register={register("elevator", {
-                    required: "필수 선택 항목입니다",
-                  })}
-                  type="radio"
-                  options={elevator}
-                  name="elevator"
-                />
-              </StRealEstateListing.Content>
-              <StRealEstateListing.Content>
-                <div className="contentTitle">반려동물</div>
-                <RadioInput
-                  register={register("pet", {
-                    required: "필수 선택 항목입니다",
-                  })}
-                  type="radio"
-                  options={pet}
-                  name="pet"
-                />
-              </StRealEstateListing.Content>
-              <StRealEstateListing.Content>
-                <div className="contentTitle">옵션</div>
-                <div className="optionsWrap">
-                  <RadioInput
-                    register={register("options", {
-                      required: "필수 선택 항목입니다",
-                    })}
-                    kind="checkbox"
-                    type="checkbox"
-                    options={options}
-                    name="options"
-                  />
-                </div>
-              </StRealEstateListing.Content>
+              ))}
             </>
           )}
 
@@ -598,11 +469,13 @@ function RealEstateListing() {
           <StRealEstateListing.SemiTitle>
             상세 설명
           </StRealEstateListing.SemiTitle>
-          <TextArea
-            register={register("detail")}
-            name="detail"
-            label="상세설명"
-          />
+          <StRealEstateListing.Content>
+            <TextArea
+              register={register("detail")}
+              name="detail"
+              label="상세설명"
+            />
+          </StRealEstateListing.Content>
           <div className="btnWrapper">
             <Button.Primary type="submit" size="large" fs="14px" fw="400">
               매물 등록
@@ -613,5 +486,4 @@ function RealEstateListing() {
     </StRealEstateListing.Wrapper>
   );
 }
-
 export default RealEstateListing;
