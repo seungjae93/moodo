@@ -30,7 +30,7 @@ function SideNav() {
             <Link to="/realEstateManage">매물 관리</Link>
           </StSideNav.List>
           <StSideNav.List>
-            <Link to="/realEstateManage/:id">회원 관리</Link>
+            <Link to="/memberManage">회원 관리</Link>
           </StSideNav.List>
         </StSideNav.ListWrapper>
       </StSideNav.Wrapper>

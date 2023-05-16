@@ -39,9 +39,22 @@ const PrimaryButton = (props: StyledButtonProps) => {
   );
 };
 
-const Primary = PrimaryButton;
+const NegativeButton = (props: StyledButtonProps) => {
+  return (
+    <PrimitiveButton
+      {...props}
+      bc="white"
+      color="red"
+      hoverBc="lightgray"
+      activeBc="lightgray"
+    />
+  );
+};
 
-const Button = { Primary };
+const Primary = PrimaryButton;
+const Negative = NegativeButton;
+
+const Button = { Primary, Negative };
 export default Button;
 
 const StyledButton = styled.button<StyledButtonProps>`
@@ -90,10 +103,9 @@ const StyledButton = styled.button<StyledButtonProps>`
         `;
     }
   }}
-  ${({ outlined, borderColor, color }) => {
+  ${({ outlined, borderColor, color = "red" }) => {
     if (outlined) {
       return css`
-        color: ${color || "red"};
         border: 1px solid ${borderColor};
         background-color: #fff;
         font-weight: 600;
@@ -101,7 +113,7 @@ const StyledButton = styled.button<StyledButtonProps>`
           background-color: #fff;
         }
         &:active {
-          background-color: ${palette.cyan[5]};
+          background-color: lightgray;
         }
       `;
     }
