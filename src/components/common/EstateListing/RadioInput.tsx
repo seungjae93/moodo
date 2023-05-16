@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 import styled from "styled-components";
 

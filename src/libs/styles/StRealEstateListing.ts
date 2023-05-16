@@ -8,7 +8,7 @@ export const StRealEstateListing = {
     ${flex({ align: "", justify: "" })}
     padding-top: 30px;
     height: 100%;
-    width: 1300px;
+    width: 1000px;
     min-width: 700px;
   `,
 
@@ -21,7 +21,8 @@ export const StRealEstateListing = {
     width: 100%;
     .btnWrapper {
       ${flex({})}
-      margin-top:15px;
+      width: 900px;
+      margin-top: 15px;
     }
   `,
 

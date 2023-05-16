@@ -8,7 +8,7 @@ import SideNav from "../components/common/SideNav/SideNav";
 import Button from "../components/common/Button/Button";
 import Input from "../components/common/Input";
 import palette from "../libs/styles/palette";
-import PostCode from "../components/common/management/PostCode";
+import PostCode from "../components/common/EstateListing/PostCode";
 import { profileApi } from "../apis/axios";
 import flex from "../libs/styles/utilFlex";
 import useUser from "../hooks/useUser";
@@ -100,6 +100,7 @@ function ProfileEdit() {
     }
     mutate(formData);
   };
+
   return (
     <>
       <ProfileEditWrapper>
