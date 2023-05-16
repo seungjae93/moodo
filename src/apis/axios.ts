@@ -8,15 +8,19 @@ export const instance = axios.create({
 const getToken = () => {
   const token = localStorage.getItem("token");
   const userKey = localStorage.getItem("userKey");
-  return token && userKey ? { token: token, userKey: userKey } : null;
+  const approved = localStorage.getItem("approved");
+  return token && userKey && approved
+    ? { token: token, userKey: userKey, approved: approved }
+    : null;
 };
 
 instance.interceptors.request.use((config) => {
   const token = getToken();
   if (token) {
-    const { token: authToken, userKey } = token;
+    const { token: authToken, userKey, approved } = token;
     config.headers["Authorization"] = `Bearer ${authToken}`;
     config.headers["UserKey"] = userKey;
+    config.headers["Approved"] = approved;
   }
   return config;
 });
@@ -74,5 +78,8 @@ export const estateApi = {
   delete: async (estateId: string): Promise<void> => {
     const { data } = await instance.delete(`/estate/${estateId}`);
     return data;
+  },
+  put: async (formData: FormData): Promise<void> => {
+    await instance.post("/estate", formData);
   },
 };

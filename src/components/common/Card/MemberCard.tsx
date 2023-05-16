@@ -45,7 +45,7 @@ const StMemberCard = {
     ${flex({ justify: "space-around" })}
     cursor: pointer;
     background-color: white;
-    width: 900px;
+    width: 816px;
     height: 180px;
     border: 0px solid black;
     border-radius: 10px;

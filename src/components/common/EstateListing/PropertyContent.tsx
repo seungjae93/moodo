@@ -3,7 +3,7 @@ import { StRealEstate } from "../../../libs/styles/StRealEstate";
 import NumberInputGroup from "./NumberInputGroup";
 
 interface PropertyContentProps {
-  type: "roomVilla" | "apartmentOffice" | "building";
+  type: "roomVillaApart" | "office" | "building";
   register: UseFormRegister<any>;
 }
 
@@ -11,13 +11,13 @@ export default function PropertyContent({
   type,
   register,
 }: PropertyContentProps) {
-  const isRoomVilla = type === "roomVilla";
-  const isApartmentOffice = type === "apartmentOffice";
+  const isRoomVillaApart = type === "roomVillaApart";
+  const isOffice = type === "office";
   const isBuilding = type === "building";
 
   return (
     <>
-      {(isRoomVilla || isApartmentOffice || isBuilding) && (
+      {(isRoomVillaApart || isOffice || isBuilding) && (
         <StRealEstate.Content>
           <div className="contentTitle">면적</div>
           <NumberInputGroup
@@ -36,7 +36,7 @@ export default function PropertyContent({
         </StRealEstate.Content>
       )}
 
-      {isRoomVilla && (
+      {isRoomVillaApart && (
         <StRealEstate.Content>
           <div className="contentTitle">방 개수</div>
           <NumberInputGroup
@@ -54,7 +54,7 @@ export default function PropertyContent({
           <span>개</span>
         </StRealEstate.Content>
       )}
-      {(isRoomVilla || isApartmentOffice) && (
+      {(isRoomVillaApart || isOffice) && (
         <StRealEstate.Content>
           <div className="contentTitle">층수</div>
           <NumberInputGroup
