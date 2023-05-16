@@ -3,7 +3,7 @@ import styled from "styled-components";
 import SideNav from "../components/common/SideNav/SideNav";
 import ManageCard from "../components/common/Card/ManageCard";
 import flex from "../libs/styles/utilFlex";
-import RadioInput from "../components/common/management/RadioInput";
+import RadioInput from "../components/common/EstateListing/RadioInput";
 import useEstateList from "../hooks/useEstateList";
 
 const typeOfProperties = [
