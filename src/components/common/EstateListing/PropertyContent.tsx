@@ -1,5 +1,5 @@
 import { UseFormRegister } from "react-hook-form";
-import { StRealEstateListing } from "../../../libs/styles/StRealEstateListing";
+import { StRealEstate } from "../../../libs/styles/StRealEstate";
 import NumberInputGroup from "./NumberInputGroup";
 
 interface PropertyContentProps {
@@ -18,7 +18,7 @@ export default function PropertyContent({
   return (
     <>
       {(isRoomVilla || isApartmentOffice || isBuilding) && (
-        <StRealEstateListing.Content>
+        <StRealEstate.Content>
           <div className="contentTitle">면적</div>
           <NumberInputGroup
             type="supplyArea"
@@ -33,11 +33,11 @@ export default function PropertyContent({
             register={register}
           />
           <span>m²</span>
-        </StRealEstateListing.Content>
+        </StRealEstate.Content>
       )}
 
       {isRoomVilla && (
-        <StRealEstateListing.Content>
+        <StRealEstate.Content>
           <div className="contentTitle">방 개수</div>
           <NumberInputGroup
             type="numOfRoom"
@@ -52,10 +52,10 @@ export default function PropertyContent({
             register={register}
           />
           <span>개</span>
-        </StRealEstateListing.Content>
+        </StRealEstate.Content>
       )}
       {(isRoomVilla || isApartmentOffice) && (
-        <StRealEstateListing.Content>
+        <StRealEstate.Content>
           <div className="contentTitle">층수</div>
           <NumberInputGroup
             type="numOfFloor"
@@ -66,10 +66,10 @@ export default function PropertyContent({
           <div className="marginLeft">|</div>
           <NumberInputGroup type="floor" label="해당층수" register={register} />
           <span>층</span>
-        </StRealEstateListing.Content>
+        </StRealEstate.Content>
       )}
       {isBuilding && (
-        <StRealEstateListing.Content>
+        <StRealEstate.Content>
           <div className="contentTitle">층수</div>
           <NumberInputGroup
             type="lowestFloor"
@@ -84,7 +84,7 @@ export default function PropertyContent({
             register={register}
           />
           <span>층</span>
-        </StRealEstateListing.Content>
+        </StRealEstate.Content>
       )}
     </>
   );

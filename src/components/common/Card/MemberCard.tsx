@@ -19,10 +19,16 @@ function MemberCard() {
           <Button.Primary size="medium" fw="400" fs="18px">
             자격증 보기
           </Button.Primary>
-          <Button.Primary outlined size="medium" fw="400" fs="18px">
+          <Button.Negative
+            outlined
+            borderColor="black"
+            size="medium"
+            fw="400"
+            fs="18px"
+          >
             현재상태 <br />
             미승인
-          </Button.Primary>
+          </Button.Negative>
         </StMemberCard.ButtonBox>
         <Button.Primary fw="400" fs="18px">
           승인
@@ -39,7 +45,7 @@ const StMemberCard = {
     ${flex({ justify: "space-around" })}
     cursor: pointer;
     background-color: white;
-    width: 100%;
+    width: 900px;
     height: 180px;
     border: 0px solid black;
     border-radius: 10px;

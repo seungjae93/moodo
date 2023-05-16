@@ -3,25 +3,41 @@ import styled from "styled-components";
 import palette from "./palette";
 import flex from "./utilFlex";
 
-export const StRealEstateListing = {
+export const StRealEstate = {
   Wrapper: styled.div`
     ${flex({ align: "", justify: "" })}
     padding-top: 30px;
     height: 100%;
-    width: 1000px;
+    width: 1080px;
     min-width: 700px;
   `,
 
-  Box: styled.div`
+  ProfileBox: styled.div`
     padding: 50px;
     width: 100%;
+    .contentBox {
+      width: 100%;
+      display: flex;
+      gap: 20px;
+      border-bottom: 1px solid ${palette.gray[0]};
+    }
+  `,
+
+  ListingBox: styled.div`
+    padding: 50px;
+    width: 100%;
+  `,
+
+  ManageCardBox: styled.div`
+    ${flex({ direction: "column", gap: "15px" })}
+    margin-top: 20px;
   `,
 
   Form: styled.form`
     width: 100%;
     .btnWrapper {
       ${flex({})}
-      width: 900px;
+      width: 1080px;
       margin-top: 15px;
     }
   `,
@@ -42,10 +58,42 @@ export const StRealEstateListing = {
     border-bottom: 1px solid #000000;
   `,
 
-  RadioInputWrapper: styled.div`
-    display: flex;
+  ProfileSemiTitle: styled.div`
+    ${flex({ justify: "" })}
+    width: 150px;
+    padding: 20px 20px 20px 0;
+    font-weight: 350;
+    font-size: 13px;
   `,
 
+  RadioInputWrapper: styled.div`
+    ${flex({ justify: "" })}
+  `,
+  ProfileContent: styled.div`
+    width: 450px;
+    padding: 0 20px 20px 0;
+    padding-top: 20px;
+    font-weight: 350;
+    font-size: 13px;
+    .profileImgPreview {
+      width: 100px;
+      height: 100px;
+      border-radius: 100%;
+      border: 1px solid ${palette.gray[1]};
+    }
+    .profileWrap {
+      ${flex({ direction: "column", gap: "20px", align: "" })}
+    }
+    .MyHomepageAddress {
+      width: 100%;
+      height: 33.6px;
+      padding: 0.5rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 5px;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      color: #718096;
+    }
+  `,
   Content: styled.div`
     ${flex({ justify: "", gap: "10px" })}
     padding: 10px 0 10px 30px;
@@ -63,10 +111,6 @@ export const StRealEstateListing = {
       font-size: 25px;
       text-align: center;
       color: ${palette.gray[0]};
-    }
-    .optionsWrap {
-      ${flex({ justify: "", gap: "10px" })}
-      width: 600px;
     }
     .photoWrap {
       ${flex({ justify: "", gap: "10px" })}
@@ -95,5 +139,15 @@ export const StRealEstateListing = {
       color: ${palette.gray[3]};
       cursor: pointer;
     }
+  `,
+  ProfileLabel: styled.label`
+    width: 100px;
+    text-align: center;
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    background-color: #ffffff;
+    border-radius: 5px;
+    font-weight: 500;
   `,
 };
