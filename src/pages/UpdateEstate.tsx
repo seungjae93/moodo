@@ -93,32 +93,21 @@ const pet = ["가능", "불가능"].map((label, index) => ({
   value: label,
 }));
 
-// const options = [
-//   "가스레인지",
-//   "인덕션",
-//   "냉장고",
-//   "에어컨",
-//   "전자레인지",
-//   "TV",
-//   "옷장",
-//   "비데",
-//   "도어락",
-// ].map((label, index) => ({
-//   id: `options-${index + 1}`,
-//   label,
-//   value: label,
-// }));
 const options = [
-  { id: "options-1", label: "가스레인지", value: "가스레인지" },
-  { id: "options-2", label: "인덕션", value: "인덕션" },
-  { id: "options-3", label: "냉장고", value: "냉장고" },
-  { id: "options-4", label: "에어컨", value: "에어컨" },
-  { id: "options-5", label: "전자레인지", value: "전자레인지" },
-  { id: "options-6", label: "TV", value: "TV" },
-  { id: "options-7", label: "옷장", value: "옷장" },
-  { id: "options-8", label: "비데", value: "비데" },
-  { id: "options-9", label: "도어락", value: "도어락" },
-];
+  "가스레인지",
+  "인덕션",
+  "냉장고",
+  "에어컨",
+  "전자레인지",
+  "TV",
+  "옷장",
+  "비데",
+  "도어락",
+].map((label, index) => ({
+  id: `options-${index + 1}`,
+  label,
+  value: label,
+}));
 
 //추가 정보
 const additionalInfoOptions = [
@@ -137,9 +126,14 @@ const additionalInfoOptions = [
     options: pet,
     name: "pet",
   },
+  {
+    title: "옵션",
+    options: options,
+    name: "options",
+  },
 ];
 
-function RealEstateListing() {
+function UpdateEstate() {
   const navigate = useNavigate();
 
   const { mutate } = useMutation(
@@ -277,15 +271,16 @@ function RealEstateListing() {
           encType="multipart/form-data"
         >
           <StRealEstate.SemiTitle>매물종류</StRealEstate.SemiTitle>
-
-          <RadioInput
-            register={register("typeOfProperty", {
-              required: "필수 선택 항목입니다",
-            })}
-            type="radio"
-            options={typeOfProperties}
-            name="typeOfProperty"
-          />
+          <StRealEstate.Wrapper>
+            <RadioInput
+              register={register("typeOfProperty", {
+                required: "필수 선택 항목입니다",
+              })}
+              type="radio"
+              options={typeOfProperties}
+              name="typeOfProperty"
+            />
+          </StRealEstate.Wrapper>
           <StRealEstate.SemiTitle>매물 위치</StRealEstate.SemiTitle>
           <StRealEstate.Content>
             <div className="contentTitle">주소</div>
@@ -405,20 +400,6 @@ function RealEstateListing() {
                   register={register}
                 />
               ))}
-              <StRealEstate.Content>
-                <div className="contentTitle">옵션</div>
-                <div className="optionsWrap">
-                  <RadioInput
-                    register={register("options", {
-                      required: "필수 선택 항목입니다",
-                    })}
-                    kind="checkbox"
-                    type="checkbox"
-                    options={options}
-                    name="options"
-                  />
-                </div>
-              </StRealEstate.Content>
             </>
           )}
 
@@ -491,4 +472,4 @@ function RealEstateListing() {
     </StRealEstate.Wrapper>
   );
 }
-export default RealEstateListing;
+export default UpdateEstate;

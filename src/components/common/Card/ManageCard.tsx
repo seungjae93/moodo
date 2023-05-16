@@ -44,6 +44,7 @@ function ManageCard({ estate }: ManageCardProps) {
     numOfBath,
     imgs,
   } = estate;
+
   const openNewWindow = () => {
     window.open(`http://localhost:3000/realEstateManage/${estateId}`, "_blank");
   };
@@ -51,6 +52,7 @@ function ManageCard({ estate }: ManageCardProps) {
   const { mutate: postDeleteMutate } = useMutation({
     mutationFn: () => estateApi.delete(estateId),
     onSuccess: () => {
+      alert("매물이 삭제되었습니다!");
       queryClient.invalidateQueries(["estateList"]);
     },
     onError: (error) => {
@@ -63,9 +65,9 @@ function ManageCard({ estate }: ManageCardProps) {
   };
 
   return (
-    <StManageCard.Wrapper onClick={openNewWindow}>
+    <StManageCard.Wrapper>
       <StManageCard.Image src={imgs[0]?.imgOfUrl} />
-      <StManageCard.ContentBox>
+      <StManageCard.ContentBox onClick={openNewWindow}>
         <StManageCard.Title>{typeOfProperty}</StManageCard.Title>
         <StManageCard.Content style={{ color: palette.cyan[5] }}>
           {transactionType === "월세"
@@ -96,15 +98,16 @@ function ManageCard({ estate }: ManageCardProps) {
         <Button.Primary size="medium" fw="400" fs="20px">
           수정
         </Button.Primary>
-        <Button.Primary
+        <Button.Negative
           outlined
+          borderColor="black"
           size="medium"
           fw="400"
           fs="20px"
           onClick={postDeleteHandler}
         >
           삭제
-        </Button.Primary>
+        </Button.Negative>
       </StManageCard.ButtonBox>
     </StManageCard.Wrapper>
   );
@@ -114,10 +117,10 @@ export default ManageCard;
 
 const StManageCard = {
   Wrapper: styled.div`
-    ${flex({ justify: "space-between" })}
+    ${flex({ justify: "space-between", gap: "10px" })}
     cursor: pointer;
     background-color: white;
-    width: 100%;
+    width: 860px;
     height: 180px;
     border: 0px solid black;
     border-radius: 10px;
