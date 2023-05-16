@@ -31,6 +31,7 @@ const TextAreaContainer = styled.div`
 `;
 
 const TextAreaLabel = styled.label`
+  width: 70px;
   font-size: 16px;
   font-weight: 400;
   color: #374151;
@@ -47,7 +48,6 @@ const TextAreaInput = styled.textarea`
   color: #4b5563;
   border: 1px solid #e2e8f0;
   border-radius: 5px;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   resize: none;
   min-height: 3rem;
   &:focus {

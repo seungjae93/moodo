@@ -16,9 +16,8 @@ export const StRealEstate = {
     padding: 50px;
     width: 100%;
     .contentBox {
-      width: 100%;
-      display: flex;
-      gap: 20px;
+      width: 870px;
+      ${flex({ align: "", justify: "", gap: "20px" })}
       border-bottom: 1px solid ${palette.gray[0]};
     }
   `,
@@ -30,6 +29,7 @@ export const StRealEstate = {
 
   ManageCardBox: styled.div`
     ${flex({ direction: "column", gap: "15px" })}
+    width:870px;
     margin-top: 20px;
   `,
 
@@ -37,7 +37,6 @@ export const StRealEstate = {
     width: 100%;
     .btnWrapper {
       ${flex({})}
-      width: 1080px;
       margin-top: 15px;
     }
   `,
@@ -112,6 +111,12 @@ export const StRealEstate = {
       text-align: center;
       color: ${palette.gray[0]};
     }
+    .optionsWrap {
+      ${flex({ justify: "", gap: "10px" })}
+      flex-wrap: wrap;
+      width: 600px;
+    }
+
     .photoWrap {
       ${flex({ justify: "", gap: "10px" })}
       flex-wrap: wrap;

@@ -4,34 +4,23 @@ import { StDetail } from "../../../libs/styles/StDetail";
 import palette from "../../../libs/styles/palette";
 import Button from "../Button/Button";
 import { CgPlayList } from "react-icons/cg";
-
+import useEstateDetail from "../../../hooks/useEstateDetail";
+import { EstateDetailData } from "../../../types/DetailData/detail.type";
 interface StImgProps {
   isLarge?: boolean;
   isMore?: boolean;
 }
 
-const imageGroup = [
-  "https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80",
-  "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=922&q=80",
-  "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80",
-  "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80",
-  "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80",
-  "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80",
-  "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80",
-  "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80",
-];
-const visibleImageGroup = imageGroup.slice(0, 5);
+interface ImgInfoProps {
+  estateDetail?: EstateDetailData[];
+}
 
-function ImgInfo() {
+function ImgInfo({ estateDetail }: ImgInfoProps) {
+  console.log(estateDetail);
   return (
     <StDetail.ImgInfoWrapper>
       <StDetail.ImgWrapper>
-        <StImg src={imageGroup[0]} isLarge />
-        <StDetail.ImgBox>
-          {visibleImageGroup.slice(1).map((el, idx) => (
-            <StImg key={idx} src={el} />
-          ))}
-        </StDetail.ImgBox>
+        <StDetail.ImgBox></StDetail.ImgBox>
       </StDetail.ImgWrapper>
       <StDetail.SummaryWrapper>
         <div
