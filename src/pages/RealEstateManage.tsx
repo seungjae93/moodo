@@ -5,75 +5,45 @@ import ManageCard from "../components/common/Card/ManageCard";
 import flex from "../libs/styles/utilFlex";
 import RadioInput from "../components/common/EstateListing/RadioInput";
 import useEstateList from "../hooks/useEstateList";
+import { StRealEstate } from "../libs/styles/StRealEstate";
 
 const typeOfProperties = [
-  { id: "typeOfProperty-1", label: "원/투룸", value: "원/투룸" },
-  { id: "typeOfProperty-2", label: "주택/빌라", value: "주택/빌라" },
-  { id: "typeOfProperty-3", label: "아파트", value: "아파트" },
-  { id: "typeOfProperty-4", label: "상가/사무실", value: "상가/사무실" },
-  { id: "typeOfProperty-5", label: "건물", value: "건물" },
-];
+  "원/투룸",
+  "주택/빌라",
+  "아파트",
+  "상가/사무실",
+  "건물",
+].map((label, index) => ({
+  id: `typeOfProperty-${index + 1}`,
+  label,
+  value: label,
+}));
 
 function RealEstateManage() {
   const { estateList } = useEstateList();
 
   return (
     <>
-      <StRealEstateManage.Wrapper>
+      <StRealEstate.Wrapper>
         <SideNav />
-        <StRealEstateManage.Box>
-          <StRealEstateManage.Title>매물 관리</StRealEstateManage.Title>
-          <StRealEstateManage.SemiTitle>매물종류</StRealEstateManage.SemiTitle>
-          <StRealEstateManage.InputBox>
-            <RadioInput
-              type="radio"
-              options={typeOfProperties}
-              name="typeOfProperty"
-            />
-          </StRealEstateManage.InputBox>
-          <StRealEstateManage.CardBox>
+        <StRealEstate.ListingBox>
+          <StRealEstate.Title>매물 관리</StRealEstate.Title>
+          <StRealEstate.SemiTitle>매물종류</StRealEstate.SemiTitle>
+
+          <RadioInput
+            type="radio"
+            options={typeOfProperties}
+            name="typeOfProperty"
+          />
+          <StRealEstate.ManageCardBox>
             {estateList?.map((estate) => (
               <ManageCard key={estate?.estateId} estate={estate} />
             ))}
-          </StRealEstateManage.CardBox>
-        </StRealEstateManage.Box>
-      </StRealEstateManage.Wrapper>
+          </StRealEstate.ManageCardBox>
+        </StRealEstate.ListingBox>
+      </StRealEstate.Wrapper>
     </>
   );
 }
 
 export default RealEstateManage;
-
-const StRealEstateManage = {
-  Wrapper: styled.div`
-    ${flex({ justify: "", align: "" })}
-    padding-top: 30px;
-    height: 100%;
-    width: 1300px;
-    min-width: 700px;
-  `,
-  Box: styled.div`
-    padding: 50px;
-    width: 100%;
-  `,
-  Title: styled.div`
-    width: 100%;
-    padding: 0 20px 10px 0;
-    font-weight: 700;
-    font-size: 24px;
-    border-bottom: 3px solid black;
-  `,
-  SemiTitle: styled.div`
-    width: 100%;
-    padding: 20px 20px 10px 0;
-    font-weight: 400;
-    font-size: 16px;
-    border-bottom: 1px solid #000000;
-  `,
-  InputBox: styled.div`
-    ${flex({ justify: "" })}
-  `,
-  CardBox: styled.div`
-    ${flex({ direction: "column", gap: "15px" })}
-  `,
-};

@@ -6,7 +6,7 @@ import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 
 import { AiOutlinePlus } from "react-icons/ai";
 import { estateApi } from "../apis/axios";
-import { StRealEstateListing } from "../libs/styles/StRealEstateListing";
+import { StRealEstate } from "../libs/styles/StRealEstate";
 
 import SideNav from "../components/common/SideNav/SideNav";
 import NumberInputGroup from "../components/common/EstateListing/NumberInputGroup";
@@ -262,18 +262,16 @@ function RealEstateListing() {
   };
 
   return (
-    <StRealEstateListing.Wrapper>
+    <StRealEstate.Wrapper>
       <SideNav />
-      <StRealEstateListing.Box>
-        <StRealEstateListing.Title>매물 등록</StRealEstateListing.Title>
-        <StRealEstateListing.Form
+      <StRealEstate.ListingBox>
+        <StRealEstate.Title>매물 등록</StRealEstate.Title>
+        <StRealEstate.Form
           onSubmit={handleSubmit(onValid)}
           encType="multipart/form-data"
         >
-          <StRealEstateListing.SemiTitle>
-            매물종류
-          </StRealEstateListing.SemiTitle>
-          <StRealEstateListing.Wrapper>
+          <StRealEstate.SemiTitle>매물종류</StRealEstate.SemiTitle>
+          <StRealEstate.Wrapper>
             <RadioInput
               register={register("typeOfProperty", {
                 required: "필수 선택 항목입니다",
@@ -282,18 +280,14 @@ function RealEstateListing() {
               options={typeOfProperties}
               name="typeOfProperty"
             />
-          </StRealEstateListing.Wrapper>
-          <StRealEstateListing.SemiTitle>
-            매물 위치
-          </StRealEstateListing.SemiTitle>
-          <StRealEstateListing.Content>
+          </StRealEstate.Wrapper>
+          <StRealEstate.SemiTitle>매물 위치</StRealEstate.SemiTitle>
+          <StRealEstate.Content>
             <div className="contentTitle">주소</div>
             <PostCode register={register} />
-          </StRealEstateListing.Content>
-          <StRealEstateListing.SemiTitle>
-            거래 정보
-          </StRealEstateListing.SemiTitle>
-          <StRealEstateListing.Content>
+          </StRealEstate.Content>
+          <StRealEstate.SemiTitle>거래 정보</StRealEstate.SemiTitle>
+          <StRealEstate.Content>
             <div className="contentTitle">거래 유형</div>
             <RadioInput
               register={register("transactionType", {
@@ -303,8 +297,8 @@ function RealEstateListing() {
               options={transactionTypes}
               name="transactionType"
             />
-          </StRealEstateListing.Content>
-          <StRealEstateListing.Content>
+          </StRealEstate.Content>
+          <StRealEstate.Content>
             <div className="contentTitle">가격 정보</div>
             {transactionTypeWatch === "월세" && (
               <>
@@ -325,16 +319,16 @@ function RealEstateListing() {
                 <div className="marginLeft">|</div>
               </>
             )}
-          </StRealEstateListing.Content>
-          <StRealEstateListing.Content>
+          </StRealEstate.Content>
+          <StRealEstate.Content>
             <div className="contentTitle">관리비</div>
             <PriceInfo
               type="maintenanceCost"
               label="관리비"
               register={register}
             />
-          </StRealEstateListing.Content>
-          <StRealEstateListing.Content>
+          </StRealEstate.Content>
+          <StRealEstate.Content>
             <div className="contentTitle">입주가능일</div>
             <RadioInput
               register={register("moveInDate", {
@@ -369,10 +363,8 @@ function RealEstateListing() {
                 <span>이후</span>
               </>
             )}
-          </StRealEstateListing.Content>
-          <StRealEstateListing.SemiTitle>
-            매물 정보
-          </StRealEstateListing.SemiTitle>
+          </StRealEstate.Content>
+          <StRealEstate.SemiTitle>매물 정보</StRealEstate.SemiTitle>
           {typeOfPropertyWatch === "원/투룸" && (
             <PropertyContent type="roomVilla" register={register} />
           )}
@@ -382,11 +374,11 @@ function RealEstateListing() {
           {typeOfPropertyWatch === "아파트" && (
             <>
               <PropertyContent type="apartmentOffice" register={register} />
-              <StRealEstateListing.Content>
+              <StRealEstate.Content>
                 <div className="contentTitle">동</div>
                 <NumberInputGroup type="dong" label="동" register={register} />
                 <span>동</span>
-              </StRealEstateListing.Content>
+              </StRealEstate.Content>
             </>
           )}
           {typeOfPropertyWatch === "상가/사무실" && (
@@ -398,9 +390,7 @@ function RealEstateListing() {
 
           {isResidence && (
             <>
-              <StRealEstateListing.SemiTitle>
-                추가 정보
-              </StRealEstateListing.SemiTitle>
+              <StRealEstate.SemiTitle>추가 정보</StRealEstate.SemiTitle>
               {additionalInfoOptions?.map((info) => (
                 <AdditionalInfo
                   key={info.title}
@@ -413,10 +403,8 @@ function RealEstateListing() {
             </>
           )}
 
-          <StRealEstateListing.SemiTitle>
-            사진 추가
-          </StRealEstateListing.SemiTitle>
-          <StRealEstateListing.Content>
+          <StRealEstate.SemiTitle>사진 추가</StRealEstate.SemiTitle>
+          <StRealEstate.Content>
             <div className="contentTitle">사진</div>
             <DragDropContext onDragEnd={onDragEnd}>
               <Droppable droppableId="imageList" direction="horizontal">
@@ -454,7 +442,7 @@ function RealEstateListing() {
                 )}
               </Droppable>
             </DragDropContext>
-          </StRealEstateListing.Content>
+          </StRealEstate.Content>
           <div style={{ marginTop: "20px" }}>
             · 첫번째로 등록한 사진이 대표 사진이 되며 대표사진은 변경할 수
             있습니다.
@@ -466,24 +454,22 @@ function RealEstateListing() {
           <div style={{ marginTop: "20px", marginBottom: "20px" }}>
             · 사진의 크기는 최대 5MB까지 가능합니다.
           </div>
-          <StRealEstateListing.SemiTitle>
-            상세 설명
-          </StRealEstateListing.SemiTitle>
-          <StRealEstateListing.Content>
+          <StRealEstate.SemiTitle>상세 설명</StRealEstate.SemiTitle>
+          <StRealEstate.Content>
             <TextArea
               register={register("detail")}
               name="detail"
               label="상세설명"
             />
-          </StRealEstateListing.Content>
+          </StRealEstate.Content>
           <div className="btnWrapper">
             <Button.Primary type="submit" size="large" fs="14px" fw="400">
               매물 등록
             </Button.Primary>
           </div>
-        </StRealEstateListing.Form>
-      </StRealEstateListing.Box>
-    </StRealEstateListing.Wrapper>
+        </StRealEstate.Form>
+      </StRealEstate.ListingBox>
+    </StRealEstate.Wrapper>
   );
 }
 export default RealEstateListing;

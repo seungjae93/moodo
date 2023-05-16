@@ -1,5 +1,5 @@
 import { UseFormRegister } from "react-hook-form";
-import { StRealEstateListing } from "../../../libs/styles/StRealEstateListing";
+import { StRealEstate } from "../../../libs/styles/StRealEstate";
 
 import RadioInput from "./RadioInput";
 interface AdditionalInfoProps {
@@ -16,7 +16,7 @@ function AdditionalInfo({
   register,
 }: AdditionalInfoProps) {
   return (
-    <StRealEstateListing.Content>
+    <StRealEstate.Content>
       <div className="contentTitle">{title}</div>
       <RadioInput
         register={register(name, {
@@ -26,7 +26,7 @@ function AdditionalInfo({
         options={options}
         name={name}
       />
-    </StRealEstateListing.Content>
+    </StRealEstate.Content>
   );
 }
 
