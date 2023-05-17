@@ -10,13 +10,15 @@ import ImgInfo from "../components/common/Detail/ImgInfo";
 
 function RealEstateDetail() {
   const { estateDetail } = useEstateDetail();
+
+  console.log(estateDetail);
   return (
     <StRealEstateDetail.Wrapper>
       <ImgInfo estateDetail={estateDetail} />
-      <RoomInfo />
-      <AdditionalInfo />
-      <DetailDesc />
-      <DetailMap />
+      <RoomInfo estateDetail={estateDetail} />
+      <AdditionalInfo estateDetail={estateDetail} />
+      <DetailDesc estateDetail={estateDetail} />
+      <DetailMap estateDetail={estateDetail} />
     </StRealEstateDetail.Wrapper>
   );
 }

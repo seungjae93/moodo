@@ -2,10 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
 import { estateApi } from "../apis/axios";
-import { EstateDetailData } from "../types/DetailData/detail.type";
+import { EstateDetailData } from "../typings/DetailData/detail.type";
 
 interface ApiResponse {
-  estate: EstateDetailData[];
+  estate: EstateDetailData;
 }
 export default function useEstateDetail() {
   const estateId = useParams().id as string;
