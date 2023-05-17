@@ -14,7 +14,7 @@ const RealEstateListing = React.lazy(
 );
 const RealEstateManage = React.lazy(() => import("../pages/RealEstateManage"));
 const RealEstateDetail = React.lazy(() => import("../pages/RealEstateDetail"));
-const MemberManage = React.lazy(() => import("../pages/RealEstateManage"));
+const MemberManage = React.lazy(() => import("../pages/MemberManage"));
 const UpdateEstate = React.lazy(() => import("../pages/UpdateEstate"));
 
 function Router() {

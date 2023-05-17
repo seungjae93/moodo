@@ -10,7 +10,6 @@ import ImgInfo from "../components/common/Detail/ImgInfo";
 
 function RealEstateDetail() {
   const { estateDetail } = useEstateDetail();
-
   return (
     <StRealEstateDetail.Wrapper>
       <ImgInfo estateDetail={estateDetail} />

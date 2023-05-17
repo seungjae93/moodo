@@ -131,17 +131,29 @@ const additionalInfoOptions = [
 function UpdateEstate() {
   const navigate = useNavigate();
   const estateId = useParams().id;
+  // const { mutate } = useMutation(
+  //   async (formData: FormData) => {
+  //     try {
+  //       await estateApi.put(formData);
+  //       alert("수정이 완료되었습니다!");
+  //       navigate("/realEstateManage");
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   },
+  //   {
+  //     onError: (error) => {
+  //       console.error(error);
+  //     },
+  //   }
+  // );
   const { mutate } = useMutation(
-    async (formData: FormData) => {
-      try {
-        await estateApi.put(formData);
+    (formData: FormData) => estateApi.put(formData),
+    {
+      onSuccess: () => {
         alert("수정이 완료되었습니다!");
         navigate("/realEstateManage");
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    {
+      },
       onError: (error) => {
         console.error(error);
       },
@@ -474,7 +486,7 @@ function UpdateEstate() {
           </StRealEstate.Content>
           <div className="btnWrapper">
             <Button.Primary type="submit" size="large" fs="14px" fw="400">
-              매물 등록
+              수정 하기
             </Button.Primary>
           </div>
         </StRealEstate.Form>

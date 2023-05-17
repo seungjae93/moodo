@@ -68,10 +68,9 @@ function ManageCard({ estate }: ManageCardProps) {
   const postUpdateHandler = () => {
     navigate(`/update/${estateId}`);
   };
-
   return (
     <StManageCard.Wrapper>
-      <StManageCard.Image src={imgs[0]?.imgOfUrl} />
+      <StManageCard.Image src={imgs[0]?.imgOfUrl} onClick={openNewWindow} />
       <StManageCard.ContentBox onClick={openNewWindow}>
         <StManageCard.Title>{typeOfProperty}</StManageCard.Title>
         <StManageCard.Content style={{ color: palette.cyan[5] }}>
