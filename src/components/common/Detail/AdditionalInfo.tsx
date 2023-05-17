@@ -6,7 +6,6 @@ interface AdditionalInfoProps {
   estateDetail?: EstateDetailData;
 }
 function AdditionalInfo({ estateDetail }: AdditionalInfoProps) {
-  console.log(estateDetail);
   return (
     <>
       {estateDetail?.typeOfProperty === "원/투룸" ||

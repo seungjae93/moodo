@@ -1,10 +1,33 @@
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+
 import SideNav from "../components/common/SideNav/SideNav";
 import ManageCard from "../components/common/Card/ManageCard";
 import RadioInput from "../components/common/EstateListing/RadioInput";
 import useEstateList from "../hooks/useEstateList";
 import { StRealEstate } from "../libs/styles/StRealEstate";
 
+interface ImageData {
+  imgOfPropertyId: number;
+  estateId: string;
+  imgOfUrl: string;
+  imgIndex: number;
+}
+interface EstateListData {
+  estateId: string;
+  typeOfProperty: string;
+  addressOfProperty: string;
+  transactionType: string;
+  deposit: string;
+  monthly: string;
+  price: string;
+  exclusiveArea: string;
+  numOfRoom: string;
+  numOfBath: string;
+  imgs: ImageData[];
+}
 const typeOfProperties = [
+  "전체보기",
   "원/투룸",
   "주택/빌라",
   "아파트",
@@ -18,6 +41,23 @@ const typeOfProperties = [
 
 function RealEstateManage() {
   const { estateList } = useEstateList();
+  const { register, watch } = useForm();
+  const typeOfPropertyWatch = watch("typeOfProperty");
+  const [filteredEstateList, setFilteredEstateList] = useState<
+    EstateListData[] | null
+  >(null);
+
+  useEffect(() => {
+    if (estateList) {
+      const filteredList =
+        typeOfPropertyWatch && typeOfPropertyWatch !== "전체보기"
+          ? estateList.filter(
+              (estate) => estate?.typeOfProperty === typeOfPropertyWatch
+            )
+          : estateList;
+      setFilteredEstateList(filteredList);
+    }
+  }, [estateList, typeOfPropertyWatch]);
 
   return (
     <>
@@ -28,12 +68,13 @@ function RealEstateManage() {
           <StRealEstate.SemiTitle>매물종류</StRealEstate.SemiTitle>
 
           <RadioInput
+            register={register("typeOfProperty")}
             type="radio"
             options={typeOfProperties}
             name="typeOfProperty"
           />
           <StRealEstate.ManageCardBox>
-            {estateList?.map((estate) => (
+            {filteredEstateList?.map((estate) => (
               <ManageCard key={estate?.estateId} estate={estate} />
             ))}
           </StRealEstate.ManageCardBox>
