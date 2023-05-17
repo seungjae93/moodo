@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 
 import { AiOutlinePlus } from "react-icons/ai";
@@ -126,21 +126,16 @@ const additionalInfoOptions = [
     options: pet,
     name: "pet",
   },
-  {
-    title: "옵션",
-    options: options,
-    name: "options",
-  },
 ];
 
 function UpdateEstate() {
   const navigate = useNavigate();
-
+  const estateId = useParams().id;
   const { mutate } = useMutation(
     async (formData: FormData) => {
       try {
-        await estateApi.post(formData);
-        alert("등록이 완료되었습니다!");
+        await estateApi.put(formData);
+        alert("수정이 완료되었습니다!");
         navigate("/realEstateManage");
       } catch (error) {
         console.error(error);
@@ -229,6 +224,8 @@ function UpdateEstate() {
     const { address, addressDetail } = data;
     const addressOfProperty = `${address}, ${addressDetail}`;
     const formData = new FormData();
+
+    formData.append("estateId", estateId || "");
     formData.append("typeOfProperty", data?.typeOfProperty || "");
     formData.append("addressOfProperty", addressOfProperty || "");
     formData.append("transactionType", data?.transactionType || "");
@@ -271,16 +268,15 @@ function UpdateEstate() {
           encType="multipart/form-data"
         >
           <StRealEstate.SemiTitle>매물종류</StRealEstate.SemiTitle>
-          <StRealEstate.Wrapper>
-            <RadioInput
-              register={register("typeOfProperty", {
-                required: "필수 선택 항목입니다",
-              })}
-              type="radio"
-              options={typeOfProperties}
-              name="typeOfProperty"
-            />
-          </StRealEstate.Wrapper>
+
+          <RadioInput
+            register={register("typeOfProperty", {
+              required: "필수 선택 항목입니다",
+            })}
+            type="radio"
+            options={typeOfProperties}
+            name="typeOfProperty"
+          />
           <StRealEstate.SemiTitle>매물 위치</StRealEstate.SemiTitle>
           <StRealEstate.Content>
             <div className="contentTitle">주소</div>
@@ -400,6 +396,20 @@ function UpdateEstate() {
                   register={register}
                 />
               ))}
+              <StRealEstate.Content>
+                <div className="contentTitle">옵션</div>
+                <div className="optionsWrap">
+                  <RadioInput
+                    register={register("options", {
+                      required: "필수 선택 항목입니다",
+                    })}
+                    kind="checkbox"
+                    type="checkbox"
+                    options={options}
+                    name="options"
+                  />
+                </div>
+              </StRealEstate.Content>
             </>
           )}
 

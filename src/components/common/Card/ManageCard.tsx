@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 import Button from "../Button/Button";
 import flex from "../../../libs/styles/utilFlex";
@@ -30,6 +31,7 @@ interface ManageCardProps {
 }
 
 function ManageCard({ estate }: ManageCardProps) {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const {
     estateId,
@@ -63,6 +65,9 @@ function ManageCard({ estate }: ManageCardProps) {
   const postDeleteHandler = () => {
     postDeleteMutate();
   };
+  const postUpdateHandler = () => {
+    navigate(`/update/${estateId}`);
+  };
 
   return (
     <StManageCard.Wrapper>
@@ -95,7 +100,12 @@ function ManageCard({ estate }: ManageCardProps) {
         </StManageCard.Content>
       </StManageCard.ContentBox>
       <StManageCard.ButtonBox>
-        <Button.Primary size="medium" fw="400" fs="20px">
+        <Button.Primary
+          size="medium"
+          fw="400"
+          fs="20px"
+          onClick={postUpdateHandler}
+        >
           수정
         </Button.Primary>
         <Button.Negative
