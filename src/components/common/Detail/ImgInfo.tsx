@@ -15,7 +15,6 @@ interface ImgInfoProps {
 }
 
 function ImgInfo({ estateDetail }: ImgInfoProps) {
-  console.log(estateDetail?.typeOfProperty);
   const imageGroup = estateDetail?.imgs;
   const visibleImageGroup = imageGroup?.slice(0, 5);
   return (

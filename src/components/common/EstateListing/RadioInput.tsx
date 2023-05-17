@@ -119,7 +119,7 @@ export default function RadioInput({
 const StRadioBtnWrap = styled.div`
   padding-bottom: 15px;
   padding-top: 15px;
-  ${flex({ gap: "20px", justify: "" })}
+  ${flex({ gap: "10px", justify: "" })}
   flex-wrap: wrap;
 
   .radioBtn {
