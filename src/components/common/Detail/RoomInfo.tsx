@@ -1,33 +1,63 @@
 import { StDetail } from "../../../libs/styles/StDetail";
+import { EstateDetailData } from "../../../typings/DetailData/detail.type";
 
-function RoomInfo() {
+interface RoomInfoProps {
+  estateDetail?: EstateDetailData;
+}
+function RoomInfo({ estateDetail }: RoomInfoProps) {
   return (
     <>
       <StDetail.Title>방 정보</StDetail.Title>
       <StDetail.ContentWrapper>
         <StDetail.Content>
           <div className="semiTitle">공급 / 전용면적</div>
-          <div>62m2 / 32m2</div>
+          <div>
+            {estateDetail?.supplyArea}m² / {estateDetail?.exclusiveArea}m²
+          </div>
         </StDetail.Content>
         <StDetail.Content>
-          <div className="semiTitle">해당층 / 건물층</div>
-          <div>7층 / 11층</div>
+          {estateDetail?.typeOfProperty === "건물" ? (
+            <>
+              <div className="semiTitle">저층 / 최고층</div>
+              <div>
+                {estateDetail?.lowestFloor}층 / {estateDetail?.highestFloor}층
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="semiTitle">해당층 / 건물층</div>
+              <div>
+                {estateDetail?.floor}층 / {estateDetail?.numOfFloor}층
+              </div>
+            </>
+          )}
         </StDetail.Content>
       </StDetail.ContentWrapper>
       <StDetail.ContentWrapper>
         <StDetail.Content>
-          <div className="semiTitle">방 / 욕실개수</div>
-          <div>3개 / 2개</div>
+          <div className="semiTitle">관리비</div>
+          <div>{estateDetail?.maintenanceCost}만원</div>
         </StDetail.Content>
         <StDetail.Content>
-          <div className="semiTitle">관리비</div>
-          <div>5만원</div>
+          {estateDetail?.typeOfProperty === "원/투룸" ||
+          estateDetail?.typeOfProperty === "주택/빌라" ? (
+            <>
+              <div className="semiTitle">방 / 욕실개수</div>
+              <div>
+                {estateDetail?.numOfRoom}개 / {estateDetail?.numOfBath}개
+              </div>
+            </>
+          ) : null}
         </StDetail.Content>
       </StDetail.ContentWrapper>
       <StDetail.ContentWrapper>
         <StDetail.Content>
           <div className="semiTitle">입주가능일</div>
-          <div>2021.08.23</div>
+          <div>
+            {estateDetail?.moveInDate === "날짜 설정"
+              ? estateDetail?.moveInDateInput
+              : estateDetail?.moveInDate}
+          </div>
         </StDetail.Content>
       </StDetail.ContentWrapper>
     </>

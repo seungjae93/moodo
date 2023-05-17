@@ -1,10 +1,17 @@
 import { StDetail } from "../../../libs/styles/StDetail";
+import { EstateDetailData } from "../../../typings/DetailData/detail.type";
 
-function DetailDesc() {
+interface DetailDescProps {
+  estateDetail?: EstateDetailData;
+}
+
+function DetailDesc({ estateDetail }: DetailDescProps) {
   return (
     <>
       <StDetail.Title>상세 설명</StDetail.Title>
-      <StDetail.ContentWrapper>• 집이 좋아요</StDetail.ContentWrapper>
+      <StDetail.ContentWrapper>
+        • {estateDetail?.detail}
+      </StDetail.ContentWrapper>
     </>
   );
 }

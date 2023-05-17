@@ -4,23 +4,29 @@ import { StDetail } from "../../../libs/styles/StDetail";
 import palette from "../../../libs/styles/palette";
 import Button from "../Button/Button";
 import { CgPlayList } from "react-icons/cg";
-import useEstateDetail from "../../../hooks/useEstateDetail";
-import { EstateDetailData } from "../../../types/DetailData/detail.type";
+import { EstateDetailData } from "../../../typings/DetailData/detail.type";
 interface StImgProps {
   isLarge?: boolean;
   isMore?: boolean;
 }
 
 interface ImgInfoProps {
-  estateDetail?: EstateDetailData[];
+  estateDetail?: EstateDetailData;
 }
 
 function ImgInfo({ estateDetail }: ImgInfoProps) {
-  console.log(estateDetail);
+  console.log(estateDetail?.typeOfProperty);
+  const imageGroup = estateDetail?.imgs;
+  const visibleImageGroup = imageGroup?.slice(0, 5);
   return (
     <StDetail.ImgInfoWrapper>
       <StDetail.ImgWrapper>
-        <StDetail.ImgBox></StDetail.ImgBox>
+        <StDetail.ImgBox>
+          {imageGroup && <StImg src={imageGroup[0]?.imgOfUrl} isLarge />}
+          {visibleImageGroup?.slice(1).map((el) => (
+            <StImg key={el?.imgOfPropertyId} src={el?.imgOfUrl} />
+          ))}
+        </StDetail.ImgBox>
       </StDetail.ImgWrapper>
       <StDetail.SummaryWrapper>
         <div
@@ -35,7 +41,7 @@ function ImgInfo({ estateDetail }: ImgInfoProps) {
             justifyContent: "center",
           }}
         >
-          원룸
+          {estateDetail?.typeOfProperty}
         </div>
         <div
           style={{
@@ -43,7 +49,13 @@ function ImgInfo({ estateDetail }: ImgInfoProps) {
             fontSize: "36px",
           }}
         >
-          월세 2000 / 80
+          {estateDetail?.transactionType === "월세"
+            ? `${estateDetail?.transactionType} ${estateDetail?.deposit} / ${estateDetail?.monthly}`
+            : estateDetail?.transactionType === "전세"
+            ? `${estateDetail?.transactionType} ${estateDetail?.deposit}`
+            : estateDetail?.transactionType === "매매"
+            ? `${estateDetail?.transactionType} ${estateDetail?.price}`
+            : null}
         </div>
         <div
           style={{
@@ -51,7 +63,7 @@ function ImgInfo({ estateDetail }: ImgInfoProps) {
             fontSize: "14px",
           }}
         >
-          7층 / 62m²
+          {estateDetail?.floor}층 / {estateDetail?.supplyArea}m²
         </div>
         <div
           style={{
@@ -61,7 +73,9 @@ function ImgInfo({ estateDetail }: ImgInfoProps) {
             padding: "0px 0px 10px 0px",
           }}
         >
-          서울특별시 강남구 서초동
+          {estateDetail?.typeOfProperty === "아파트"
+            ? `${estateDetail?.addressOfProperty} ${estateDetail?.dong}동`
+            : estateDetail?.addressOfProperty}
         </div>
         <div
           style={{

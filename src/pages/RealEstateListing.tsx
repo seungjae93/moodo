@@ -93,32 +93,21 @@ const pet = ["가능", "불가능"].map((label, index) => ({
   value: label,
 }));
 
-// const options = [
-//   "가스레인지",
-//   "인덕션",
-//   "냉장고",
-//   "에어컨",
-//   "전자레인지",
-//   "TV",
-//   "옷장",
-//   "비데",
-//   "도어락",
-// ].map((label, index) => ({
-//   id: `options-${index + 1}`,
-//   label,
-//   value: label,
-// }));
 const options = [
-  { id: "options-1", label: "가스레인지", value: "가스레인지" },
-  { id: "options-2", label: "인덕션", value: "인덕션" },
-  { id: "options-3", label: "냉장고", value: "냉장고" },
-  { id: "options-4", label: "에어컨", value: "에어컨" },
-  { id: "options-5", label: "전자레인지", value: "전자레인지" },
-  { id: "options-6", label: "TV", value: "TV" },
-  { id: "options-7", label: "옷장", value: "옷장" },
-  { id: "options-8", label: "비데", value: "비데" },
-  { id: "options-9", label: "도어락", value: "도어락" },
-];
+  "가스레인지",
+  "인덕션",
+  "냉장고",
+  "에어컨",
+  "전자레인지",
+  "TV",
+  "옷장",
+  "비데",
+  "도어락",
+].map((label, index) => ({
+  id: `options-${index + 1}`,
+  label,
+  value: label,
+}));
 
 //추가 정보
 const additionalInfoOptions = [
