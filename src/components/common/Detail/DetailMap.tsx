@@ -1,6 +1,11 @@
 import { StDetail } from "../../../libs/styles/StDetail";
+import { EstateDetailData } from "../../../typings/DetailData/detail.type";
 
-function DetailMap() {
+interface DetailMapProps {
+  estateDetail?: EstateDetailData;
+}
+
+function DetailMap({ estateDetail }: DetailMapProps) {
   return (
     <>
       <StDetail.Title>
