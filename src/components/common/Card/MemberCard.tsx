@@ -1,22 +1,66 @@
+import { useState, useEffect } from "react";
 import styled from "styled-components";
-
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useUser from "../../../hooks/useUser";
 import Button from "../Button/Button";
 import flex from "../../../libs/styles/utilFlex";
 import palette from "../../../libs/styles/palette";
+import { userApprovedAPi } from "../../../apis/axios";
 
 function MemberCard() {
+  const { user } = useUser();
+  console.log(user);
+  const queryClient = useQueryClient();
+  //undefined일 경우 빈 문자열로 대체
+  const userId = user?.userId ?? "";
+  const [approvedStatus, setApprovedStatus] = useState<string>("미승인");
+
+  useEffect(() => {
+    const isApproved = localStorage.getItem("approved");
+
+    if (isApproved === "true") {
+      setApprovedStatus("승인");
+    } else {
+      setApprovedStatus("미승인");
+    }
+  }, []);
+
+  const mutation = useMutation(userApprovedAPi.get, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["userApporved", userId]);
+    },
+  });
+  const handleUpdate = () => {
+    mutation.mutate(userId);
+  };
+  const handleDownload = () => {
+    if (user && user.userBusinessLicenseImgUrl) {
+      const link = document.createElement("a");
+      link.href = user.userBusinessLicenseImgUrl;
+      link.download = "image.jpg"; // 다운로드될 파일의 이름 설정
+      link.click();
+    }
+  };
+
   return (
     <StMemberCard.Wrapper>
-      <StMemberCard.Image />
+      <StMemberCard.Image src={user?.userProfileImgUrl} />
       <StMemberCard.ContentBox>
-        <StMemberCard.Content>부동산 이름</StMemberCard.Content>
-        <StMemberCard.Content>중개사 이름</StMemberCard.Content>
-        <StMemberCard.Content>중개사 전화번호</StMemberCard.Content>
-        <StMemberCard.Content>사무실 전화번호</StMemberCard.Content>
+        <StMemberCard.Content>{user?.userCompanyName}</StMemberCard.Content>
+        <StMemberCard.Content>{user?.userName}</StMemberCard.Content>
+        <StMemberCard.Content>{user?.userPhoneNumber}</StMemberCard.Content>
+        <StMemberCard.Content>
+          {user?.userCompanyTelNumber}
+        </StMemberCard.Content>
       </StMemberCard.ContentBox>
       <StMemberCard.ButtonWrapper>
         <StMemberCard.ButtonBox>
-          <Button.Primary size="medium" fw="400" fs="18px">
+          <Button.Primary
+            size="medium"
+            fw="400"
+            fs="18px"
+            onClick={handleDownload}
+          >
             자격증 보기
           </Button.Primary>
           <Button.Negative
@@ -27,10 +71,10 @@ function MemberCard() {
             fs="18px"
           >
             현재상태 <br />
-            미승인
+            {approvedStatus}
           </Button.Negative>
         </StMemberCard.ButtonBox>
-        <Button.Primary fw="400" fs="18px">
+        <Button.Primary fw="400" fs="18px" onClick={handleUpdate}>
           승인
         </Button.Primary>
       </StMemberCard.ButtonWrapper>

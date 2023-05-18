@@ -80,6 +80,17 @@ export const estateApi = {
     return data;
   },
   put: async (formData: FormData): Promise<void> => {
-    await instance.post("/estate", formData);
+    await instance.put("/estate", formData);
+  },
+};
+
+//회원승인 api
+interface ApiResponse {
+  message: string;
+}
+export const userApprovedAPi = {
+  get: async (userId: string): Promise<ApiResponse> => {
+    const { data } = await instance.get(`/user/approved/${userId}`);
+    return data;
   },
 };

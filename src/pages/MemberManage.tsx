@@ -1,7 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
-
 import SideNav from "../components/common/SideNav/SideNav";
 import MemberCard from "../components/common/Card/MemberCard";
+
 import { StRealEstate } from "../libs/styles/StRealEstate";
 
 function MemberManage() {

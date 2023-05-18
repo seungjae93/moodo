@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
@@ -7,10 +6,8 @@ import { useNavigate } from "react-router-dom";
 import SideNav from "../components/common/SideNav/SideNav";
 import Button from "../components/common/Button/Button";
 import Input from "../components/common/Input";
-import palette from "../libs/styles/palette";
 import PostCode from "../components/common/EstateListing/PostCode";
 import { profileApi } from "../apis/axios";
-import flex from "../libs/styles/utilFlex";
 import useUser from "../hooks/useUser";
 import { StRealEstate } from "../libs/styles/StRealEstate";
 
