@@ -22,7 +22,7 @@ export default function Input({
   readonly,
 }: InputProps) {
   return (
-    <div>
+    <div style={{ marginBottom: "20px" }}>
       {kind === "text" ? (
         <>
           <label

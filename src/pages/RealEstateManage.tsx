@@ -46,7 +46,6 @@ function RealEstateManage() {
   const [filteredEstateList, setFilteredEstateList] = useState<
     EstateListData[] | null
   >(null);
-
   useEffect(() => {
     if (estateList) {
       const filteredList =
