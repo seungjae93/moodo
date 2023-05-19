@@ -16,6 +16,7 @@ const RealEstateManage = React.lazy(() => import("../pages/RealEstateManage"));
 const RealEstateDetail = React.lazy(() => import("../pages/RealEstateDetail"));
 const MemberManage = React.lazy(() => import("../pages/MemberManage"));
 const UpdateEstate = React.lazy(() => import("../pages/UpdateEstate"));
+const MoodoMap = React.lazy(() => import("../pages/MoodoMap"));
 
 function Router() {
   return (
@@ -26,6 +27,7 @@ function Router() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/map" element={<MoodoMap />} />
           <Route element={<PrivateRoutes />}>
             <Route path="/profileEdit" element={<ProfileEdit />} />
             <Route path="/realEstateListing" element={<RealEstateListing />} />
