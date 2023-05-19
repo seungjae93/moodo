@@ -13,6 +13,10 @@ function Header() {
           <div className="nav">
             <div>사용방법</div>
             <div>
+              {" "}
+              <Link to="/map">지도</Link>
+            </div>
+            <div>
               <Link to="/profileEdit">매물관리</Link>
             </div>
             <div>

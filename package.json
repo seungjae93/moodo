@@ -2,6 +2,7 @@
   "name": "moodo",
   "version": "0.1.0",
   "private": true,
+  "hompage": ".",
   "dependencies": {
     "@tanstack/react-query": "^4.29.3",
     "@tanstack/react-query-devtools": "^4.29.3",
@@ -18,6 +19,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
     "react-icons": "^4.8.0",
+    "react-kakao-maps-sdk": "^1.1.9",
     "react-router-dom": "^6.10.0",
     "react-scripts": "5.0.1",
     "react-slick": "^0.29.0",
@@ -55,6 +57,7 @@
     "@types/react-beautiful-dnd": "^13.1.4",
     "@types/react-slick": "^0.23.10",
     "@types/styled-components": "^5.1.26",
-    "@types/uuid": "^9.0.1"
+    "@types/uuid": "^9.0.1",
+    "kakao.maps.d.ts": "^0.1.38"
   }
 }
