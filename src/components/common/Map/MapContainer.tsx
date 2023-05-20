@@ -1,4 +1,7 @@
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import { Map } from "react-kakao-maps-sdk";
+
+const { kakao } = window;
 
 function MapContainer() {
   return (

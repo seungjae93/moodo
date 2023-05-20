@@ -35,6 +35,7 @@ export const StDetail = {
   ImgWrapper: styled.div`
     ${flex({ justify: "", direction: "column" })}
     width:100%;
+    height: 550px;
     margin-top: 50px;
   `,
   ImgBox: styled.div`
@@ -46,7 +47,7 @@ export const StDetail = {
     ${flex({
       direction: "column",
       align: "",
-      justify: "flex-start",
+      justify: "",
       gap: "30px",
     })}
     width: 400px;
