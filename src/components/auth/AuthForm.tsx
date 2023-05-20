@@ -38,6 +38,8 @@ function AuthForm({ type }: AuthFormProps) {
       localStorage.setItem("token", data.token);
       localStorage.setItem("userKey", data.userKey);
       localStorage.setItem("approved", data.approved);
+      localStorage.setItem("admin", data.admin);
+      localStorage.setItem("userId", data.userId);
       setTimeout(() => {
         localStorage.clear();
       }, 3600000);

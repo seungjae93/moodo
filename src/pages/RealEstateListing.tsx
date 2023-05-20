@@ -24,6 +24,7 @@ interface RealEstateForm {
   typeOfProperty: string;
   addressOfProperty: string;
   address?: string;
+  addressOfJibun?: string;
   addressDetail?: string;
   transactionType?: string;
   deposit?: string;
@@ -226,6 +227,7 @@ function RealEstateListing() {
     const formData = new FormData();
     formData.append("typeOfProperty", data?.typeOfProperty || "");
     formData.append("addressOfProperty", addressOfProperty || "");
+    formData.append("addressOfJibun", data?.addressOfJibun || "");
     formData.append("transactionType", data?.transactionType || "");
     formData.append("deposit", data?.deposit || "");
     formData.append("monthly", data?.monthly || "");
@@ -255,7 +257,6 @@ function RealEstateListing() {
     }
     mutate(formData);
   };
-
   return (
     <StRealEstate.Wrapper>
       <SideNav />

@@ -27,7 +27,7 @@ function Router() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/map" element={<MoodoMap />} />
+          <Route path="/map/:id" element={<MoodoMap />} />
           <Route element={<PrivateRoutes />}>
             <Route path="/profileEdit" element={<ProfileEdit />} />
             <Route path="/realEstateListing" element={<RealEstateListing />} />
