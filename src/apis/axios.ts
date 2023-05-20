@@ -108,3 +108,12 @@ export const userApprovedAPi = {
     return data;
   },
 };
+
+//지도 api
+
+export const mapApi = {
+  get: async (userId: string): Promise<ApiResponse> => {
+    const { data } = await instance.get(`/map/${userId}`);
+    return data;
+  },
+};

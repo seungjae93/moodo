@@ -1,16 +1,32 @@
 import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
+
 import MapContainer from "../components/common/Map/MapContainer";
 import Search from "../components/common/Map/Search";
 import styled from "styled-components";
 import flex from "../libs/styles/utilFlex";
 import SelectBox from "../components/common/Map/SelectBox";
+import { mapApi } from "../apis/axios";
 
 function MoodoMap() {
+  const userId = useParams().id;
   const [searchValue, setSearchValue] = useState<string>("");
 
   const handleSearch = (value: string) => {
     setSearchValue(value);
   };
+
+  const { data }: { data?: any } = useQuery(
+    ["mapEstateList", userId],
+    () => mapApi.get(userId as string),
+    {
+      onError: (error) => {
+        console.error(error);
+      },
+    }
+  );
+
   return (
     <StMoodoMap.Wrapper>
       <StMoodoMap.searchBox>
@@ -19,7 +35,7 @@ function MoodoMap() {
       </StMoodoMap.searchBox>
       <StMoodoMap.ContentWrapper>
         <StMoodoMap.Map>
-          <MapContainer />
+          <MapContainer searchValue={searchValue} />
         </StMoodoMap.Map>
         <StMoodoMap.estateCard></StMoodoMap.estateCard>
       </StMoodoMap.ContentWrapper>

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import flex from "../../../libs/styles/utilFlex";
 
 function Header() {
+  const userId = localStorage.getItem("userId");
   return (
     <>
       <HeaderWrapper>
@@ -14,7 +15,7 @@ function Header() {
             <div>사용방법</div>
             <div>
               {" "}
-              <Link to="/map">지도</Link>
+              <Link to={`/map/${userId}`}>지도</Link>
             </div>
             <div>
               <Link to="/profileEdit">매물관리</Link>

@@ -14,7 +14,9 @@ function Search({ onSearch }: SearchProps) {
 
   const handleSearch = () => {
     onSearch(searchValue);
+    setSearchValue("");
   };
+
   return (
     <>
       <BsSearch />
