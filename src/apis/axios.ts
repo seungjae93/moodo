@@ -9,18 +9,28 @@ const getToken = () => {
   const token = localStorage.getItem("token");
   const userKey = localStorage.getItem("userKey");
   const approved = localStorage.getItem("approved");
-  return token && userKey && approved
-    ? { token: token, userKey: userKey, approved: approved }
+  const admin = localStorage.getItem("admin");
+  const userId = localStorage.getItem("userId");
+  return token && userKey && approved && admin && userId
+    ? {
+        token,
+        userKey,
+        approved,
+        admin,
+        userId,
+      }
     : null;
 };
 
 instance.interceptors.request.use((config) => {
   const token = getToken();
   if (token) {
-    const { token: authToken, userKey, approved } = token;
+    const { token: authToken, userKey, approved, admin, userId } = token;
     config.headers["Authorization"] = `Bearer ${authToken}`;
     config.headers["UserKey"] = userKey;
     config.headers["Approved"] = approved;
+    config.headers["admin"] = admin;
+    config.headers["userId"] = userId;
   }
   return config;
 });
@@ -91,6 +101,19 @@ interface ApiResponse {
 export const userApprovedAPi = {
   get: async (userId: string): Promise<ApiResponse> => {
     const { data } = await instance.get(`/user/approved/${userId}`);
+    return data;
+  },
+  getList: async (): Promise<void> => {
+    const { data } = await instance.get("/user");
+    return data;
+  },
+};
+
+//지도 api
+
+export const mapApi = {
+  get: async (userId: string): Promise<ApiResponse> => {
+    const { data } = await instance.get(`/map/${userId}`);
     return data;
   },
 };

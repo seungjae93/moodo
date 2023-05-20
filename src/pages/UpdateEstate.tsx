@@ -24,6 +24,7 @@ interface RealEstateForm {
   typeOfProperty: string;
   addressOfProperty: string;
   address?: string;
+  addressOfJibun?: string;
   addressDetail?: string;
   transactionType?: string;
   deposit?: string;
@@ -225,6 +226,7 @@ function UpdateEstate() {
     formData.append("estateId", estateId || "");
     formData.append("typeOfProperty", data?.typeOfProperty || "");
     formData.append("addressOfProperty", addressOfProperty || "");
+    formData.append("addressOfJibun", data?.addressOfJibun || "");
     formData.append("transactionType", data?.transactionType || "");
     formData.append("deposit", data?.deposit || "");
     formData.append("monthly", data?.monthly || "");

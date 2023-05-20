@@ -1,18 +1,32 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import useUser from "../../../hooks/useUser";
 import Button from "../Button/Button";
 import flex from "../../../libs/styles/utilFlex";
 import palette from "../../../libs/styles/palette";
 import { userApprovedAPi } from "../../../apis/axios";
 
-function MemberCard() {
-  const { user } = useUser();
-  console.log(user);
+interface UserListData {
+  admin: string;
+  approved: boolean;
+  id: string;
+  userBusinessLicenseImgUrl: string;
+  userBusinessLocation: string;
+  userCompanyName: string;
+  userCompanyTelNumber: string;
+  userEmail: string;
+  userId: string;
+  userKey: string;
+  userName: string;
+  userPassword: string;
+  userPhoneNumber: string;
+  userProfileImgUrl: string;
+}
+interface UserListDataProps {
+  member: UserListData;
+}
+function MemberCard({ member }: UserListDataProps) {
   const queryClient = useQueryClient();
-  //undefined일 경우 빈 문자열로 대체
-  const userId = user?.userId ?? "";
   const [approvedStatus, setApprovedStatus] = useState<string>("미승인");
 
   useEffect(() => {
@@ -27,16 +41,16 @@ function MemberCard() {
 
   const mutation = useMutation(userApprovedAPi.get, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["userApporved", userId]);
+      queryClient.invalidateQueries(["userApporved", member?.userId]);
     },
   });
   const handleUpdate = () => {
-    mutation.mutate(userId);
+    mutation.mutate(member?.userId);
   };
   const handleDownload = () => {
-    if (user && user.userBusinessLicenseImgUrl) {
+    if (member && member?.userBusinessLicenseImgUrl) {
       const link = document.createElement("a");
-      link.href = user.userBusinessLicenseImgUrl;
+      link.href = member?.userBusinessLicenseImgUrl;
       link.download = "image.jpg"; // 다운로드될 파일의 이름 설정
       link.click();
     }
@@ -44,13 +58,13 @@ function MemberCard() {
 
   return (
     <StMemberCard.Wrapper>
-      <StMemberCard.Image src={user?.userProfileImgUrl} />
+      <StMemberCard.Image src={member?.userProfileImgUrl} />
       <StMemberCard.ContentBox>
-        <StMemberCard.Content>{user?.userCompanyName}</StMemberCard.Content>
-        <StMemberCard.Content>{user?.userName}</StMemberCard.Content>
-        <StMemberCard.Content>{user?.userPhoneNumber}</StMemberCard.Content>
+        <StMemberCard.Content>{member?.userCompanyName}</StMemberCard.Content>
+        <StMemberCard.Content>{member?.userName}</StMemberCard.Content>
+        <StMemberCard.Content>{member?.userPhoneNumber}</StMemberCard.Content>
         <StMemberCard.Content>
-          {user?.userCompanyTelNumber}
+          {member?.userCompanyTelNumber}
         </StMemberCard.Content>
       </StMemberCard.ContentBox>
       <StMemberCard.ButtonWrapper>
