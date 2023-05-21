@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
 import Button from "../Button/Button";

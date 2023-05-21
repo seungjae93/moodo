@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
@@ -7,6 +7,8 @@ import Search from "../components/common/Map/Search";
 import styled from "styled-components";
 import flex from "../libs/styles/utilFlex";
 import SelectBox from "../components/common/Map/SelectBox";
+import CardProfile from "../components/common/Map/EstateDetail/CardProfile";
+import EstateCard from "../components/common/Map/EstateDetail/EstateCard";
 import { mapApi } from "../apis/axios";
 
 function MoodoMap() {
@@ -37,7 +39,15 @@ function MoodoMap() {
         <StMoodoMap.Map>
           <MapContainer searchValue={searchValue} />
         </StMoodoMap.Map>
-        <StMoodoMap.estateCard></StMoodoMap.estateCard>
+        <StMoodoMap.EstateCard>
+          <CardProfile />
+          <StMoodoMap.CardBox>
+            <EstateCard />
+            <EstateCard />
+            <EstateCard />
+            <EstateCard />
+          </StMoodoMap.CardBox>
+        </StMoodoMap.EstateCard>
       </StMoodoMap.ContentWrapper>
     </StMoodoMap.Wrapper>
   );
@@ -67,8 +77,14 @@ const StMoodoMap = {
     width: 75%;
     height: 100%;
   `,
-  estateCard: styled.div`
-    width: 25%;
+  EstateCard: styled.div`
+    ${flex({ direction: "column", justify: "flex-start" })}
+    padding: 20px;
+    width: 500px;
     height: 100%;
+  `,
+  CardBox: styled.div`
+    ${flex({ gap: "10px" })}
+    flex-wrap:nowrap;
   `,
 };
