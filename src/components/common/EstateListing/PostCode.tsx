@@ -32,7 +32,6 @@ export default function PostCode({ register }: PostCodeProps) {
           document.getElementById("jibun") as HTMLInputElement
         ).value;
 
-        console.log(data.jibunAddress);
         register("address", { value: address });
         register("addressOfJibun", { value: addressOfJibun });
         document.getElementById("addrDetail")?.focus();

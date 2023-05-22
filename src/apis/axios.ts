@@ -110,10 +110,17 @@ export const userApprovedAPi = {
 };
 
 //지도 api
-
+interface Coordinates {
+  swLatLng: { lat: number; lng: number };
+  neLatLng: { lat: number; lng: number };
+  zoomLevel: number;
+}
 export const mapApi = {
-  get: async (userId: string): Promise<ApiResponse> => {
-    const { data } = await instance.get(`/map/${userId}`);
+  post: async (
+    userId: string,
+    coordinates?: Coordinates
+  ): Promise<ApiResponse> => {
+    const { data } = await instance.post(`/map/${userId}`, coordinates);
     return data;
   },
 };

@@ -7,7 +7,7 @@ export const StRealEstate = {
   Wrapper: styled.div`
     ${flex({ align: "", justify: "" })}
     padding-top: 30px;
-    height: 100%;
+    height: 150vh;
     width: 1080px;
     min-width: 700px;
   `,

@@ -1,10 +1,11 @@
+import { useState } from "react";
 import styled, { css } from "styled-components";
 
 import { StDetail } from "../../../libs/styles/StDetail";
 import palette from "../../../libs/styles/palette";
 import Button from "../Button/Button";
-import { CgPlayList } from "react-icons/cg";
 import { EstateDetailData } from "../../../typings/DetailData/detail.type";
+import DetailCarousel from "./DetailCarousel";
 interface StImgProps {
   isLarge?: boolean;
   isMore?: boolean;
@@ -15,16 +16,31 @@ interface ImgInfoProps {
 }
 
 function ImgInfo({ estateDetail }: ImgInfoProps) {
+  const [imageModal, setImageModal] = useState(false);
   const imageGroup = estateDetail?.imgs;
   const visibleImageGroup = imageGroup?.slice(0, 5);
+  const onImageModal = (el: any) => {
+    setImageModal(el);
+  };
   return (
     <StDetail.ImgInfoWrapper>
       <StDetail.ImgWrapper>
         <StDetail.ImgBox>
           {imageGroup && <StImg src={imageGroup[0]?.imgOfUrl} isLarge />}
           {visibleImageGroup?.slice(1).map((el) => (
-            <StImg key={el?.imgOfPropertyId} src={el?.imgOfUrl} />
+            <StImg
+              key={el?.imgOfPropertyId}
+              src={el?.imgOfUrl}
+              onClick={() => onImageModal(el)}
+            />
           ))}
+          {imageModal && (
+            <ModalBackdrop>
+              <StimageDetail>
+                <DetailCarousel imageUrl={imageGroup} />
+              </StimageDetail>
+            </ModalBackdrop>
+          )}
         </StDetail.ImgBox>
       </StDetail.ImgWrapper>
       <StDetail.SummaryWrapper>
@@ -93,7 +109,16 @@ function ImgInfo({ estateDetail }: ImgInfoProps) {
             중개인
           </span>
         </div>
-        <Button.Primary size="xLarge">이 매물 문의하기</Button.Primary>
+        <Button.Negative
+          outlined
+          borderColor={palette.cyan[5]}
+          color={palette.cyan[5]}
+          fw="500"
+          fs="18px"
+          size="xLarge"
+        >
+          이 매물 문의하기
+        </Button.Negative>
       </StDetail.SummaryWrapper>
     </StDetail.ImgInfoWrapper>
   );
@@ -110,4 +135,25 @@ const StImg = styled.img<StImgProps>`
       width: 600px;
       height: 400px;
     `}
+`;
+const ModalBackdrop = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+`;
+
+const StimageDetail = styled.div`
+  width: 550px;
+  height: 400px;
+  z-index: 10;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
 `;
