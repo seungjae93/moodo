@@ -24,6 +24,7 @@ export default CardProfile;
 const StCardProfile = {
   Wrapper: styled.div`
     ${flex({ justify: "center" })}
+    padding:10px;
     width: 400px;
     height: 150px;
     border: 0px solid black;

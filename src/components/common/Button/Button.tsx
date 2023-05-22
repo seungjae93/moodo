@@ -44,7 +44,6 @@ const NegativeButton = (props: StyledButtonProps) => {
     <PrimitiveButton
       {...props}
       bc="white"
-      color="red"
       hoverBc="lightgray"
       activeBc="lightgray"
     />
@@ -86,6 +85,12 @@ const StyledButton = styled.button<StyledButtonProps>`
           height: 50px;
           width: 200px;
         `;
+      case "sLarge":
+        return css`
+          height: 40px;
+          width: 180px;
+        `;
+
       case "medium":
         return css`
           height: 75px;
@@ -103,9 +108,10 @@ const StyledButton = styled.button<StyledButtonProps>`
         `;
     }
   }}
-  ${({ outlined, borderColor, color = "red" }) => {
+  ${({ outlined, borderColor, color }) => {
     if (outlined) {
       return css`
+        color: color;
         border: 1px solid ${borderColor};
         background-color: #fff;
         font-weight: 600;
@@ -113,7 +119,7 @@ const StyledButton = styled.button<StyledButtonProps>`
           background-color: #fff;
         }
         &:active {
-          background-color: lightgray;
+          background-color: #fff;
         }
       `;
     }

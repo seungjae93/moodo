@@ -83,6 +83,7 @@ function MemberCard({ member }: UserListDataProps) {
             size="medium"
             fw="400"
             fs="18px"
+            color="red"
           >
             현재상태 <br />
             {approvedStatus}

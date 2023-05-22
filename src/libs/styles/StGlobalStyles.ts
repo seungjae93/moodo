@@ -54,6 +54,15 @@ table {
 }
 body {
   font-family: 'Source Sans Pro', sans-serif;
+  overflow-y: scroll;
+    overflow-x: hidden;
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 5px;
+      background: #ccc;
+    }
 }
 a {
   text-decoration : none;
