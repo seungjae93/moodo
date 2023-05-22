@@ -66,16 +66,6 @@ const SelectOption = styled(Select.Option)`
   :hover {
     background-color: #eee;
   }
-
-  :first-child {
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-  }
-
-  :last-child {
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
-  }
 `;
 
 const Wrapper = styled.div`
