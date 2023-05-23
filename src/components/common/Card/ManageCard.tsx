@@ -110,6 +110,7 @@ function ManageCard({ estate }: ManageCardProps) {
         <Button.Negative
           outlined
           borderColor="black"
+          color="red"
           size="medium"
           fw="400"
           fs="20px"

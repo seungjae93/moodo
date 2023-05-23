@@ -12,6 +12,7 @@ declare global {
 interface IPostCode {
   address: string;
   jibunAddress: string;
+  autoJibunAddress: string;
 }
 
 interface PostCodeProps {
@@ -24,13 +25,17 @@ export default function PostCode({ register }: PostCodeProps) {
       oncomplete: function (data: IPostCode) {
         (document.getElementById("addr") as HTMLInputElement).value =
           data.address;
-        (document.getElementById("jibun") as HTMLInputElement).value =
-          data.jibunAddress;
+
+        const jibunInput = document.getElementById("jibun") as HTMLInputElement;
         const address = (document.getElementById("addr") as HTMLInputElement)
           .value;
-        const addressOfJibun = (
-          document.getElementById("jibun") as HTMLInputElement
-        ).value;
+        let addressOfJibun = data.jibunAddress;
+
+        if (addressOfJibun === "") {
+          addressOfJibun = data?.autoJibunAddress;
+        }
+
+        jibunInput.value = addressOfJibun;
 
         register("address", { value: address });
         register("addressOfJibun", { value: addressOfJibun });
