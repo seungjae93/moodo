@@ -31,13 +31,16 @@ export const StRealEstate = {
     ${flex({ direction: "column", gap: "15px" })}
     width:870px;
     margin-top: 20px;
+    padding-bottom: 50px;
   `,
 
   Form: styled.form`
     width: 100%;
+
     .btnWrapper {
       ${flex({})}
       margin-top: 15px;
+      padding-bottom: 50px;
     }
   `,
 
@@ -120,10 +123,11 @@ export const StRealEstate = {
     .photoWrap {
       ${flex({ justify: "", gap: "10px" })}
       flex-wrap: wrap;
-      width: 600px;
+      width: 100%;
       height: 250px;
       padding: 20px;
     }
+
     .photoLabel {
       ${flex({})}
       width: 70px;
