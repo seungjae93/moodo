@@ -72,7 +72,7 @@ const StMoodoMap = {
     height: 100%;
   `,
   CardBox: styled.div`
-    ${flex({ align: "flex-start", gap: "10px" })}
+    ${flex({ align: "flex-start", gap: "12px" })}
     padding-bottom:10px;
     margin: 30px 10px 95px 10px;
     width: 100%;

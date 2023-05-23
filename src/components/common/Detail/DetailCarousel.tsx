@@ -38,13 +38,13 @@ function DetailCarousel({ imageGroup }: any) {
   };
   return (
     <StDetailCarousel.StSlider {...Settings}>
-      {/* {imageGroup?.map((el, index) => {
+      {imageGroup?.map((el: any) => {
         return (
-          <div key={index}>
-            <StDetailCarousel.Img alt="img" src={el} />
+          <div key={el.imgOfPropertyId}>
+            <StDetailCarousel.Img alt="img" src={el.imgOfUrl} />
           </div>
         );
-      })} */}
+      })}
     </StDetailCarousel.StSlider>
   );
 }
@@ -56,28 +56,19 @@ const StDetailCarousel = {
     width: 30px;
     height: 30px;
     position: absolute;
-    right: 16px;
-    z-index: 99;
   `,
   RightDiv: styled.div`
     width: 30px;
     height: 30px;
     position: absolute;
-    right: 16px;
-    z-index: 99;
   `,
   StSlider: styled(Slider)`
-    width: 100%;
-    height: 500%;
     .slick-prev::before,
     .slick-next::before {
       opacity: 0;
       display: none;
     }
-    .slick-track {
-      width: 600px;
-      height: 600px;
-    }
+
     .slick-slide div {
       cursor: pointer;
     }

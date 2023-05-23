@@ -44,10 +44,10 @@ export default EstateCard;
 
 const StEstateCard = {
   Wrapper: styled.div`
-    ${flex({ justify: "", direction: "column", align: "", gap: "3px" })}
+    ${flex({ justify: "", direction: "column", align: "", gap: "5px" })}
     cursor: pointer;
     background-color: white;
-    width: 200px;
+    width: 195px;
     height: 345px;
     border: 0px solid black;
     border-radius: 10px;

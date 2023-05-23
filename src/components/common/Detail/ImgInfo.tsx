@@ -6,6 +6,7 @@ import palette from "../../../libs/styles/palette";
 import Button from "../Button/Button";
 import { EstateDetailData } from "../../../typings/DetailData/detail.type";
 import DetailCarousel from "./DetailCarousel";
+import { CgClose } from "react-icons/cg";
 interface StImgProps {
   isLarge?: boolean;
   isMore?: boolean;
@@ -17,27 +18,59 @@ interface ImgInfoProps {
 
 function ImgInfo({ estateDetail }: ImgInfoProps) {
   const [imageModal, setImageModal] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const imageGroup = estateDetail?.imgs;
   const visibleImageGroup = imageGroup?.slice(0, 5);
-  const onImageModal = (el: any) => {
-    setImageModal(el);
+
+  const onImageModal = (el: any, index: number) => {
+    setImageModal(true);
+    setCurrentImageIndex(index);
   };
+  const onImageModalClose = () => {
+    setImageModal(false);
+  };
+
+  //클릭한 이미지 DetailCarousel에서 보여주기
+  const rearrangedImageGroup = imageGroup
+    ? [
+        imageGroup[currentImageIndex],
+        ...imageGroup.slice(0, currentImageIndex),
+        ...imageGroup.slice(currentImageIndex + 1),
+      ]
+    : [];
   return (
     <StDetail.ImgInfoWrapper>
       <StDetail.ImgWrapper>
         <StDetail.ImgBox>
-          {imageGroup && <StImg src={imageGroup[0]?.imgOfUrl} isLarge />}
-          {visibleImageGroup?.slice(1).map((el) => (
+          {imageGroup && (
+            <StImg
+              src={imageGroup[0]?.imgOfUrl}
+              isLarge
+              onClick={() => onImageModal(imageGroup, 0)}
+            />
+          )}
+          {visibleImageGroup?.slice(1).map((el, index) => (
             <StImg
               key={el?.imgOfPropertyId}
               src={el?.imgOfUrl}
-              onClick={() => onImageModal(el)}
+              onClick={() => onImageModal(imageGroup, index + 1)}
             />
           ))}
           {imageModal && (
             <ModalBackdrop>
               <StimageDetail>
-                <DetailCarousel imageUrl={imageGroup} />
+                <DetailCarousel imageGroup={rearrangedImageGroup} />
+                <CgClose
+                  style={{
+                    color: "2d2d2d",
+                    position: "absolute",
+                    width: "25px",
+                    height: "25px",
+                    right: "10px",
+                    top: "10px",
+                  }}
+                  onClick={onImageModalClose}
+                />
               </StimageDetail>
             </ModalBackdrop>
           )}
