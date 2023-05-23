@@ -154,6 +154,7 @@ function RealEstateListing() {
     register,
     watch,
     handleSubmit,
+    setValue,
     formState: { isSubmitting, isDirty, errors },
   } = useForm<RealEstateForm>({
     mode: "onChange",
@@ -207,10 +208,8 @@ function RealEstateListing() {
   }, [images]);
 
   //images dnd
-
   const onDragEnd = ({ destination, source }: DropResult) => {
     // 드래그 앤 드롭 종료 시 실행되는 콜백 함수
-
     if (!destination) {
       return;
     }
@@ -255,6 +254,7 @@ function RealEstateListing() {
         formData.append("images", file);
       }
     }
+
     mutate(formData);
   };
   return (

@@ -43,6 +43,7 @@ function MapContainer({ searchValue }: MapContainerProps) {
     {
       onSuccess: (data) => {
         // 서버로부터의 응답을 처리합니다.
+        console.log(data);
         const response = data?.mapList?.dongList;
         setResponseData(response);
       },
@@ -52,6 +53,7 @@ function MapContainer({ searchValue }: MapContainerProps) {
       },
     }
   );
+
   const customOverlayDong = () => {
     if (!responseData) return null;
     if (zoomLevel < 4) return null;
@@ -62,7 +64,7 @@ function MapContainer({ searchValue }: MapContainerProps) {
               return (
                 <CustomOverlayMap
                   key={el.id}
-                  position={{ lat: Number(el?.lng), lng: Number(el?.lat) }}
+                  position={{ lat: Number(el?.lat), lng: Number(el?.lng) }}
                 >
                   <div
                     className="label"
@@ -133,7 +135,7 @@ function MapContainer({ searchValue }: MapContainerProps) {
       style={{ width: "100%", height: "100%" }}
       isPanto={true}
       level={6}
-      maxLevel={8}
+      maxLevel={10}
       ref={mapRef}
       onZoomChanged={(map) => setZoomLevel(map.getLevel())}
       onDragEnd={(map) => {
