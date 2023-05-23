@@ -5,6 +5,7 @@ import { debounce } from "lodash";
 
 import { mapApi } from "../../../apis/axios";
 import useUser from "../../../hooks/useUser";
+import { number } from "prop-types";
 
 interface MapContainerProps {
   searchValue: string;
@@ -25,6 +26,7 @@ function MapContainer({ searchValue }: MapContainerProps) {
     // 지도의 초기 위치
     center: { lat: 37.5472661928352, lng: 127.068276018078 },
   });
+
   const mapRef = useRef<kakao.maps.Map | null>(null);
   const markerRef = useRef(null);
   //지도 레벨
@@ -41,7 +43,6 @@ function MapContainer({ searchValue }: MapContainerProps) {
     {
       onSuccess: (data) => {
         // 서버로부터의 응답을 처리합니다.
-        console.log(data);
         const response = data?.mapList?.dongList;
         setResponseData(response);
       },
@@ -51,7 +52,36 @@ function MapContainer({ searchValue }: MapContainerProps) {
       },
     }
   );
-  // console.log(responseData);
+  const customOverlayDong = () => {
+    if (!responseData) return null;
+    if (zoomLevel < 4) return null;
+    return (
+      <>
+        {zoomLevel > 3
+          ? responseData?.map((el: any) => {
+              return (
+                <CustomOverlayMap
+                  key={el.id}
+                  position={{ lat: Number(el?.lng), lng: Number(el?.lat) }}
+                >
+                  <div
+                    className="label"
+                    style={{
+                      color: "#000",
+                      fontWeight: "bold",
+                      fontSize: "20px",
+                      backgroundColor: "red",
+                    }}
+                  >
+                    <span className="center">{el.nameOfDong}</span>
+                  </div>
+                </CustomOverlayMap>
+              );
+            })
+          : null}
+      </>
+    );
+  };
   // const { data }: { data?: any } = useQuery(
   //   ["mapEstateList", userId],
   //   () => mapApi.post(userId as string),
@@ -137,32 +167,7 @@ function MapContainer({ searchValue }: MapContainerProps) {
         mutation.mutate(coordinates);
       }, 600)}
     >
-      {responseData &&
-        responseData?.map((el: any) => {
-          return (
-            <CustomOverlayMap // 커스텀 오버레이를 표시할 Container
-              // 커스텀 오버레이가 표시될 위치입니다
-              key={el.id}
-              position={{
-                lat: el?.lat,
-                lng: el?.lng,
-              }}
-            >
-              {/* 커스텀 오버레이에 표시할 내용입니다 */}
-              <div
-                className="label"
-                style={{
-                  color: "#000",
-                  fontWeight: "bold",
-                  fontSize: "20px",
-                  backgroundColor: "red",
-                }}
-              >
-                <span className="center">{el.nameOfDong}</span>
-              </div>
-            </CustomOverlayMap>
-          );
-        })}
+      {customOverlayDong()}
     </Map>
   );
 }
