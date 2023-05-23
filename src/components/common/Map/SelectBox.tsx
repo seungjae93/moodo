@@ -70,9 +70,9 @@ const SelectOption = styled(Select.Option)`
 
 const Wrapper = styled.div`
   width: 600px;
-  height: 450px;
+  /* height: 450px; */
   overflow: hidden;
   position: relative;
   z-index: 100px;
-  padding-top: 208px;
+  /* padding-top: 208px; */
 `;
