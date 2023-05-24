@@ -1,5 +1,6 @@
 export interface EstateDetailData {
   addressOfProperty?: string;
+  addressOfJibun?: string;
   deposit?: string;
   detail?: string;
   dong?: string;

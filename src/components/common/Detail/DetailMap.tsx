@@ -17,11 +17,12 @@ function DetailMap({ estateDetail }: DetailMapProps) {
   const lng = Number(estateDetail.lng);
   const location = { center: { lat, lng } };
   const marker = { position: { lat, lng } };
+  console.log(estateDetail);
   return (
     <>
       <StDetail.Title>
         상세 위치{" "}
-        <span style={{ fontSize: "18px" }}>서울특별시 강남구 서초동</span>
+        <span style={{ fontSize: "16px" }}>{estateDetail?.addressOfJibun}</span>
       </StDetail.Title>
       <StDetail.Map>
         <StaticMap

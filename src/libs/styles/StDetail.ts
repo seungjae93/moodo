@@ -5,6 +5,7 @@ import palette from "./palette";
 
 export const StDetail = {
   Title: styled.div`
+    ${flex({ justify: "space-between" })}
     width: 100%;
     padding: 0 20px 20px 0;
     font-weight: 700;
