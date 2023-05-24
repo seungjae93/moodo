@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 
 import MapContainer from "../components/common/Map/MapContainer";
 import Search from "../components/common/Map/Search";
@@ -9,12 +8,47 @@ import SelectBox from "../components/common/Map/SelectBox";
 import CardProfile from "../components/common/Map/EstateDetail/CardProfile";
 import EstateCard from "../components/common/Map/EstateDetail/EstateCard";
 
+interface MapListData {
+  addressOfJibun: string;
+  addressOfProperty: string;
+  deposit: string;
+  detail: string;
+  dong: string;
+  elevator: string;
+  estateId: number;
+  userId: string;
+  typeOfProperty: string;
+  transactionType: string;
+  monthly: string;
+  price: string;
+  maintenanceCost: string;
+  moveInDate: string;
+  moveInDateInput: string;
+  supplyArea: string;
+  exclusiveArea: string;
+  numOfRoom: string;
+  numOfBath: string;
+  lowestFloor: string;
+  highestFloor: string;
+  numOfFloor: string;
+  floor: string;
+  parking: string;
+  pet: string;
+  options: string;
+  lat: string;
+  lng: string;
+}
+
 function MoodoMap() {
-  const userId = useParams().id;
-  const [searchValue, setSearchValue] = useState<string>("");
+  const [searchValue, setSearchValue] = useState("");
+  const [mapData, setMapData] = useState<MapListData[] | null>(null);
 
   const handleSearch = (value: string) => {
     setSearchValue(value);
+  };
+  const handleDataReceived = (data: any) => {
+    setMapData(data);
+    // 받은 데이터를 활용하여 작업을 수행합니다.
   };
 
   return (
@@ -25,13 +59,17 @@ function MoodoMap() {
       </StMoodoMap.searchBox>
       <StMoodoMap.ContentWrapper>
         <StMoodoMap.Map>
-          <MapContainer searchValue={searchValue} />
+          <MapContainer
+            searchValue={searchValue}
+            onDataReceived={handleDataReceived}
+          />
         </StMoodoMap.Map>
         <StMoodoMap.EstateCard>
           <CardProfile />
           <StMoodoMap.CardBox>
-            <EstateCard />
-            <EstateCard />
+            {mapData?.map((estate) => {
+              return <EstateCard key={estate?.estateId} estate={estate} />;
+            })}
           </StMoodoMap.CardBox>
         </StMoodoMap.EstateCard>
       </StMoodoMap.ContentWrapper>
