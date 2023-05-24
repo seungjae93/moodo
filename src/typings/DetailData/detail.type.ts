@@ -1,5 +1,6 @@
 export interface EstateDetailData {
   addressOfProperty?: string;
+  addressOfJibun?: string;
   deposit?: string;
   detail?: string;
   dong?: string;
@@ -25,6 +26,8 @@ export interface EstateDetailData {
   transactionType?: string;
   typeOfProperty?: string;
   userId?: string;
+  lat?: string;
+  lng?: string;
 }
 
 export interface ImageData {

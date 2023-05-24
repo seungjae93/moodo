@@ -160,6 +160,7 @@ const StEstateCard = {
     ${flex({ justify: "", gap: "10px", direction: "column", align: "" })}
     padding: 10px;
     margin-bottom: 10px;
+    height: 124px;
   `,
   Image: styled.img`
     width: 100%;

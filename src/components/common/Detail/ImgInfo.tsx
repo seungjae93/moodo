@@ -21,7 +21,6 @@ function ImgInfo({ estateDetail }: ImgInfoProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const imageGroup = estateDetail?.imgs;
   const visibleImageGroup = imageGroup?.slice(0, 5);
-
   const onImageModal = (el: any, index: number) => {
     setImageModal(true);
     setCurrentImageIndex(index);
@@ -121,9 +120,10 @@ function ImgInfo({ estateDetail }: ImgInfoProps) {
             padding: "0px 0px 10px 0px",
           }}
         >
-          {estateDetail?.typeOfProperty === "아파트"
+          {/* {estateDetail?.typeOfProperty === "아파트"
             ? `${estateDetail?.addressOfProperty} ${estateDetail?.dong}동`
-            : estateDetail?.addressOfProperty}
+            : estateDetail?.addressOfProperty} */}
+          {estateDetail?.addressOfProperty}
         </div>
         <div
           style={{
