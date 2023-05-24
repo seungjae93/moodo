@@ -3,26 +3,104 @@ import styled from "styled-components";
 import flex from "../../../../libs/styles/utilFlex";
 import palette from "../../../../libs/styles/palette";
 import Button from "../../Button/Button";
-
-function EstateCard() {
+import useEstateList from "../../../../hooks/useEstateList";
+interface MapListData {
+  addressOfJibun: string;
+  addressOfProperty: string;
+  deposit: string;
+  detail: string;
+  dong: string;
+  elevator: string;
+  estateId: number;
+  userId: string;
+  typeOfProperty: string;
+  transactionType: string;
+  monthly: string;
+  price: string;
+  maintenanceCost: string;
+  moveInDate: string;
+  moveInDateInput: string;
+  supplyArea: string;
+  exclusiveArea: string;
+  numOfRoom: string;
+  numOfBath: string;
+  lowestFloor: string;
+  highestFloor: string;
+  numOfFloor: string;
+  floor: string;
+  parking: string;
+  pet: string;
+  options: string;
+  lat: string;
+  lng: string;
+}
+interface EstateCardProps {
+  estate: MapListData;
+}
+function EstateCard({ estate }: EstateCardProps) {
+  const { estateList } = useEstateList();
+  const estateId = estate?.estateId;
+  const imgUrls = estateList
+    ?.map((estate) => estate.imgs.map((img) => img.imgOfUrl))
+    .flat();
+  const openNewWindow = () => {
+    window.open(`http://localhost:3000/realEstateManage/${estateId}`, "_blank");
+  };
   return (
-    <StEstateCard.Wrapper>
+    <StEstateCard.Wrapper onClick={openNewWindow}>
       <div className="image">
-        <StEstateCard.Image src="https://t1.daumcdn.net/cfile/tistory/24283C3858F778CA2E" />
-        <span className="transactionTypes">전세</span>
+        {imgUrls && imgUrls.length > 0 && (
+          <StEstateCard.Image src={imgUrls[0]} />
+        )}
+        <span className="transactionTypes">{estate?.transactionType}</span>
       </div>
       <StEstateCard.ContentBox>
-        <StEstateCard.Title>이클립스 부동산</StEstateCard.Title>
-        <StEstateCard.Content>
-          보증금: <span style={{ fontWeight: "bold" }}>8억</span>
-        </StEstateCard.Content>
-        <StEstateCard.Content>
-          월세: <span style={{ fontWeight: "bold" }}>200만원</span>
-        </StEstateCard.Content>
-        <StEstateCard.Content>
-          방 3개 | 화장실 2개 | 81.2m²
-        </StEstateCard.Content>
-        <StEstateCard.Content>서울시 성동구 금호동2가 1</StEstateCard.Content>
+        <StEstateCard.Title>{estate?.typeOfProperty}</StEstateCard.Title>
+
+        {estate?.transactionType === "매매" ? (
+          <>
+            <StEstateCard.Content>
+              매매가:{" "}
+              <span style={{ fontWeight: "bold" }}>{estate?.price}억</span>
+            </StEstateCard.Content>
+          </>
+        ) : estate?.transactionType === "월세" ? (
+          <>
+            <StEstateCard.Content>
+              보증금:{" "}
+              <span style={{ fontWeight: "bold" }}>{estate?.deposit}만원</span>
+            </StEstateCard.Content>
+            <StEstateCard.Content>
+              월세:{" "}
+              <span style={{ fontWeight: "bold" }}>{estate?.monthly}만원</span>
+            </StEstateCard.Content>
+          </>
+        ) : estate?.transactionType === "전세" ? (
+          <>
+            <StEstateCard.Content>
+              보증금:{" "}
+              <span style={{ fontWeight: "bold" }}>{estate?.deposit}만원</span>
+            </StEstateCard.Content>
+          </>
+        ) : null}
+        {estate?.typeOfProperty === "상가/사무실" ? (
+          <StEstateCard.Content>{estate?.exclusiveArea}m²</StEstateCard.Content>
+        ) : estate?.typeOfProperty === "건물" ? (
+          <>
+            <StEstateCard.Content>{estate?.detail}m²</StEstateCard.Content>
+            <StEstateCard.Content>
+              {estate?.supplyArea}/{estate?.exclusiveArea}m² ,{" "}
+              {estate?.lowestFloor}/{estate?.highestFloor}층
+            </StEstateCard.Content>
+          </>
+        ) : (
+          <StEstateCard.Content>
+            방 {estate?.numOfRoom}개 | 화장실 {estate?.numOfBath}개 |{" "}
+            {estate?.exclusiveArea}m²
+          </StEstateCard.Content>
+        )}
+
+        <StEstateCard.Content>{estate?.addressOfProperty}</StEstateCard.Content>
       </StEstateCard.ContentBox>
       <div className="btnBox">
         <Button.Negative
@@ -33,7 +111,9 @@ function EstateCard() {
           fs="12px"
           size="sLarge"
         >
-          즉시 입주가능
+          {estate?.moveInDate === "날짜 설정"
+            ? estate?.moveInDateInput
+            : estate?.moveInDate}
         </Button.Negative>
       </div>
     </StEstateCard.Wrapper>
@@ -62,8 +142,8 @@ const StEstateCard = {
       position: absolute;
       top: 5%;
       left: 5%;
-      background-color: white;
-      color: black;
+      background-color: ${palette.cyan[5]};
+      color: white;
       padding: 5px;
       border-radius: 5px;
       font-size: 12px;

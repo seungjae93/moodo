@@ -9,7 +9,9 @@ interface ApiResponse {
 }
 export default function useEstateDetail() {
   const estateId = useParams().id as string;
-  const { data, isLoading }: { data?: ApiResponse; isLoading: boolean } =
-    useQuery(["estateDetail", estateId], () => estateApi.get(estateId));
+  const { data }: { data?: ApiResponse; isLoading: boolean } = useQuery(
+    ["estateDetail", estateId],
+    () => estateApi.get(estateId)
+  );
   return { estateDetail: data?.estate };
 }

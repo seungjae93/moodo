@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { debounce } from "lodash";
 
 import { mapApi } from "../../../apis/axios";
@@ -9,6 +9,7 @@ import { number } from "prop-types";
 
 interface MapContainerProps {
   searchValue: string;
+  onDataReceived: (data: any) => void;
 }
 
 interface Coordinates {
@@ -19,7 +20,7 @@ interface Coordinates {
 
 const { kakao } = window;
 
-function MapContainer({ searchValue }: MapContainerProps) {
+function MapContainer({ searchValue, onDataReceived }: MapContainerProps) {
   const { user } = useUser();
   const userId = user?.userId;
   const [location, setLocation] = useState({
@@ -33,7 +34,7 @@ function MapContainer({ searchValue }: MapContainerProps) {
   const [zoomLevel, setZoomLevel] = useState(6);
 
   //서버에서 받은 response
-  const [responseData, setResponseData] = useState<any>(null);
+  const [dongListData, setDongListData] = useState<any>(null);
 
   //마커 좌표
   const [markerArray, setMarkerArray] = useState([]);
@@ -42,25 +43,25 @@ function MapContainer({ searchValue }: MapContainerProps) {
     (coordinates) => mapApi.post(userId as string, coordinates),
     {
       onSuccess: (data) => {
-        // 서버로부터의 응답을 처리합니다.
-        console.log(data);
-        const response = data?.mapList?.dongList;
-        setResponseData(response);
+        const dongList = data?.mapList?.dongList;
+        const mapList = data?.mapList?.mapList;
+
+        setDongListData(dongList);
+        onDataReceived(mapList);
       },
       onError: (error) => {
-        // 서버로부터의 에러 응답을 처리합니다.
-        console.error("변이 에러", error);
+        console.error(error);
       },
     }
   );
 
   const customOverlayDong = () => {
-    if (!responseData) return null;
+    if (!dongListData) return null;
     if (zoomLevel < 4) return null;
     return (
       <>
         {zoomLevel > 3
-          ? responseData?.map((el: any) => {
+          ? dongListData?.map((el: any) => {
               return (
                 <CustomOverlayMap
                   key={el.id}
@@ -84,16 +85,6 @@ function MapContainer({ searchValue }: MapContainerProps) {
       </>
     );
   };
-  // const { data }: { data?: any } = useQuery(
-  //   ["mapEstateList", userId],
-  //   () => mapApi.post(userId as string),
-  //   {
-  //     onError: (error) => {
-  //       console.error(error);
-  //     },
-  //   }
-  // );
-  // console.log(data);
 
   //장소 검색 객체 생성
   useEffect(() => {
