@@ -28,7 +28,7 @@ const StRealEstateDetail = {
     ${flex({ justify: "", direction: "column" })}
     width: 1028px;
     padding-top: 50px;
-    height: 190vh;
+    height: 235vh;
     margin: auto;
   `,
 };
