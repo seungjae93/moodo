@@ -4,7 +4,6 @@ import MapContainer from "../components/common/Map/MapContainer";
 import Search from "../components/common/Map/Search";
 import styled from "styled-components";
 import flex from "../libs/styles/utilFlex";
-import SelectBox from "../components/common/Map/SelectBox";
 import CardProfile from "../components/common/Map/EstateDetail/CardProfile";
 import EstateCard from "../components/common/Map/EstateDetail/EstateCard";
 
@@ -48,14 +47,12 @@ function MoodoMap() {
   };
   const handleDataReceived = (data: any) => {
     setMapData(data);
-    // 받은 데이터를 활용하여 작업을 수행합니다.
   };
-
+  console.log(mapData);
   return (
     <StMoodoMap.Wrapper>
       <StMoodoMap.searchBox>
         <Search onSearch={handleSearch} />
-        <SelectBox />
       </StMoodoMap.searchBox>
       <StMoodoMap.ContentWrapper>
         <StMoodoMap.Map>
@@ -67,9 +64,10 @@ function MoodoMap() {
         <StMoodoMap.EstateCard>
           <CardProfile />
           <StMoodoMap.CardBox>
-            {mapData?.map((estate) => {
-              return <EstateCard key={estate?.estateId} estate={estate} />;
-            })}
+            {Array.isArray(mapData) &&
+              mapData?.map((estate) => {
+                return <EstateCard key={estate?.estateId} estate={estate} />;
+              })}
           </StMoodoMap.CardBox>
         </StMoodoMap.EstateCard>
       </StMoodoMap.ContentWrapper>
