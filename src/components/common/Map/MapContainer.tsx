@@ -5,7 +5,6 @@ import { debounce } from "lodash";
 
 import { mapApi } from "../../../apis/axios";
 import useUser from "../../../hooks/useUser";
-import { number } from "prop-types";
 
 interface MapContainerProps {
   searchValue: string;
@@ -44,7 +43,7 @@ function MapContainer({ searchValue, onDataReceived }: MapContainerProps) {
     {
       onSuccess: (data) => {
         const dongList = data?.mapList?.dongList;
-        const mapList = data?.mapList?.mapList;
+        const mapList = zoomLevel < 4 ? data?.mapList : data?.mapList?.mapList;
 
         setDongListData(dongList);
         onDataReceived(mapList);
@@ -54,7 +53,6 @@ function MapContainer({ searchValue, onDataReceived }: MapContainerProps) {
       },
     }
   );
-
   const customOverlayDong = () => {
     if (!dongListData) return null;
     if (zoomLevel < 4) return null;
@@ -121,47 +119,49 @@ function MapContainer({ searchValue, onDataReceived }: MapContainerProps) {
   }, [location]);
 
   return (
-    <Map
-      center={location.center}
-      style={{ width: "100%", height: "100%" }}
-      isPanto={true}
-      level={6}
-      maxLevel={10}
-      ref={mapRef}
-      onZoomChanged={(map) => setZoomLevel(map.getLevel())}
-      onDragEnd={(map) => {
-        const coordinates: Coordinates = {
-          swLatLng: {
-            lat: map.getBounds().getSouthWest().getLat(),
-            lng: map.getBounds().getSouthWest().getLng(),
-          },
-          neLatLng: {
-            lat: map.getBounds().getNorthEast().getLat(),
-            lng: map.getBounds().getNorthEast().getLng(),
-          },
-          zoomLevel: map.getLevel(),
-        };
+    <>
+      <Map
+        center={location.center}
+        style={{ width: "100%", height: "100%" }}
+        isPanto={true}
+        level={6}
+        maxLevel={10}
+        ref={mapRef}
+        onZoomChanged={(map) => setZoomLevel(map.getLevel())}
+        onDragEnd={(map) => {
+          const coordinates: Coordinates = {
+            swLatLng: {
+              lat: map.getBounds().getSouthWest().getLat(),
+              lng: map.getBounds().getSouthWest().getLng(),
+            },
+            neLatLng: {
+              lat: map.getBounds().getNorthEast().getLat(),
+              lng: map.getBounds().getNorthEast().getLng(),
+            },
+            zoomLevel: map.getLevel(),
+          };
 
-        mutation.mutate(coordinates);
-      }}
-      onBoundsChanged={debounce((map) => {
-        const coordinates: Coordinates = {
-          swLatLng: {
-            lat: map.getBounds().getSouthWest().getLat(),
-            lng: map.getBounds().getSouthWest().getLng(),
-          },
-          neLatLng: {
-            lat: map.getBounds().getNorthEast().getLat(),
-            lng: map.getBounds().getNorthEast().getLng(),
-          },
-          zoomLevel: map.getLevel(),
-        };
+          mutation.mutate(coordinates);
+        }}
+        onBoundsChanged={debounce((map) => {
+          const coordinates: Coordinates = {
+            swLatLng: {
+              lat: map.getBounds().getSouthWest().getLat(),
+              lng: map.getBounds().getSouthWest().getLng(),
+            },
+            neLatLng: {
+              lat: map.getBounds().getNorthEast().getLat(),
+              lng: map.getBounds().getNorthEast().getLng(),
+            },
+            zoomLevel: map.getLevel(),
+          };
 
-        mutation.mutate(coordinates);
-      }, 600)}
-    >
-      {customOverlayDong()}
-    </Map>
+          mutation.mutate(coordinates);
+        }, 600)}
+      >
+        {customOverlayDong()}
+      </Map>
+    </>
   );
 }
 
