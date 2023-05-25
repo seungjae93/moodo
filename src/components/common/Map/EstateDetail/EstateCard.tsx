@@ -38,6 +38,7 @@ interface EstateCardProps {
   estate: MapListData;
 }
 function EstateCard({ estate }: EstateCardProps) {
+  console.log(estate);
   const { estateList } = useEstateList();
   const estateId = estate?.estateId;
   const imgUrls = estateList
