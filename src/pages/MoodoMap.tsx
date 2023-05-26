@@ -54,8 +54,10 @@ function MoodoMap() {
     setMapData(data);
   };
   const handlePropertyTypeChange = (propertyType: string) => {
-    if (propertyType === "매물 종류") {
-      setSelectedPropertyType(propertyType);
+    setSelectedPropertyType(propertyType);
+
+    // 선택된 속성 유형에 따라 거래 유형 초기화
+    if (propertyType !== "매물 종류") {
       setSelectedDealType("거래 유형");
     }
   };
@@ -66,26 +68,25 @@ function MoodoMap() {
 
   useEffect(() => {
     // 필터링 로직
-    const filteredList = mapData.filter((estate) => {
-      if (
-        selectedPropertyType === "매물 종류" ||
-        estate.typeOfProperty === selectedPropertyType
-      ) {
-        if (
-          selectedDealType === "거래 유형" ||
-          estate.transactionType === selectedDealType
-        ) {
-          return true;
-        }
-      }
-      return false;
-    });
+    const filteredList = Array.isArray(mapData)
+      ? mapData.filter((estate) => {
+          if (
+            selectedPropertyType === "매물 종류" ||
+            estate.typeOfProperty === selectedPropertyType
+          ) {
+            if (
+              selectedDealType === "거래 유형" ||
+              estate.transactionType === selectedDealType
+            ) {
+              return true;
+            }
+          }
+          return false;
+        })
+      : [];
     setFilteredMapList(filteredList);
   }, [selectedPropertyType, selectedDealType, mapData]);
 
-  console.log("selectedPropertyType", selectedPropertyType);
-  console.log("selectedDealType", selectedDealType);
-  console.log("filteredMapList", filteredMapList);
   return (
     <StMoodoMap.Wrapper>
       <StMoodoMap.searchBox>

@@ -14,6 +14,10 @@ function SelectBox({ onPropertyTypeChange, onDealTypeChange }: SelectBoxProps) {
     if (propertyType === "매물 종류") {
       setDealType("거래 유형");
     }
+
+    if (propertyType !== "매물 종류") {
+      setDealType("거래 유형");
+    }
   }, [propertyType]);
 
   const handlePropertyTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
