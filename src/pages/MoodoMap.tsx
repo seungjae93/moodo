@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import MapContainer from "../components/common/Map/MapContainer";
 import Search from "../components/common/Map/Search";
@@ -6,6 +6,7 @@ import styled from "styled-components";
 import flex from "../libs/styles/utilFlex";
 import CardProfile from "../components/common/Map/EstateDetail/CardProfile";
 import EstateCard from "../components/common/Map/EstateDetail/EstateCard";
+import SelectBox from "../components/common/Map/SelectBox";
 
 interface MapListData {
   addressOfJibun: string;
@@ -40,7 +41,11 @@ interface MapListData {
 
 function MoodoMap() {
   const [searchValue, setSearchValue] = useState("");
-  const [mapData, setMapData] = useState<MapListData[] | null>(null);
+  const [mapData, setMapData] = useState<MapListData[]>([]);
+  const [selectedPropertyType, setSelectedPropertyType] =
+    useState<string>("매물 종류");
+  const [selectedDealType, setSelectedDealType] = useState<string>("거래 유형");
+  const [filteredMapList, setFilteredMapList] = useState<MapListData[]>([]);
 
   const handleSearch = (value: string) => {
     setSearchValue(value);
@@ -48,11 +53,47 @@ function MoodoMap() {
   const handleDataReceived = (data: any) => {
     setMapData(data);
   };
-  console.log(mapData);
+  const handlePropertyTypeChange = (propertyType: string) => {
+    if (propertyType === "매물 종류") {
+      setSelectedPropertyType(propertyType);
+      setSelectedDealType("거래 유형");
+    }
+  };
+
+  const handleDealTypeChange = (dealType: string) => {
+    setSelectedDealType(dealType);
+  };
+
+  useEffect(() => {
+    // 필터링 로직
+    const filteredList = mapData.filter((estate) => {
+      if (
+        selectedPropertyType === "매물 종류" ||
+        estate.typeOfProperty === selectedPropertyType
+      ) {
+        if (
+          selectedDealType === "거래 유형" ||
+          estate.transactionType === selectedDealType
+        ) {
+          return true;
+        }
+      }
+      return false;
+    });
+    setFilteredMapList(filteredList);
+  }, [selectedPropertyType, selectedDealType, mapData]);
+
+  console.log("selectedPropertyType", selectedPropertyType);
+  console.log("selectedDealType", selectedDealType);
+  console.log("filteredMapList", filteredMapList);
   return (
     <StMoodoMap.Wrapper>
       <StMoodoMap.searchBox>
         <Search onSearch={handleSearch} />
+        <SelectBox
+          onPropertyTypeChange={handlePropertyTypeChange}
+          onDealTypeChange={handleDealTypeChange}
+        />
       </StMoodoMap.searchBox>
       <StMoodoMap.ContentWrapper>
         <StMoodoMap.Map>
@@ -64,10 +105,10 @@ function MoodoMap() {
         <StMoodoMap.EstateCard>
           <CardProfile />
           <StMoodoMap.CardBox>
-            {Array.isArray(mapData) &&
-              mapData?.map((estate) => {
-                return <EstateCard key={estate?.estateId} estate={estate} />;
-              })}
+            {Array.isArray(filteredMapList) &&
+              filteredMapList?.map((estate) => (
+                <EstateCard key={estate?.estateId} estate={estate} />
+              ))}
           </StMoodoMap.CardBox>
         </StMoodoMap.EstateCard>
       </StMoodoMap.ContentWrapper>

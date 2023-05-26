@@ -1,30 +1,66 @@
-import React, { ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import styled from "styled-components";
-import * as Select from "../Select/Select";
 
-function SelectBox() {
+interface SelectBoxProps {
+  onPropertyTypeChange: (propertyType: string) => void;
+  onDealTypeChange: (dealType: string) => void;
+}
+
+function SelectBox({ onPropertyTypeChange, onDealTypeChange }: SelectBoxProps) {
+  const [propertyType, setPropertyType] = useState<string>("매물 종류");
+  const [dealType, setDealType] = useState<string>("거래 유형");
+
+  useEffect(() => {
+    if (propertyType === "매물 종류") {
+      setDealType("거래 유형");
+    }
+  }, [propertyType]);
+
+  const handlePropertyTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const selectedPropertyType = e.currentTarget.value;
+    setPropertyType(selectedPropertyType);
+    onPropertyTypeChange(selectedPropertyType);
+  };
+  const handleDealTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const selectedDealType = e.currentTarget.value;
+    setDealType(selectedDealType);
+    onDealTypeChange(selectedDealType);
+  };
+  console.log("propertyType", propertyType);
+  console.log("dealType", dealType);
+  const propertyOption = [
+    { key: 1, value: "매물 종류" },
+    { key: 2, value: "원/투룸" },
+    { key: 3, value: "주택/빌라" },
+    { key: 4, value: "아파트" },
+    { key: 5, value: "상가/사무실" },
+    { key: 6, value: "건물" },
+  ];
+
+  const dealTypeOption = [
+    { key: 1, value: "거래 유형" },
+    { key: 2, value: "월세" },
+    { key: 3, value: "전세" },
+    { key: 4, value: "매매" },
+  ];
+
   return (
     <Wrapper>
       <div style={{ display: "flex", gap: "10px" }}>
-        <Select.Root>
-          <SelectTrigger>매물종류</SelectTrigger>
-          <SelectList>
-            <SelectOption value="1">원/투룸</SelectOption>
-            <SelectOption value="2">주택/빌라</SelectOption>
-            <SelectOption value="3">아파트</SelectOption>
-            <SelectOption value="4">상가/사무실</SelectOption>
-            <SelectOption value="5">건물</SelectOption>
-          </SelectList>
-        </Select.Root>
-
-        <Select.Root>
-          <SelectTrigger>거래유형</SelectTrigger>
-          <SelectList>
-            <SelectOption value="1">월세</SelectOption>
-            <SelectOption value="2">전세</SelectOption>
-            <SelectOption value="3">매매</SelectOption>
-          </SelectList>
-        </Select.Root>
+        <SelectList onChange={handlePropertyTypeChange} value={propertyType}>
+          {propertyOption?.map((item) => (
+            <SelectOption key={item.key} value={item.value}>
+              {item.value}
+            </SelectOption>
+          ))}
+        </SelectList>
+        <SelectList onChange={handleDealTypeChange} value={dealType}>
+          {dealTypeOption?.map((item) => (
+            <SelectOption key={item.key} value={item.value}>
+              {item.value}
+            </SelectOption>
+          ))}
+        </SelectList>
       </div>
     </Wrapper>
   );
@@ -32,36 +68,19 @@ function SelectBox() {
 
 export default SelectBox;
 
-const SelectTrigger = styled(Select.Trigger)`
-  border: 1px solid #ddd;
+const SelectList = styled.select`
+  border: 1px solid #eee;
+  background-color: #fff;
+  width: 200px;
   height: 40px;
-  width: 200px;
-  background-color: #fff;
 `;
 
-const SelectList = styled(Select.List)`
-  border: 1px solid #eee;
-  z-index: 100;
-  background-color: #fff;
-  width: 200px;
-  position: absolute;
-  top: 50px;
-`;
-const OverSelectList = styled(Select.List)`
-  border: 1px solid #eee;
-  z-index: 100;
-  background-color: #fff;
-  width: 200px;
-  position: absolute;
-  top: 40px;
-`;
-
-const SelectOption = styled(Select.Option)`
-  font-size: 12px;
+const SelectOption = styled.option`
+  font-size: 14px;
   display: flex;
   align-items: center;
   padding-left: 12px;
-  height: 40px;
+  height: 50px;
 
   :hover {
     background-color: #eee;
@@ -70,9 +89,4 @@ const SelectOption = styled(Select.Option)`
 
 const Wrapper = styled.div`
   width: 600px;
-  /* height: 450px; */
-  overflow: hidden;
-  position: relative;
-  z-index: 100px;
-  /* padding-top: 208px; */
 `;
