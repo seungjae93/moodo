@@ -119,49 +119,47 @@ function MapContainer({ searchValue, onDataReceived }: MapContainerProps) {
   }, [location]);
 
   return (
-    <>
-      <Map
-        center={location.center}
-        style={{ width: "100%", height: "100%" }}
-        isPanto={true}
-        level={6}
-        maxLevel={10}
-        ref={mapRef}
-        onZoomChanged={(map) => setZoomLevel(map.getLevel())}
-        onDragEnd={(map) => {
-          const coordinates: Coordinates = {
-            swLatLng: {
-              lat: map.getBounds().getSouthWest().getLat(),
-              lng: map.getBounds().getSouthWest().getLng(),
-            },
-            neLatLng: {
-              lat: map.getBounds().getNorthEast().getLat(),
-              lng: map.getBounds().getNorthEast().getLng(),
-            },
-            zoomLevel: map.getLevel(),
-          };
+    <Map
+      center={location.center}
+      style={{ width: "100%", height: "100%" }}
+      isPanto={true}
+      level={6}
+      maxLevel={10}
+      ref={mapRef}
+      onZoomChanged={(map) => setZoomLevel(map.getLevel())}
+      onDragEnd={(map) => {
+        const coordinates: Coordinates = {
+          swLatLng: {
+            lat: map.getBounds().getSouthWest().getLat(),
+            lng: map.getBounds().getSouthWest().getLng(),
+          },
+          neLatLng: {
+            lat: map.getBounds().getNorthEast().getLat(),
+            lng: map.getBounds().getNorthEast().getLng(),
+          },
+          zoomLevel: map.getLevel(),
+        };
 
-          mutation.mutate(coordinates);
-        }}
-        onBoundsChanged={debounce((map) => {
-          const coordinates: Coordinates = {
-            swLatLng: {
-              lat: map.getBounds().getSouthWest().getLat(),
-              lng: map.getBounds().getSouthWest().getLng(),
-            },
-            neLatLng: {
-              lat: map.getBounds().getNorthEast().getLat(),
-              lng: map.getBounds().getNorthEast().getLng(),
-            },
-            zoomLevel: map.getLevel(),
-          };
+        mutation.mutate(coordinates);
+      }}
+      onBoundsChanged={debounce((map) => {
+        const coordinates: Coordinates = {
+          swLatLng: {
+            lat: map.getBounds().getSouthWest().getLat(),
+            lng: map.getBounds().getSouthWest().getLng(),
+          },
+          neLatLng: {
+            lat: map.getBounds().getNorthEast().getLat(),
+            lng: map.getBounds().getNorthEast().getLng(),
+          },
+          zoomLevel: map.getLevel(),
+        };
 
-          mutation.mutate(coordinates);
-        }, 600)}
-      >
-        {customOverlayDong()}
-      </Map>
-    </>
+        mutation.mutate(coordinates);
+      }, 600)}
+    >
+      {customOverlayDong()}
+    </Map>
   );
 }
 
