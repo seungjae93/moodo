@@ -1,14 +1,48 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
+import styled from "styled-components";
 import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
 import { useMutation } from "@tanstack/react-query";
 import { debounce } from "lodash";
 
 import { mapApi } from "../../../apis/axios";
 import useUser from "../../../hooks/useUser";
+import clusterer from "../../../assets/clusterer.svg";
+import marker from "../../../assets/marker.svg";
 
+interface MapListData {
+  addressOfJibun: string;
+  addressOfProperty: string;
+  deposit: string;
+  detail: string;
+  dong: string;
+  elevator: string;
+  estateId: number;
+  userId: string;
+  typeOfProperty: string;
+  transactionType: string;
+  monthly: string;
+  price: string;
+  maintenanceCost: string;
+  moveInDate: string;
+  moveInDateInput: string;
+  supplyArea: string;
+  exclusiveArea: string;
+  numOfRoom: string;
+  numOfBath: string;
+  lowestFloor: string;
+  highestFloor: string;
+  numOfFloor: string;
+  floor: string;
+  parking: string;
+  pet: string;
+  options: string;
+  lat: string;
+  lng: string;
+}
 interface MapContainerProps {
   searchValue: string;
-  onDataReceived: (data: any) => void;
+  onDataReceived: (data: MapListData[]) => void;
+  filteredMapList: MapListData[];
 }
 
 interface Coordinates {
@@ -19,7 +53,11 @@ interface Coordinates {
 
 const { kakao } = window;
 
-function MapContainer({ searchValue, onDataReceived }: MapContainerProps) {
+function MapContainer({
+  searchValue,
+  onDataReceived,
+  filteredMapList,
+}: MapContainerProps) {
   const { user } = useUser();
   const userId = user?.userId;
   const [location, setLocation] = useState({
@@ -34,9 +72,6 @@ function MapContainer({ searchValue, onDataReceived }: MapContainerProps) {
 
   //서버에서 받은 response
   const [dongListData, setDongListData] = useState<any>(null);
-
-  //마커 좌표
-  const [markerArray, setMarkerArray] = useState([]);
 
   const mutation = useMutation<any, unknown, Coordinates>(
     (coordinates) => mapApi.post(userId as string, coordinates),
@@ -53,6 +88,7 @@ function MapContainer({ searchValue, onDataReceived }: MapContainerProps) {
       },
     }
   );
+  console.log(dongListData);
   const customOverlayDong = () => {
     if (!dongListData) return null;
     if (zoomLevel < 4) return null;
@@ -65,17 +101,11 @@ function MapContainer({ searchValue, onDataReceived }: MapContainerProps) {
                   key={el.id}
                   position={{ lat: Number(el?.lat), lng: Number(el?.lng) }}
                 >
-                  <div
-                    className="label"
-                    style={{
-                      color: "#000",
-                      fontWeight: "bold",
-                      fontSize: "20px",
-                      backgroundColor: "red",
-                    }}
-                  >
-                    <span className="center">{el.nameOfDong}</span>
-                  </div>
+                  <ClustererImg>
+                    <img src={clusterer} alt="clusterer" />
+                    <ClustererIndex>{el.numOfDong}</ClustererIndex>
+                    <ClustererText>{el.nameOfDong}</ClustererText>
+                  </ClustererImg>
                 </CustomOverlayMap>
               );
             })
@@ -118,6 +148,7 @@ function MapContainer({ searchValue, onDataReceived }: MapContainerProps) {
     mutation.mutate(coordinates);
   }, [location]);
 
+  console.log(filteredMapList);
   return (
     <Map
       center={location.center}
@@ -158,9 +189,49 @@ function MapContainer({ searchValue, onDataReceived }: MapContainerProps) {
         mutation.mutate(coordinates);
       }, 600)}
     >
+      {zoomLevel < 4 &&
+        filteredMapList?.map((el) => {
+          return (
+            <MapMarker
+              key={el.estateId}
+              position={{ lat: Number(el?.lat), lng: Number(el?.lng) }}
+              ref={markerRef}
+              image={{
+                src: marker,
+                size: {
+                  width: 50,
+                  height: 50,
+                },
+              }}
+            />
+          );
+        })}
       {customOverlayDong()}
     </Map>
   );
 }
 
 export default MapContainer;
+
+const ClustererImg = styled.div`
+  background-size: cover;
+  position: relative;
+`;
+const ClustererIndex = styled.div`
+  position: absolute;
+  top: 45%;
+  left: 18%;
+  transform: translate(-50%, -50%);
+  color: #515e00;
+  font-size: 12px;
+  font-weight: 600;
+`;
+const ClustererText = styled.div`
+  position: absolute;
+  top: 45%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 550;
+`;

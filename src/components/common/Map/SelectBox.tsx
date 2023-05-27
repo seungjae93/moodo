@@ -30,8 +30,7 @@ function SelectBox({ onPropertyTypeChange, onDealTypeChange }: SelectBoxProps) {
     setDealType(selectedDealType);
     onDealTypeChange(selectedDealType);
   };
-  console.log("propertyType", propertyType);
-  console.log("dealType", dealType);
+
   const propertyOption = [
     { key: 1, value: "매물 종류" },
     { key: 2, value: "원/투룸" },
