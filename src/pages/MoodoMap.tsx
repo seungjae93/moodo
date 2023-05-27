@@ -101,6 +101,7 @@ function MoodoMap() {
           <MapContainer
             searchValue={searchValue}
             onDataReceived={handleDataReceived}
+            filteredMapList={filteredMapList}
           />
         </StMoodoMap.Map>
         <StMoodoMap.EstateCard>
