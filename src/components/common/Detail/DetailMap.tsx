@@ -1,14 +1,9 @@
-import { useState, useEffect } from "react";
 import { StaticMap } from "react-kakao-maps-sdk";
 
 import { StDetail } from "../../../libs/styles/StDetail";
-import { EstateDetailData } from "../../../typings/DetailData/detail.type";
+import { DetailDataProps } from "../../../typings/DetailData/detail.type";
 
-interface DetailMapProps {
-  estateDetail?: EstateDetailData;
-}
-
-function DetailMap({ estateDetail }: DetailMapProps) {
+function DetailMap({ estateDetail }: DetailDataProps) {
   if (!estateDetail || !estateDetail.lat || !estateDetail.lng) {
     return null;
   }
@@ -17,7 +12,7 @@ function DetailMap({ estateDetail }: DetailMapProps) {
   const lng = Number(estateDetail.lng);
   const location = { center: { lat, lng } };
   const marker = { position: { lat, lng } };
-  console.log(estateDetail);
+
   return (
     <>
       <StDetail.Title>

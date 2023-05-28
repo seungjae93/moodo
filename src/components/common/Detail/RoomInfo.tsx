@@ -1,10 +1,7 @@
 import { StDetail } from "../../../libs/styles/StDetail";
-import { EstateDetailData } from "../../../typings/DetailData/detail.type";
+import { DetailDataProps } from "../../../typings/DetailData/detail.type";
 
-interface RoomInfoProps {
-  estateDetail?: EstateDetailData;
-}
-function RoomInfo({ estateDetail }: RoomInfoProps) {
+function RoomInfo({ estateDetail }: DetailDataProps) {
   return (
     <>
       <StDetail.Title>방 정보</StDetail.Title>

@@ -4,19 +4,14 @@ import styled, { css } from "styled-components";
 import { StDetail } from "../../../libs/styles/StDetail";
 import palette from "../../../libs/styles/palette";
 import Button from "../Button/Button";
-import { EstateDetailData } from "../../../typings/DetailData/detail.type";
+import {
+  StImgProps,
+  DetailDataProps,
+} from "../../../typings/DetailData/detail.type";
 import DetailCarousel from "./DetailCarousel";
 import { CgClose } from "react-icons/cg";
-interface StImgProps {
-  isLarge?: boolean;
-  isMore?: boolean;
-}
 
-interface ImgInfoProps {
-  estateDetail?: EstateDetailData;
-}
-
-function ImgInfo({ estateDetail }: ImgInfoProps) {
+function ImgInfo({ estateDetail }: DetailDataProps) {
   const [imageModal, setImageModal] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const imageGroup = estateDetail?.imgs;
@@ -120,9 +115,6 @@ function ImgInfo({ estateDetail }: ImgInfoProps) {
             padding: "0px 0px 10px 0px",
           }}
         >
-          {/* {estateDetail?.typeOfProperty === "아파트"
-            ? `${estateDetail?.addressOfProperty} ${estateDetail?.dong}동`
-            : estateDetail?.addressOfProperty} */}
           {estateDetail?.addressOfProperty}
         </div>
         <div
