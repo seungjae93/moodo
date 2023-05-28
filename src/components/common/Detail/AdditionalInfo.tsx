@@ -1,11 +1,8 @@
 import palette from "../../../libs/styles/palette";
 import { StDetail } from "../../../libs/styles/StDetail";
-import { EstateDetailData } from "../../../typings/DetailData/detail.type";
+import { DetailDataProps } from "../../../typings/DetailData/detail.type";
 
-interface AdditionalInfoProps {
-  estateDetail?: EstateDetailData;
-}
-function AdditionalInfo({ estateDetail }: AdditionalInfoProps) {
+function AdditionalInfo({ estateDetail }: DetailDataProps) {
   return (
     <>
       {estateDetail?.typeOfProperty === "원/투룸" ||

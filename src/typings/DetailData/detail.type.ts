@@ -1,10 +1,20 @@
+export interface StImgProps {
+  isLarge?: boolean;
+  isMore?: boolean;
+}
+
+export interface DetailDataProps {
+  estateDetail?: EstateDetailData;
+}
 export interface EstateDetailData {
+  userId?: string;
   addressOfProperty?: string;
   addressOfJibun?: string;
   deposit?: string;
   detail?: string;
   dong?: string;
   elevator?: string;
+  typeOfProperty?: string;
   estateId?: number;
   exclusiveArea?: string;
   floor?: string;
@@ -24,8 +34,6 @@ export interface EstateDetailData {
   price?: string;
   supplyArea?: string;
   transactionType?: string;
-  typeOfProperty?: string;
-  userId?: string;
   lat?: string;
   lng?: string;
 }
