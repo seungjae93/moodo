@@ -1,6 +1,6 @@
 import palette from "../../../libs/styles/palette";
 import { StDetail } from "../../../libs/styles/StDetail";
-import { DetailDataProps } from "../../../typings/DetailData/detail.type";
+import { DetailDataProps } from "../../../typings/detail.type";
 
 function AdditionalInfo({ estateDetail }: DetailDataProps) {
   return (

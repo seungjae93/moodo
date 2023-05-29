@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios";
+import { Coordinates, ApiResponse } from "../typings/detail.type";
 
 export const instance = axios.create({
   baseURL: process.env.REACT_APP_SERVER_API,
@@ -95,9 +96,7 @@ export const estateApi = {
 };
 
 //회원승인 api
-interface ApiResponse {
-  message: string;
-}
+
 export const userApprovedAPi = {
   get: async (userId: string): Promise<ApiResponse> => {
     const { data } = await instance.get(`/user/approved/${userId}`);
@@ -110,11 +109,7 @@ export const userApprovedAPi = {
 };
 
 //지도 api
-interface Coordinates {
-  swLatLng: { lat: number; lng: number };
-  neLatLng: { lat: number; lng: number };
-  zoomLevel: number;
-}
+
 export const mapApi = {
   post: async (
     userId: string,

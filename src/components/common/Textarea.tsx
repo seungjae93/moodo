@@ -3,13 +3,7 @@ import styled from "styled-components";
 
 import palette from "../../libs/styles/palette";
 import flex from "../../libs/styles/utilFlex";
-
-interface TextAreaProps {
-  label?: string;
-  name?: string;
-  register: UseFormRegisterReturn;
-  [key: string]: any;
-}
+import { TextAreaProps } from "../../typings/detail.type";
 
 export default function TextArea({
   label,

@@ -4,10 +4,7 @@ import styled, { css } from "styled-components";
 import { StDetail } from "../../../libs/styles/StDetail";
 import palette from "../../../libs/styles/palette";
 import Button from "../Button/Button";
-import {
-  StImgProps,
-  DetailDataProps,
-} from "../../../typings/DetailData/detail.type";
+import { StImgProps, DetailDataProps } from "../../../typings/detail.type";
 import DetailCarousel from "./DetailCarousel";
 import { CgClose } from "react-icons/cg";
 

@@ -6,29 +6,7 @@ import Button from "../Button/Button";
 import flex from "../../../libs/styles/utilFlex";
 import palette from "../../../libs/styles/palette";
 import { estateApi } from "../../../apis/axios";
-
-interface ImageData {
-  imgOfPropertyId: number;
-  estateId: string;
-  imgOfUrl: string;
-  imgIndex: number;
-}
-interface EstateListData {
-  estateId: string;
-  typeOfProperty: string;
-  addressOfProperty: string;
-  transactionType: string;
-  deposit: string;
-  monthly: string;
-  price: string;
-  exclusiveArea: string;
-  numOfRoom: string;
-  numOfBath: string;
-  imgs: ImageData[];
-}
-interface ManageCardProps {
-  estate: EstateListData;
-}
+import { ManageCardProps } from "../../../typings/detail.type";
 
 function ManageCard({ estate }: ManageCardProps) {
   const navigate = useNavigate();

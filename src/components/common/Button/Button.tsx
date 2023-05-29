@@ -3,19 +3,7 @@ import styled, { css } from "styled-components";
 
 import palette from "../../../libs/styles/palette";
 import flex from "../../../libs/styles/utilFlex";
-interface StyledButtonProps {
-  children?: ReactNode;
-  fs?: string;
-  bc?: string;
-  color?: string;
-  ma?: string;
-  fw?: string;
-  activeBc?: string;
-  hoverBc?: string;
-  size?: string;
-  type?: string;
-  [key: string]: any;
-}
+import { StyledButtonProps } from "../../../typings/UI.types";
 
 //primitive Button
 const PrimitiveButton = ({ children, ...restProps }: StyledButtonProps) => {

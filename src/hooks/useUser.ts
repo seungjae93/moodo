@@ -18,8 +18,10 @@ interface ApiResponse {
 }
 
 export default function useUser() {
-  const { data, isLoading }: { data?: ApiResponse; isLoading: boolean } =
-    useQuery(["profileData"], profileApi.get);
+  const { data }: { data?: ApiResponse; isLoading: boolean } = useQuery(
+    ["profileData"],
+    profileApi.get
+  );
 
   return { user: data?.user };
 }

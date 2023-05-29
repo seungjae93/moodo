@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
 import { estateApi } from "../apis/axios";
-import { EstateDetailData } from "../typings/DetailData/detail.type";
+import { EstateDetailData } from "../typings/detail.type";
 
 interface ApiResponse {
   estate: EstateDetailData;
