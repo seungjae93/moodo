@@ -2,11 +2,7 @@ import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 
-interface DragabbleImageProps {
-  key: string;
-  preview: string;
-  index: number;
-}
+import { DragabbleImageProps } from "../../../typings/detail.type";
 
 function DragabbleImage({ preview, index }: DragabbleImageProps) {
   return (

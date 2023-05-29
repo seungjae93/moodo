@@ -8,48 +8,7 @@ import { mapApi } from "../../../apis/axios";
 import useUser from "../../../hooks/useUser";
 import clusterer from "../../../assets/clusterer.svg";
 import marker from "../../../assets/marker.svg";
-
-interface MapListData {
-  addressOfJibun: string;
-  addressOfProperty: string;
-  deposit: string;
-  detail: string;
-  dong: string;
-  elevator: string;
-  estateId: number;
-  userId: string;
-  typeOfProperty: string;
-  transactionType: string;
-  monthly: string;
-  price: string;
-  maintenanceCost: string;
-  moveInDate: string;
-  moveInDateInput: string;
-  supplyArea: string;
-  exclusiveArea: string;
-  numOfRoom: string;
-  numOfBath: string;
-  lowestFloor: string;
-  highestFloor: string;
-  numOfFloor: string;
-  floor: string;
-  parking: string;
-  pet: string;
-  options: string;
-  lat: string;
-  lng: string;
-}
-interface MapContainerProps {
-  searchValue: string;
-  onDataReceived: (data: MapListData[]) => void;
-  filteredMapList: MapListData[];
-}
-
-interface Coordinates {
-  swLatLng: { lat: number; lng: number };
-  neLatLng: { lat: number; lng: number };
-  zoomLevel: number;
-}
+import { MapContainerProps, Coordinates } from "../../../typings/detail.type";
 
 const { kakao } = window;
 

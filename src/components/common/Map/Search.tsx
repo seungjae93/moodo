@@ -2,9 +2,7 @@ import React, { useState, ChangeEvent } from "react";
 import styled from "styled-components";
 import { BsSearch } from "react-icons/bs";
 
-interface SearchProps {
-  onSearch: (value: string) => void;
-}
+import { SearchProps } from "../../../typings/detail.type";
 
 function Search({ onSearch }: SearchProps) {
   const [searchValue, setSearchValue] = useState("");

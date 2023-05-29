@@ -1,15 +1,4 @@
-import type { UseFormRegisterReturn } from "react-hook-form";
-interface InputProps {
-  label: string;
-  name: string;
-  kind?: "text" | "phone" | "profile";
-  register?: UseFormRegisterReturn;
-  autoComplete?: string;
-  type?: string;
-  required?: boolean;
-  placeholder?: string;
-  readonly?: boolean;
-}
+import { InputProps } from "../../typings/detail.type";
 
 export default function Input({
   label,

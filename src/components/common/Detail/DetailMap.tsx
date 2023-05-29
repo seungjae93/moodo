@@ -1,7 +1,7 @@
 import { StaticMap } from "react-kakao-maps-sdk";
 
 import { StDetail } from "../../../libs/styles/StDetail";
-import { DetailDataProps } from "../../../typings/DetailData/detail.type";
+import { DetailDataProps } from "../../../typings/detail.type";
 
 function DetailMap({ estateDetail }: DetailDataProps) {
   if (!estateDetail || !estateDetail.lat || !estateDetail.lng) {

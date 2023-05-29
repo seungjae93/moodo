@@ -1,10 +1,6 @@
 import styled from "styled-components";
 
-interface WorningWordProps {
-  color?: any;
-  children?: string;
-  [key: string]: any;
-}
+import { WorningWordProps } from "../../typings/detail.type";
 
 export const WorningWord = ({ children, color }: WorningWordProps) => {
   return (

@@ -7,45 +7,47 @@ import flex from "../libs/styles/utilFlex";
 import CardProfile from "../components/common/Map/EstateDetail/CardProfile";
 import EstateCard from "../components/common/Map/EstateDetail/EstateCard";
 import SelectBox from "../components/common/Map/SelectBox";
-
-interface MapListData {
-  addressOfJibun: string;
-  addressOfProperty: string;
-  deposit: string;
-  detail: string;
-  dong: string;
-  elevator: string;
-  estateId: number;
-  userId: string;
-  typeOfProperty: string;
-  transactionType: string;
-  monthly: string;
-  price: string;
-  maintenanceCost: string;
-  moveInDate: string;
-  moveInDateInput: string;
-  supplyArea: string;
-  exclusiveArea: string;
-  numOfRoom: string;
-  numOfBath: string;
-  lowestFloor: string;
-  highestFloor: string;
-  numOfFloor: string;
-  floor: string;
-  parking: string;
-  pet: string;
-  options: string;
-  lat: string;
-  lng: string;
-}
+import { EstateDetailData } from "../typings/detail.type";
+// interface MapListData {
+//   addressOfJibun: string;
+//   addressOfProperty: string;
+//   deposit: string;
+//   detail: string;
+//   dong: string;
+//   elevator: string;
+//   estateId: number;
+//   userId: string;
+//   typeOfProperty: string;
+//   transactionType: string;
+//   monthly: string;
+//   price: string;
+//   maintenanceCost: string;
+//   moveInDate: string;
+//   moveInDateInput: string;
+//   supplyArea: string;
+//   exclusiveArea: string;
+//   numOfRoom: string;
+//   numOfBath: string;
+//   lowestFloor: string;
+//   highestFloor: string;
+//   numOfFloor: string;
+//   floor: string;
+//   parking: string;
+//   pet: string;
+//   options: string;
+//   lat: string;
+//   lng: string;
+// }
 
 function MoodoMap() {
   const [searchValue, setSearchValue] = useState("");
-  const [mapData, setMapData] = useState<MapListData[]>([]);
+  const [mapData, setMapData] = useState<EstateDetailData[]>([]);
   const [selectedPropertyType, setSelectedPropertyType] =
     useState<string>("매물 종류");
   const [selectedDealType, setSelectedDealType] = useState<string>("거래 유형");
-  const [filteredMapList, setFilteredMapList] = useState<MapListData[]>([]);
+  const [filteredMapList, setFilteredMapList] = useState<EstateDetailData[]>(
+    []
+  );
 
   const handleSearch = (value: string) => {
     setSearchValue(value);

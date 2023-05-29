@@ -1,13 +1,7 @@
-import { UseFormRegister } from "react-hook-form";
 import { StRealEstate } from "../../../libs/styles/StRealEstate";
+import { AdditionalInfoProps } from "../../../typings/detail.type";
 
 import RadioInput from "./RadioInput";
-interface AdditionalInfoProps {
-  title: string;
-  options: { id: string; label: string; value: string }[];
-  name: string;
-  register: UseFormRegister<any>;
-}
 
 function AdditionalInfo({
   title,

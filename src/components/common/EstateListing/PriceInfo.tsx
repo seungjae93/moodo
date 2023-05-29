@@ -1,11 +1,5 @@
 import NumberInputGroup from "./NumberInputGroup";
-import { UseFormRegister } from "react-hook-form";
-
-interface PriceInfoProps {
-  type: "deposit" | "monthly" | "price" | "maintenanceCost";
-  label: string;
-  register: UseFormRegister<any>;
-}
+import { PriceInfoProps } from "../../../typings/detail.type";
 
 function PriceInfo({ type, label, register }: PriceInfoProps) {
   return (

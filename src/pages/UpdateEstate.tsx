@@ -18,37 +18,7 @@ import DragabbleImage from "../components/common/EstateListing/DragabbleImage";
 import PropertyContent from "../components/common/EstateListing/PropertyContent";
 import PriceInfo from "../components/common/EstateListing/PriceInfo";
 import AdditionalInfo from "../components/common/EstateListing/AdditionalInfo";
-
-interface RealEstateForm {
-  userId: string;
-  typeOfProperty: string;
-  addressOfProperty: string;
-  address?: string;
-  addressOfJibun?: string;
-  addressDetail?: string;
-  transactionType?: string;
-  deposit?: string;
-  monthly?: string;
-  price?: string;
-  maintenanceCost?: string;
-  moveInDate?: string;
-  supplyArea?: string;
-  exclusiveArea?: string;
-  numOfRoom?: string;
-  numOfBath?: string;
-  lowestFloor?: string;
-  highestFloor?: string;
-  numOfFloor?: string;
-  dong?: string;
-  floor?: string;
-  parking?: string;
-  elevator?: string;
-  pet?: string;
-  options?: string;
-  images?: FileList;
-  detail?: string;
-  moveInDateInput?: string;
-}
+import { RealEstateForm } from "../typings/detail.type";
 
 const typeOfProperties = [
   "원/투룸",

@@ -4,38 +4,10 @@ import flex from "../../../../libs/styles/utilFlex";
 import palette from "../../../../libs/styles/palette";
 import Button from "../../Button/Button";
 import useEstateList from "../../../../hooks/useEstateList";
-interface MapListData {
-  addressOfJibun: string;
-  addressOfProperty: string;
-  deposit: string;
-  detail: string;
-  dong: string;
-  elevator: string;
-  estateId: number;
-  userId: string;
-  typeOfProperty: string;
-  transactionType: string;
-  monthly: string;
-  price: string;
-  maintenanceCost: string;
-  moveInDate: string;
-  moveInDateInput: string;
-  supplyArea: string;
-  exclusiveArea: string;
-  numOfRoom: string;
-  numOfBath: string;
-  lowestFloor: string;
-  highestFloor: string;
-  numOfFloor: string;
-  floor: string;
-  parking: string;
-  pet: string;
-  options: string;
-  lat: string;
-  lng: string;
-}
+import { EstateDetailData } from "../../../../typings/detail.type";
+
 interface EstateCardProps {
-  estate: MapListData;
+  estate: EstateDetailData;
 }
 function EstateCard({ estate }: EstateCardProps) {
   const { estateList } = useEstateList();
