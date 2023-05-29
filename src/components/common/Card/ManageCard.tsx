@@ -29,7 +29,7 @@ function ManageCard({ estate }: ManageCardProps) {
     window.open(`http://localhost:3000/realEstateManage/${estateId}`, "_blank");
   };
 
-  const { mutate: postDeleteMutate } = useMutation({
+  const { mutate: postDeleteMutation } = useMutation({
     mutationFn: () => estateApi.delete(estateId),
     onSuccess: () => {
       alert("매물이 삭제되었습니다!");
@@ -41,7 +41,7 @@ function ManageCard({ estate }: ManageCardProps) {
   });
 
   const postDeleteHandler = () => {
-    postDeleteMutate();
+    postDeleteMutation();
   };
   const postUpdateHandler = () => {
     navigate(`/update/${estateId}`);
@@ -81,7 +81,7 @@ function ManageCard({ estate }: ManageCardProps) {
           size="medium"
           fw="400"
           fs="20px"
-          onClick={postUpdateHandler}
+          onClick={postDeleteHandler}
         >
           수정
         </Button.Primary>
