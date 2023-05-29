@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, useCallback, ChangeEvent } from "react";
 import styled from "styled-components";
 import { BsSearch } from "react-icons/bs";
 
@@ -6,9 +6,13 @@ import { SearchProps } from "../../../typings/detail.type";
 
 function Search({ onSearch }: SearchProps) {
   const [searchValue, setSearchValue] = useState("");
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(event.target.value);
-  };
+
+  const handleInputChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setSearchValue(event.target.value);
+    },
+    []
+  );
 
   const handleSearch = () => {
     onSearch(searchValue);
