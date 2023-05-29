@@ -205,8 +205,8 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
     if (estateId) {
       formData.append("estateId", estateId);
     }
-    formData.append("typeOfProperty", data?.typeOfProperty || "");
     formData.append("addressOfProperty", addressOfProperty || "");
+    formData.append("typeOfProperty", data?.typeOfProperty || "");
     formData.append("addressOfJibun", data?.addressOfJibun || "");
     formData.append("transactionType", data?.transactionType || "");
     formData.append("deposit", data?.deposit || "");

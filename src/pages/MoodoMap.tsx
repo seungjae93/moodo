@@ -8,36 +8,6 @@ import CardProfile from "../components/common/Map/EstateDetail/CardProfile";
 import EstateCard from "../components/common/Map/EstateDetail/EstateCard";
 import SelectBox from "../components/common/Map/SelectBox";
 import { EstateDetailData } from "../typings/detail.type";
-// interface MapListData {
-//   addressOfJibun: string;
-//   addressOfProperty: string;
-//   deposit: string;
-//   detail: string;
-//   dong: string;
-//   elevator: string;
-//   estateId: number;
-//   userId: string;
-//   typeOfProperty: string;
-//   transactionType: string;
-//   monthly: string;
-//   price: string;
-//   maintenanceCost: string;
-//   moveInDate: string;
-//   moveInDateInput: string;
-//   supplyArea: string;
-//   exclusiveArea: string;
-//   numOfRoom: string;
-//   numOfBath: string;
-//   lowestFloor: string;
-//   highestFloor: string;
-//   numOfFloor: string;
-//   floor: string;
-//   parking: string;
-//   pet: string;
-//   options: string;
-//   lat: string;
-//   lng: string;
-// }
 
 function MoodoMap() {
   const [searchValue, setSearchValue] = useState("");
@@ -55,13 +25,10 @@ function MoodoMap() {
   const handleDataReceived = (data: any) => {
     setMapData(data);
   };
+
   const handlePropertyTypeChange = (propertyType: string) => {
     setSelectedPropertyType(propertyType);
-
-    // 선택된 속성 유형에 따라 거래 유형 초기화
-    if (propertyType !== "매물 종류") {
-      setSelectedDealType("거래 유형");
-    }
+    setSelectedDealType("거래 유형");
   };
 
   const handleDealTypeChange = (dealType: string) => {
