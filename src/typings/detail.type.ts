@@ -256,3 +256,8 @@ export interface EstateListData {
   numOfBath: string;
   imgs: ImageData[];
 }
+
+export interface EstateListingFormProps {
+  estateId?: string;
+  isUpdate?: boolean;
+}
