@@ -6,26 +6,8 @@ import ManageCard from "../components/common/Card/ManageCard";
 import RadioInput from "../components/common/EstateListing/RadioInput";
 import useEstateList from "../hooks/useEstateList";
 import { StRealEstate } from "../libs/styles/StRealEstate";
+import { EstateListData } from "../typings/detail.type";
 
-interface ImageData {
-  imgOfPropertyId: number;
-  estateId: string;
-  imgOfUrl: string;
-  imgIndex: number;
-}
-interface EstateListData {
-  estateId: string;
-  typeOfProperty: string;
-  addressOfProperty: string;
-  transactionType: string;
-  deposit: string;
-  monthly: string;
-  price: string;
-  exclusiveArea: string;
-  numOfRoom: string;
-  numOfBath: string;
-  imgs: ImageData[];
-}
 const typeOfProperties = [
   "전체보기",
   "원/투룸",

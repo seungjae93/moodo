@@ -10,19 +10,7 @@ import PostCode from "../components/common/EstateListing/PostCode";
 import { profileApi } from "../apis/axios";
 import useUser from "../hooks/useUser";
 import { StRealEstate } from "../libs/styles/StRealEstate";
-
-interface ProfileEditForm {
-  userId?: string;
-  userName: string;
-  address?: string;
-  addressDetail?: string;
-  userCompanyTelNumber: string;
-  userPhoneNumber?: string;
-  userCompanyName: string;
-  userBusinessLocation: string;
-  userProfileImg: FileList;
-  userBusinessLicense: FileList;
-}
+import { ProfileEditForm } from "../typings/detail.type";
 
 function ProfileEdit() {
   const { user } = useUser();

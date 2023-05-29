@@ -1,23 +1,5 @@
 import RadioInput from "./RadioInput";
-import { UseFormRegister } from "react-hook-form";
-interface NumberInputGroupProps {
-  type:
-    | "deposit"
-    | "monthly"
-    | "price"
-    | "maintenanceCost"
-    | "supplyArea"
-    | "exclusiveArea"
-    | "numOfRoom"
-    | "numOfBath"
-    | "numOfFloor"
-    | "floor"
-    | "dong"
-    | "lowestFloor"
-    | "highestFloor";
-  label: string;
-  register: UseFormRegister<any>;
-}
+import { NumberInputGroupProps } from "../../../typings/detail.type";
 
 export default function NumberInputGroup({
   type,

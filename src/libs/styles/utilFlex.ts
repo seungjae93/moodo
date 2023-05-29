@@ -1,11 +1,6 @@
 import { css } from "styled-components";
 
-interface flexProps {
-  justify?: string;
-  align?: string;
-  direction?: string;
-  gap?: string;
-}
+import { flexProps } from "../../typings/UI.types";
 
 export default function flex({
   justify = "center",

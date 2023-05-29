@@ -1,26 +1,8 @@
-import { UseFormRegisterReturn } from "react-hook-form";
 import styled from "styled-components";
 
 import palette from "../../../libs/styles/palette";
 import flex from "../../../libs/styles/utilFlex";
-interface RadioProps {
-  id: string;
-  label: string;
-  value: string;
-}
-interface InputProps {
-  key?: string;
-  id?: string;
-  label?: string;
-  name?: string;
-  kind?: "radio" | "text" | "checkbox" | "file";
-  register?: UseFormRegisterReturn;
-  type?: string;
-  value?: string;
-  required?: boolean;
-  placeholder?: string;
-  options?: RadioProps[];
-}
+import { InputProps } from "../../../typings/detail.type";
 
 export default function RadioInput({
   label,

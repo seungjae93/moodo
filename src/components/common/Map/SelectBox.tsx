@@ -1,10 +1,7 @@
 import { useState, useEffect, ChangeEvent } from "react";
 import styled from "styled-components";
 
-interface SelectBoxProps {
-  onPropertyTypeChange: (propertyType: string) => void;
-  onDealTypeChange: (dealType: string) => void;
-}
+import { SelectBoxProps } from "../../../typings/detail.type";
 
 function SelectBox({ onPropertyTypeChange, onDealTypeChange }: SelectBoxProps) {
   const [propertyType, setPropertyType] = useState<string>("매물 종류");

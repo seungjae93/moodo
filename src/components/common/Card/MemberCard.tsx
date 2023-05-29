@@ -5,26 +5,8 @@ import Button from "../Button/Button";
 import flex from "../../../libs/styles/utilFlex";
 import palette from "../../../libs/styles/palette";
 import { userApprovedAPi } from "../../../apis/axios";
+import { UserListDataProps } from "../../../typings/detail.type";
 
-interface UserListData {
-  admin: string;
-  approved: boolean;
-  id: string;
-  userBusinessLicenseImgUrl: string;
-  userBusinessLocation: string;
-  userCompanyName: string;
-  userCompanyTelNumber: string;
-  userEmail: string;
-  userId: string;
-  userKey: string;
-  userName: string;
-  userPassword: string;
-  userPhoneNumber: string;
-  userProfileImgUrl: string;
-}
-interface UserListDataProps {
-  member: UserListData;
-}
 function MemberCard({ member }: UserListDataProps) {
   const queryClient = useQueryClient();
   const [approvedStatus, setApprovedStatus] = useState<string>("미승인");

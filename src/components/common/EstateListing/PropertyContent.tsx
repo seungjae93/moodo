@@ -1,11 +1,7 @@
 import { UseFormRegister } from "react-hook-form";
 import { StRealEstate } from "../../../libs/styles/StRealEstate";
 import NumberInputGroup from "./NumberInputGroup";
-
-interface PropertyContentProps {
-  type: "roomVillaApart" | "office" | "building";
-  register: UseFormRegister<any>;
-}
+import { PropertyContentProps } from "../../../typings/detail.type";
 
 export default function PropertyContent({
   type,
