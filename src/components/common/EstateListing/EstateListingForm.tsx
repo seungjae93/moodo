@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
@@ -186,7 +186,7 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
   }, [images]);
 
   //images dnd
-  const onDragEnd = ({ destination, source }: DropResult) => {
+  const onDragEnd = useCallback(({ destination, source }: DropResult) => {
     // 드래그 앤 드롭 종료 시 실행되는 콜백 함수
     if (!destination) {
       return;
@@ -195,10 +195,10 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
     const [draggedImage] = updatedImagesPreview.splice(source.index, 1);
     updatedImagesPreview.splice(destination.index, 0, draggedImage);
     setImagesPreview(updatedImagesPreview);
-  };
+  }, []);
 
   //handleSubmit
-  const onValid = (data: RealEstateForm) => {
+  const onValid = useCallback((data: RealEstateForm) => {
     const { address, addressDetail } = data;
     const addressOfProperty = `${address}, ${addressDetail}`;
     const formData = new FormData();
@@ -237,7 +237,7 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
     }
 
     mutate(formData);
-  };
+  }, []);
   return (
     <StRealEstate.Wrapper>
       <SideNav />

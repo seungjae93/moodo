@@ -19,7 +19,7 @@ function MemberCard({ member }: UserListDataProps) {
     } else {
       setApprovedStatus("미승인");
     }
-  }, []);
+  }, [localStorage.getItem("approved")]);
 
   const mutation = useMutation(userApprovedAPi.get, {
     onSuccess: () => {
@@ -30,9 +30,9 @@ function MemberCard({ member }: UserListDataProps) {
     mutation.mutate(member?.userId);
   };
   const handleDownload = () => {
-    if (member && member?.userBusinessLicenseImgUrl) {
+    if (member && member.userBusinessLicenseImgUrl) {
       const link = document.createElement("a");
-      link.href = member?.userBusinessLicenseImgUrl;
+      link.href = member.userBusinessLicenseImgUrl;
       link.download = "image.jpg"; // 다운로드될 파일의 이름 설정
       link.click();
     }

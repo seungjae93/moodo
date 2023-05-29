@@ -13,8 +13,10 @@ function EstateCard({ estate }: EstateCardProps) {
   const { estateList } = useEstateList();
   const estateId = estate?.estateId;
   const imgUrls = estateList
-    ?.map((estate) => estate.imgs.map((img) => img.imgOfUrl))
-    .flat();
+    ?.filter((item) => item.estateId === estateId)
+    .flatMap((item) => item.imgs.map((img) => img.imgOfUrl));
+
+  console.log(imgUrls);
   const openNewWindow = () => {
     window.open(`http://localhost:3000/realEstateManage/${estateId}`, "_blank");
   };
