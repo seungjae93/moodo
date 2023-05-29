@@ -47,7 +47,6 @@ function MapContainer({
       },
     }
   );
-  console.log(dongListData);
   const customOverlayDong = () => {
     if (!dongListData) return null;
     if (zoomLevel < 4) return null;
@@ -105,9 +104,7 @@ function MapContainer({
       zoomLevel: mapObject.getLevel(),
     };
     mutation.mutate(coordinates);
-  }, [location]);
-
-  console.log(filteredMapList);
+  }, [mapRef.current]);
   return (
     <Map
       center={location.center}
