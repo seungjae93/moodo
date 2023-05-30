@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import { Coordinates, ApiResponse } from "../typings/detail.type";
 
 export const instance = axios.create({
@@ -119,3 +119,20 @@ export const mapApi = {
     return data;
   },
 };
+// export const mapApi = {
+//   get: async (
+//     userId: string,
+//     coordinates?: Coordinates
+//   ): Promise<ApiResponse> => {
+//     const config: AxiosRequestConfig<any> = {
+//       // 여기에 필요한 설정을 추가해주세요
+//     };
+
+//     if (coordinates) {
+//       config.params = coordinates;
+//     }
+
+//     const { data } = await instance.get(`/map/${userId}`, config);
+//     return data;
+//   },
+// };

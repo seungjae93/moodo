@@ -4,6 +4,17 @@ import flex from "../../../libs/styles/utilFlex";
 
 function Header() {
   const userId = localStorage.getItem("userId");
+  const handleMapClick = () => {
+    if (!userId) {
+      // 로그인되어 있지 않은 경우, 로그인 페이지로 이동하거나 다른 처리를 수행할 수 있습니다.
+      // 예시로는 다음과 같이 로그인 페이지로 리다이렉트하는 방법이 있습니다.
+      return;
+    } else {
+      // 로그인된 경우, 지도 페이지로 이동합니다.
+      window.location.href = `/map/${userId}`;
+    }
+  };
+
   return (
     <>
       <HeaderWrapper>
@@ -15,7 +26,9 @@ function Header() {
             <div>사용방법</div>
             <div>
               {" "}
-              <Link to={`/map/${userId}`}>지도</Link>
+              <div style={{ cursor: "pointer" }} onClick={handleMapClick}>
+                지도
+              </div>
             </div>
             <div>
               <Link to="/profileEdit">매물관리</Link>

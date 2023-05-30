@@ -132,7 +132,6 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
     register,
     watch,
     handleSubmit,
-    setValue,
     formState: { isSubmitting, isDirty, errors },
   } = useForm<RealEstateForm>({
     mode: "onChange",
@@ -160,6 +159,9 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
       highestFloor: "",
       detail: "",
       moveInDateInput: "",
+      rightMoney: "",
+      mainCategory: "",
+      subCategory: "",
     },
   });
 
@@ -170,7 +172,7 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
   const isResidence = ["원/투룸", "주택/빌라", "아파트"].includes(
     typeOfPropertyWatch
   );
-
+  console.log(watch());
   //imagesPreview
   const [imagesPreview, setImagesPreview] = useState<string[]>([]);
   const images = watch("images");
@@ -228,7 +230,9 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
     formData.append("elevator", data?.elevator || "");
     formData.append("pet", data?.pet || "");
     formData.append("options", data?.options || "");
-    formData.append("detail", data?.detail || "");
+    formData.append("rightMoney", data?.rightMoney || "");
+    // formData.append("mainCategory", data?.mainCategory || "");
+    // formData.append("subCategory", data?.subCategory || "");
     // 이미지 파일을 formData에 추가
     if (data?.images) {
       for (const file of data.images) {
@@ -304,6 +308,13 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
               register={register}
             />
           </StRealEstate.Content>
+          {typeOfPropertyWatch === "상가/사무실" && (
+            <StRealEstate.Content>
+              <div className="contentTitle">권리금</div>
+              <PriceInfo type="rightMoney" label="권리금" register={register} />
+            </StRealEstate.Content>
+          )}
+
           <StRealEstate.Content>
             <div className="contentTitle">입주가능일</div>
             <RadioInput
