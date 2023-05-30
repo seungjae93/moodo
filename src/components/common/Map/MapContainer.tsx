@@ -17,8 +17,8 @@ function MapContainer({
   onDataReceived,
   filteredMapList,
 }: MapContainerProps) {
-  const { user } = useUser();
-  const userId = user?.userId;
+  const path = window.location.pathname;
+  const userId = path.substring(5);
   const [location, setLocation] = useState({
     // 지도의 초기 위치
     center: { lat: 37.5472661928352, lng: 127.068276018078 },
@@ -28,7 +28,6 @@ function MapContainer({
   const markerRef = useRef(null);
   //지도 레벨
   const [zoomLevel, setZoomLevel] = useState(6);
-
   //서버에서 받은 response
   const [dongListData, setDongListData] = useState<any>(null);
 
@@ -105,6 +104,23 @@ function MapContainer({
     };
     mutation.mutate(coordinates);
   }, [mapRef.current]);
+
+  //지도 페이지 열리자마자 매물 받아오는 좌표
+  useEffect(() => {
+    const coordinates: Coordinates = {
+      swLatLng: {
+        lat: location.center.lat - 0.01,
+        lng: location.center.lng - 0.01,
+      },
+      neLatLng: {
+        lat: location.center.lat + 0.01,
+        lng: location.center.lng + 0.01,
+      },
+      zoomLevel: 6,
+    };
+    mutation.mutate(coordinates);
+  }, [location]);
+
   return (
     <Map
       center={location.center}

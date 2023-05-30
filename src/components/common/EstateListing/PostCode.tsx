@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import { UseFormRegister } from "react-hook-form";
 import palette from "../../../libs/styles/palette";
 import flex from "../../../libs/styles/utilFlex";
 import Button from "../Button/Button";

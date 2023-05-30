@@ -28,14 +28,11 @@ function Router() {
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/map/:id" element={<MoodoMap />} />
+          <Route path="/realEstateManage/:id" element={<RealEstateDetail />} />
           <Route element={<PrivateRoutes />}>
             <Route path="/profileEdit" element={<ProfileEdit />} />
             <Route path="/realEstateListing" element={<RealEstateListing />} />
             <Route path="/realEstateManage" element={<RealEstateManage />} />
-            <Route
-              path="/realEstateManage/:id"
-              element={<RealEstateDetail />}
-            />
             <Route path="/update/:id" element={<UpdateEstate />} />
             <Route path="/memberManage" element={<MemberManage />} />
           </Route>
