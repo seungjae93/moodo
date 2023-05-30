@@ -138,14 +138,15 @@ export interface NumberInputGroupProps {
     | "floor"
     | "dong"
     | "lowestFloor"
-    | "highestFloor";
+    | "highestFloor"
+    | "rightMoney";
   label: string;
   register: UseFormRegister<any>;
 }
 
 //estateListing PriceInfo
 export interface PriceInfoProps {
-  type: "deposit" | "monthly" | "price" | "maintenanceCost";
+  type: "deposit" | "monthly" | "price" | "maintenanceCost" | "rightMoney";
   label: string;
   register: UseFormRegister<any>;
 }
@@ -241,6 +242,9 @@ export interface RealEstateForm {
   images?: FileList;
   detail?: string;
   moveInDateInput?: string;
+  rightMoney?: string;
+  mainCategory?: string;
+  subCategory?: string;
 }
 
 export interface EstateListData {

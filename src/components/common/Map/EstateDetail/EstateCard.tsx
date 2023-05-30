@@ -16,7 +16,6 @@ function EstateCard({ estate }: EstateCardProps) {
     ?.filter((item) => item.estateId === estateId)
     .flatMap((item) => item.imgs.map((img) => img.imgOfUrl));
 
-  console.log(imgUrls);
   const openNewWindow = () => {
     window.open(`http://localhost:3000/realEstateManage/${estateId}`, "_blank");
   };
