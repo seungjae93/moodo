@@ -168,7 +168,7 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
   const typeOfPropertyWatch = watch("typeOfProperty");
   const transactionTypeWatch = watch("transactionType");
   const moveInDateWatch = watch("moveInDate");
-
+  const mainCategory = watch("mainCategory");
   const isResidence = ["원/투룸", "주택/빌라", "아파트"].includes(
     typeOfPropertyWatch
   );
@@ -231,8 +231,8 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
     formData.append("pet", data?.pet || "");
     formData.append("options", data?.options || "");
     formData.append("rightMoney", data?.rightMoney || "");
-    // formData.append("mainCategory", data?.mainCategory || "");
-    // formData.append("subCategory", data?.subCategory || "");
+    formData.append("mainCategory", data?.mainCategory || "");
+    formData.append("subCategory", data?.subCategory || "");
     // 이미지 파일을 formData에 추가
     if (data?.images) {
       for (const file of data.images) {

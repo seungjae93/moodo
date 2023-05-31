@@ -27,7 +27,7 @@ function AdditionalInfo({ estateDetail }: DetailDataProps) {
           </StDetail.ContentWrapper>
           <StDetail.ContentWrapper>
             <div style={{ color: palette.gray[1] }}>옵션</div>
-            <div className="options">{estateDetail?.options}</div>
+            <div>{estateDetail?.options}</div>
           </StDetail.ContentWrapper>
         </>
       ) : null}
