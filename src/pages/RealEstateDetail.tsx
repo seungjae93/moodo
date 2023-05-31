@@ -26,9 +26,9 @@ export default RealEstateDetail;
 const StRealEstateDetail = {
   Wrapper: styled.div`
     ${flex({ justify: "", direction: "column" })}
-    width: 1028px;
+    max-width: 1028px;
     padding-top: 50px;
-    height: 235vh;
+    height: auto;
     margin: auto;
   `,
 };

@@ -21,7 +21,7 @@ function ImgInfo({ estateDetail }: DetailDataProps) {
   const onImageModalClose = () => {
     setImageModal(false);
   };
-
+  console.log(estateDetail);
   //클릭한 이미지 DetailCarousel에서 보여주기
   const rearrangedImageGroup = imageGroup
     ? [
@@ -97,6 +97,17 @@ function ImgInfo({ estateDetail }: DetailDataProps) {
             ? `${estateDetail?.transactionType} ${estateDetail?.price}`
             : null}
         </div>
+        {estateDetail?.typeOfProperty === "상가/사무실" && (
+          <div
+            style={{
+              fontWeight: "400",
+              fontSize: "16px",
+            }}
+          >
+            권리금:5000만원
+          </div>
+        )}
+
         <div
           style={{
             fontWeight: "400",
@@ -158,6 +169,16 @@ const StImg = styled.img<StImgProps>`
       width: 600px;
       height: 400px;
     `}
+  @media (max-width: 768px) {
+    width: 350px;
+    height: 250px;
+
+    ${(props) =>
+      !props.isLarge &&
+      css`
+        display: none;
+      `}
+  }
 `;
 const ModalBackdrop = styled.div`
   position: fixed;
@@ -179,4 +200,8 @@ const StimageDetail = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
+  @media (max-width: 768px) {
+    width: 350px;
+    height: 400px;
+  }
 `;

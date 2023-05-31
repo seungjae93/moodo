@@ -76,5 +76,9 @@ const StDetailCarousel = {
   Img: styled.img`
     width: 550px;
     height: 400px;
+    @media (max-width: 768px) {
+      width: 350px;
+      height: 400px;
+    }
   `,
 };

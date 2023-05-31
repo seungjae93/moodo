@@ -1,11 +1,10 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
-import { useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { debounce } from "lodash";
 
 import { mapApi } from "../../../apis/axios";
-import useUser from "../../../hooks/useUser";
 import clusterer from "../../../assets/clusterer.svg";
 import marker from "../../../assets/marker.svg";
 import { MapContainerProps, Coordinates } from "../../../typings/detail.type";
