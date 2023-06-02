@@ -4,14 +4,11 @@ import NumberInputGroup from "./NumberInputGroup";
 import { PropertyContentProps } from "../../../typings/detail.type";
 import StoreSelectbox from "./StoreSelectbox";
 
-interface Option {
-  value: string;
-  label: string;
-}
-
 export default function PropertyContent({
   type,
   register,
+  handleCategoryChange,
+  handleSubCategoryChange,
 }: PropertyContentProps) {
   const isRoomVillaApart = type === "roomVillaApart";
   const isOffice = type === "office";
@@ -73,8 +70,10 @@ export default function PropertyContent({
       {isOffice && (
         <StRealEstate.Content>
           <div className="contentTitle">업종</div>
-          <StoreSelectbox />
-          <div className="marginLeft">|</div>
+          <StoreSelectbox
+            handleCategoryChange={handleCategoryChange}
+            handleSubCategoryChange={handleSubCategoryChange}
+          />
         </StRealEstate.Content>
       )}
       {isBuilding && (

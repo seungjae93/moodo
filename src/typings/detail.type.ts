@@ -154,6 +154,8 @@ export interface PriceInfoProps {
 export interface PropertyContentProps {
   type: "roomVillaApart" | "office" | "building";
   register: UseFormRegister<any>;
+  handleCategoryChange?: (category: string) => void;
+  handleSubCategoryChange?: (subCategoryValue: string) => void;
 }
 
 //RadioInput

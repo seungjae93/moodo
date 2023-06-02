@@ -127,6 +127,16 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
     }
   );
 
+  const [category, setCategory] = useState("");
+  const [subCategoryValue, setSubCategoryValue] = useState("");
+  const handleCategoryChange = (selectedCategory: string) => {
+    setCategory(selectedCategory);
+  };
+
+  const handleSubCategoryChange = (selectedSubCategory: string) => {
+    setSubCategoryValue(selectedSubCategory);
+  };
+
   //useForm
   const {
     register,
@@ -168,11 +178,10 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
   const typeOfPropertyWatch = watch("typeOfProperty");
   const transactionTypeWatch = watch("transactionType");
   const moveInDateWatch = watch("moveInDate");
-  const mainCategory = watch("mainCategory");
+
   const isResidence = ["원/투룸", "주택/빌라", "아파트"].includes(
     typeOfPropertyWatch
   );
-  console.log(watch());
   //imagesPreview
   const [imagesPreview, setImagesPreview] = useState<string[]>([]);
   const images = watch("images");
@@ -200,48 +209,52 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
   }, []);
 
   //handleSubmit
-  const onValid = useCallback((data: RealEstateForm) => {
-    const { address, addressDetail } = data;
-    const addressOfProperty = `${address}, ${addressDetail}`;
-    const formData = new FormData();
-    if (estateId) {
-      formData.append("estateId", estateId);
-    }
-    formData.append("addressOfProperty", addressOfProperty || "");
-    formData.append("typeOfProperty", data?.typeOfProperty || "");
-    formData.append("addressOfJibun", data?.addressOfJibun || "");
-    formData.append("transactionType", data?.transactionType || "");
-    formData.append("deposit", data?.deposit || "");
-    formData.append("monthly", data?.monthly || "");
-    formData.append("price", data?.price || "");
-    formData.append("maintenanceCost", data?.maintenanceCost || "");
-    formData.append("moveInDateInput", data?.moveInDateInput || "");
-    formData.append("moveInDate", data?.moveInDate || "");
-    formData.append("supplyArea", data?.supplyArea || "");
-    formData.append("exclusiveArea", data?.exclusiveArea || "");
-    formData.append("numOfRoom", data?.numOfRoom || "");
-    formData.append("numOfBath", data?.numOfBath || "");
-    formData.append("dong", data?.dong || "");
-    formData.append("lowestFloor", data?.lowestFloor || "");
-    formData.append("highestFloor", data?.highestFloor || "");
-    formData.append("floor", data?.floor || "");
-    formData.append("numOfFloor", data?.numOfFloor || "");
-    formData.append("parking", data?.parking || "");
-    formData.append("elevator", data?.elevator || "");
-    formData.append("pet", data?.pet || "");
-    formData.append("options", data?.options || "");
-    formData.append("rightMoney", data?.rightMoney || "");
-    formData.append("mainCategory", data?.mainCategory || "");
-    formData.append("subCategory", data?.subCategory || "");
-    // 이미지 파일을 formData에 추가
-    if (data?.images) {
-      for (const file of data.images) {
-        formData.append("images", file);
+  const onValid = useCallback(
+    (data: RealEstateForm) => {
+      const { address, addressDetail } = data;
+      const addressOfProperty = `${address}, ${addressDetail}`;
+      const formData = new FormData();
+      if (estateId) {
+        formData.append("estateId", estateId);
       }
-    }
+      formData.append("addressOfProperty", addressOfProperty || "");
+      formData.append("typeOfProperty", data?.typeOfProperty || "");
+      formData.append("addressOfJibun", data?.addressOfJibun || "");
+      formData.append("transactionType", data?.transactionType || "");
+      formData.append("deposit", data?.deposit || "");
+      formData.append("monthly", data?.monthly || "");
+      formData.append("price", data?.price || "");
+      formData.append("maintenanceCost", data?.maintenanceCost || "");
+      formData.append("detail", data?.detail || "");
+      formData.append("moveInDateInput", data?.moveInDateInput || "");
+      formData.append("moveInDate", data?.moveInDate || "");
+      formData.append("supplyArea", data?.supplyArea || "");
+      formData.append("exclusiveArea", data?.exclusiveArea || "");
+      formData.append("numOfRoom", data?.numOfRoom || "");
+      formData.append("numOfBath", data?.numOfBath || "");
+      formData.append("dong", data?.dong || "");
+      formData.append("lowestFloor", data?.lowestFloor || "");
+      formData.append("highestFloor", data?.highestFloor || "");
+      formData.append("floor", data?.floor || "");
+      formData.append("numOfFloor", data?.numOfFloor || "");
+      formData.append("parking", data?.parking || "");
+      formData.append("elevator", data?.elevator || "");
+      formData.append("pet", data?.pet || "");
+      formData.append("options", data?.options || "");
+      formData.append("rightMoney", data?.rightMoney || "");
+      formData.append("mainCategory", category || "");
+      formData.append("subCategory", subCategoryValue || "");
+      // 이미지 파일을 formData에 추가
+      if (data?.images) {
+        for (const file of data.images) {
+          formData.append("images", file);
+        }
+      }
 
-    mutate(formData);
-  }, []);
+      mutate(formData);
+    },
+    [category, subCategoryValue]
+  );
   return (
     <StRealEstate.Wrapper>
       <SideNav />
@@ -369,7 +382,12 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
             </>
           )}
           {typeOfPropertyWatch === "상가/사무실" && (
-            <PropertyContent type="office" register={register} />
+            <PropertyContent
+              type="office"
+              register={register}
+              handleCategoryChange={handleCategoryChange}
+              handleSubCategoryChange={handleSubCategoryChange}
+            />
           )}
           {typeOfPropertyWatch === "건물" && (
             <PropertyContent type="building" register={register} />
