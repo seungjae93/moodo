@@ -55,7 +55,7 @@ function MoodoMap() {
       : [];
     setFilteredMapList(filteredList);
   }, [selectedPropertyType, selectedDealType, mapData]);
-
+  console.log("filteredMapList", filteredMapList);
   return (
     <StMoodoMap.Wrapper>
       <StMoodoMap.searchBox>
