@@ -73,6 +73,14 @@ export const profileApi = {
   },
 };
 
+//로그인 안될경우 프로필 가져오는 api
+export const realtorApi = {
+  get: async (userId: string): Promise<void> => {
+    const { data } = await instance.get(`/realtor/${userId}`);
+    return data;
+  },
+};
+
 //매물등록 Api
 export const estateApi = {
   post: async (formData: FormData): Promise<void> => {
