@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import flex from "../../../libs/styles/utilFlex";
 
 function Header() {
-  const userId = localStorage.getItem("userId");
   const handleMapClick = () => {
+    const userId = localStorage.getItem("userId");
     if (!userId) {
       // 로그인되어 있지 않은 경우, 로그인 페이지로 이동하거나 다른 처리를 수행할 수 있습니다.
       // 예시로는 다음과 같이 로그인 페이지로 리다이렉트하는 방법이 있습니다.
