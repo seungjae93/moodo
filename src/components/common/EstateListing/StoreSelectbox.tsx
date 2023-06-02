@@ -1,8 +1,12 @@
 import React, { useState } from "react";
-
+import palette from "../../../libs/styles/palette";
 interface Option {
   value: string;
   label: string;
+}
+interface StoreSelectboxProps {
+  handleCategoryChange?: ((category: string) => void) | undefined;
+  handleSubCategoryChange?: ((subCategoryValue: string) => void) | undefined;
 }
 interface SubCategory {
   [key: string]: Option[];
@@ -77,34 +81,64 @@ const subCategories: SubCategory = {
   ],
 };
 
-const StoreSelectbox = () => {
+export default function StoreSelectbox({
+  handleCategoryChange,
+  handleSubCategoryChange,
+}: StoreSelectboxProps) {
   const [category, setCategory] = useState("");
   const [subCategory, setSubCategory] = useState<Option[]>([]);
-
-  const handleCategoryChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const selectedCategory = event.target.value;
-    setCategory(selectedCategory);
-    setSubCategory(subCategories[selectedCategory] || []); // 선택한 메인 카테고리에 따라 해당 서브 카테고리 설정
-  };
-
   const [subCategoryValue, setSubCategoryValue] = useState("");
 
-  const handleSubCategoryChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
+  const onHandleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedCategory = e.target.value;
+    setCategory(selectedCategory);
+    setSubCategory(subCategories[selectedCategory] || []);
+    if (handleCategoryChange) {
+      handleCategoryChange(selectedCategory);
+    } // 선택한 메인 카테고리에 따라 해당 서브 카테고리 설정
+  };
+
+  const onHandleSubCategoryChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    const selectedSubCategory = event.target.value;
+    const selectedSubCategory = e.target.value;
     setSubCategoryValue(selectedSubCategory);
-    // 선택한 소분류 값으로 해야할 작업 수행
+    if (handleSubCategoryChange) {
+      handleSubCategoryChange(selectedSubCategory);
+    }
   };
 
   console.log("category", category);
   console.log("subCategoryValue", subCategoryValue);
   return (
-    <div>
-      <div>
-        <select value={category} onChange={handleCategoryChange}>
+    <>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          padding: "10px",
+          gap: "10px",
+        }}
+      >
+        <label
+          style={{
+            display: "block",
+            fontSize: "16px",
+            textAlign: "center",
+            fontWeight: "400",
+            color: "#90A0AE",
+            width: "100px",
+            flexWrap: "nowrap",
+            overflow: "hidden",
+          }}
+        >
+          대분류
+        </label>
+        <select
+          style={{ width: "115px", height: "30px" }}
+          value={category}
+          onChange={onHandleCategoryChange}
+        >
           <option value="">대분류 선택</option>
           {mainCategories.map((option) => (
             <option key={option.value} value={option.value}>
@@ -112,9 +146,37 @@ const StoreSelectbox = () => {
             </option>
           ))}
         </select>
-      </div>
-      <div>
-        <select value={subCategoryValue} onChange={handleSubCategoryChange}>
+        <div
+          style={{
+            marginLeft: "30px",
+            marginBottom: " 5px",
+            fontSize: "25px",
+            textAlign: "center",
+            color: palette.gray[0],
+          }}
+        >
+          |
+        </div>
+        <label
+          style={{
+            display: "block",
+            fontSize: "16px",
+            textAlign: "center",
+            fontWeight: "400",
+            color: "#90A0AE",
+            width: "100px",
+            flexWrap: "nowrap",
+            overflow: "hidden",
+            marginLeft: "10px",
+          }}
+        >
+          소분류
+        </label>
+        <select
+          style={{ width: "115px", height: "30px" }}
+          value={subCategoryValue}
+          onChange={onHandleSubCategoryChange}
+        >
           <option value="">소분류 선택</option>
           {subCategory.map((option) => (
             <option key={option.value} value={option.value}>
@@ -123,8 +185,6 @@ const StoreSelectbox = () => {
           ))}
         </select>
       </div>
-    </div>
+    </>
   );
-};
-
-export default StoreSelectbox;
+}
