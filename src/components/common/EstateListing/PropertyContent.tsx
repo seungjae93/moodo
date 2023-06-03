@@ -70,10 +70,19 @@ export default function PropertyContent({
       {isOffice && (
         <StRealEstate.Content>
           <div className="contentTitle">업종</div>
-          <StoreSelectbox
-            handleCategoryChange={handleCategoryChange}
-            handleSubCategoryChange={handleSubCategoryChange}
-          />
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              padding: "10px",
+              gap: "10px",
+            }}
+          >
+            <StoreSelectbox
+              handleCategoryChange={handleCategoryChange}
+              handleSubCategoryChange={handleSubCategoryChange}
+            />
+          </div>
         </StRealEstate.Content>
       )}
       {isBuilding && (

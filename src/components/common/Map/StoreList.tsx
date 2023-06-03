@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import palette from "../../../libs/styles/palette";
+
 interface Option {
   value: string;
   label: string;
 }
-interface StoreSelectboxProps {
-  handleCategoryChange?: ((category: string) => void) | undefined;
-  handleSubCategoryChange?: ((subCategoryValue: string) => void) | undefined;
-}
+
 interface SubCategory {
   [key: string]: Option[];
 }
+
 const mainCategories: Option[] = [
   { value: "사무실", label: "사무실" },
   { value: "휴게음식점", label: "휴게음식점" },
@@ -21,6 +20,7 @@ const mainCategories: Option[] = [
   { value: "서비스업", label: "서비스업" },
   { value: "기타업종", label: "기타업종" },
 ];
+
 const subCategories: SubCategory = {
   사무실: [{ value: "사무실", label: "사무실" }],
   휴게음식점: [
@@ -81,33 +81,30 @@ const subCategories: SubCategory = {
   ],
 };
 
-export default function StoreSelectbox({
-  handleCategoryChange,
-  handleSubCategoryChange,
-}: StoreSelectboxProps) {
-  const [category, setCategory] = useState("");
+export default function StoreList() {
+  const [category, setCategory] = useState("전체");
   const [subCategory, setSubCategory] = useState<Option[]>([]);
-  const [subCategoryValue, setSubCategoryValue] = useState("");
+  const [subCategoryValue, setSubCategoryValue] = useState("전체");
 
   const onHandleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedCategory = e.target.value;
     setCategory(selectedCategory);
-    setSubCategory(subCategories[selectedCategory] || []);
-    if (handleCategoryChange) {
-      handleCategoryChange(selectedCategory);
-    } // 선택한 메인 카테고리에 따라 해당 서브 카테고리 설정
+    if (selectedCategory === "전체") {
+      setSubCategoryValue("전체");
+      setSubCategory([]);
+    } else {
+      setSubCategory(subCategories[selectedCategory] || []);
+      setSubCategoryValue("전체");
+    }
   };
-
   const onHandleSubCategoryChange = (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const selectedSubCategory = e.target.value;
     setSubCategoryValue(selectedSubCategory);
-    if (handleSubCategoryChange) {
-      handleSubCategoryChange(selectedSubCategory);
-    }
   };
-
+  console.log("category", category);
+  console.log("subCategoryValue", subCategoryValue);
   return (
     <>
       <label
@@ -117,7 +114,7 @@ export default function StoreSelectbox({
           textAlign: "center",
           fontWeight: "400",
           color: "#90A0AE",
-          width: "100px",
+          width: "60px",
           flexWrap: "nowrap",
           overflow: "hidden",
         }}
@@ -125,28 +122,18 @@ export default function StoreSelectbox({
         대분류
       </label>
       <select
-        style={{ width: "115px", height: "30px" }}
+        style={{ width: "220px", height: "30px" }}
         value={category}
         onChange={onHandleCategoryChange}
       >
-        <option value="">대분류 선택</option>
+        <option value="전체">전체</option>
         {mainCategories.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
           </option>
         ))}
       </select>
-      <div
-        style={{
-          marginLeft: "30px",
-          marginBottom: " 5px",
-          fontSize: "25px",
-          textAlign: "center",
-          color: palette.gray[0],
-        }}
-      >
-        |
-      </div>
+
       <label
         style={{
           display: "block",
@@ -154,20 +141,19 @@ export default function StoreSelectbox({
           textAlign: "center",
           fontWeight: "400",
           color: "#90A0AE",
-          width: "100px",
+          width: "60px",
           flexWrap: "nowrap",
           overflow: "hidden",
-          marginLeft: "10px",
         }}
       >
         소분류
       </label>
       <select
-        style={{ width: "115px", height: "30px" }}
+        style={{ width: "220px", height: "30px" }}
         value={subCategoryValue}
         onChange={onHandleSubCategoryChange}
       >
-        <option value="">소분류 선택</option>
+        <option value="전체">전체</option>
         {subCategory.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
