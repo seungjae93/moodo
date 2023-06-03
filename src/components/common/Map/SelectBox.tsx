@@ -8,7 +8,19 @@ import Button from "../Button/Button";
 import palette from "../../../libs/styles/palette";
 import StoreList from "./StoreList";
 
-function SelectBox({ onPropertyTypeChange, onDealTypeChange }: SelectBoxProps) {
+function SelectBox({
+  onPropertyTypeChange,
+  onDealTypeChange,
+  onDepositMinChange,
+  onDepositMaxChange,
+  onMonthlyMinChange,
+  onMonthlyMaxChange,
+  onRightMoneyMinChange,
+  onRightMoneyMaxChange,
+  onPriceResetButtonClick,
+  onStoreCategoryChange,
+  onSubStoreCategoryChange,
+}: SelectBoxProps) {
   const [propertyType, setPropertyType] = useState<string>("매물 종류");
   const [dealType, setDealType] = useState<string>("거래 유형");
   const [isPriceOpen, setIsPriceOpen] = useState(false);
@@ -46,36 +58,48 @@ function SelectBox({ onPropertyTypeChange, onDealTypeChange }: SelectBoxProps) {
   };
 
   const handleDepositMinChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setDepositMin(e.currentTarget.value);
+    const value = e.currentTarget.value;
+    setDepositMin(value);
+    onDepositMinChange(value);
   };
 
   const handleDepositMaxChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setDepositMax(e.currentTarget.value);
+    const value = e.currentTarget.value;
+    setDepositMax(value);
+    onDepositMaxChange(value);
   };
 
   const handleMonthlyMinChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setMonthlyMin(e.currentTarget.value);
+    const value = e.currentTarget.value;
+    setMonthlyMin(value);
+    onMonthlyMinChange(value);
   };
 
   const handleMonthlyMaxChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setMonthlyMax(e.currentTarget.value);
+    const value = e.currentTarget.value;
+    setMonthlyMax(value);
+    onMonthlyMaxChange(value);
   };
 
   const handleRightMoneyMinChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setRightMoneyMin(e.currentTarget.value);
+    const value = e.currentTarget.value;
+    setRightMoneyMin(value);
+    onRightMoneyMinChange(value);
   };
 
   const handleRightMoneyMaxChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setRightMoneyMax(e.currentTarget.value);
+    const value = e.currentTarget.value;
+    setRightMoneyMax(value);
+    onRightMoneyMaxChange(value);
   };
-
-  const handleResetButtonClick = () => {
+  const handlePriceResetButtonClick = () => {
     setDepositMin("");
     setDepositMax("");
     setMonthlyMin("");
     setMonthlyMax("");
     setRightMoneyMin("");
     setRightMoneyMax("");
+    onPriceResetButtonClick();
   };
   const propertyOption = [
     { key: 1, value: "매물 종류" },
@@ -92,7 +116,6 @@ function SelectBox({ onPropertyTypeChange, onDealTypeChange }: SelectBoxProps) {
     { key: 3, value: "전세" },
     { key: 4, value: "매매" },
   ];
-
   return (
     <Wrapper>
       <div style={{ display: "flex", gap: "10px" }}>
@@ -177,7 +200,7 @@ function SelectBox({ onPropertyTypeChange, onDealTypeChange }: SelectBoxProps) {
                 borderColor={palette.cyan[5]}
                 color={palette.cyan[5]}
                 size="small"
-                onClick={handleResetButtonClick}
+                onClick={handlePriceResetButtonClick}
               >
                 조건삭제
               </Button.Negative>
@@ -197,13 +220,16 @@ function SelectBox({ onPropertyTypeChange, onDealTypeChange }: SelectBoxProps) {
           </SelectPriceList>
           {isStoreOpen && (
             <SelectPriceBox>
-              <StoreList />
+              <StoreList
+                onStoreCategoryChange={onStoreCategoryChange}
+                onSubStoreCategoryChange={onSubStoreCategoryChange}
+              />
               <Button.Negative
                 outlined
                 borderColor={palette.cyan[5]}
                 color={palette.cyan[5]}
                 size="small"
-                onClick={handleResetButtonClick}
+                // onClick={handleResetButtonClick}
               >
                 조건삭제
               </Button.Negative>

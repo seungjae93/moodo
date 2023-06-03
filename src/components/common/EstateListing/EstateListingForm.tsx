@@ -148,30 +148,12 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
     defaultValues: {
       typeOfProperty: "원/투룸",
       transactionType: "월세",
-      deposit: "",
-      monthly: "",
-      price: "",
-      addressDetail: "",
       maintenanceCost: "",
       moveInDate: "즉시 입주",
-      supplyArea: "",
-      dong: "",
-      exclusiveArea: "",
-      numOfRoom: "",
-      numOfBath: "",
-      numOfFloor: "",
-      floor: "",
       parking: "가능",
       elevator: "있음",
       pet: "가능",
       options: "가스레인지",
-      lowestFloor: "",
-      highestFloor: "",
-      detail: "",
-      moveInDateInput: "",
-      rightMoney: "",
-      mainCategory: "",
-      subCategory: "",
     },
   });
 
@@ -241,7 +223,7 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
       formData.append("elevator", data?.elevator || "");
       formData.append("pet", data?.pet || "");
       formData.append("options", data?.options || "");
-      formData.append("rightMoney", data?.rightMoney || "");
+      formData.append("rightMoney", data?.rightMoney || "0");
       formData.append("mainCategory", category || "");
       formData.append("subCategory", subCategoryValue || "");
       // 이미지 파일을 formData에 추가

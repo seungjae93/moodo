@@ -10,6 +10,11 @@ interface SubCategory {
   [key: string]: Option[];
 }
 
+interface StoreListProps {
+  onStoreCategoryChange: (selectedCategory: string) => void;
+  onSubStoreCategoryChange: (selectedSubCategory: string) => void;
+}
+
 const mainCategories: Option[] = [
   { value: "사무실", label: "사무실" },
   { value: "휴게음식점", label: "휴게음식점" },
@@ -81,7 +86,10 @@ const subCategories: SubCategory = {
   ],
 };
 
-export default function StoreList() {
+export default function StoreList({
+  onStoreCategoryChange,
+  onSubStoreCategoryChange,
+}: StoreListProps) {
   const [category, setCategory] = useState("전체");
   const [subCategory, setSubCategory] = useState<Option[]>([]);
   const [subCategoryValue, setSubCategoryValue] = useState("전체");
@@ -89,12 +97,15 @@ export default function StoreList() {
   const onHandleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedCategory = e.target.value;
     setCategory(selectedCategory);
+    onStoreCategoryChange(selectedCategory);
     if (selectedCategory === "전체") {
       setSubCategoryValue("전체");
+      onSubStoreCategoryChange("전체");
       setSubCategory([]);
     } else {
       setSubCategory(subCategories[selectedCategory] || []);
       setSubCategoryValue("전체");
+      onSubStoreCategoryChange("전체");
     }
   };
   const onHandleSubCategoryChange = (
@@ -102,9 +113,8 @@ export default function StoreList() {
   ) => {
     const selectedSubCategory = e.target.value;
     setSubCategoryValue(selectedSubCategory);
+    onSubStoreCategoryChange(selectedSubCategory);
   };
-  console.log("category", category);
-  console.log("subCategoryValue", subCategoryValue);
   return (
     <>
       <label
