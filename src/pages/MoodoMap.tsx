@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 
 import MapContainer from "../components/common/Map/MapContainer";
 import Search from "../components/common/Map/Search";
@@ -15,6 +15,14 @@ function MoodoMap() {
   const [selectedPropertyType, setSelectedPropertyType] =
     useState<string>("매물 종류");
   const [selectedDealType, setSelectedDealType] = useState<string>("거래 유형");
+  const [depositMin, setDepositMin] = useState("");
+  const [depositMax, setDepositMax] = useState("");
+  const [monthlyMin, setMonthlyMin] = useState("");
+  const [monthlyMax, setMonthlyMax] = useState("");
+  const [rightMoneyMin, setRightMoneyMin] = useState("");
+  const [rightMoneyMax, setRightMoneyMax] = useState("");
+  const [storeCategory, setStoreCategory] = useState("전체");
+  const [subStoreCategoryValue, setStoreSubCategoryValue] = useState("전체");
   const [filteredMapList, setFilteredMapList] = useState<EstateDetailData[]>(
     []
   );
@@ -26,13 +34,65 @@ function MoodoMap() {
     setMapData(data);
   };
 
+  //매물종류 change
   const handlePropertyTypeChange = (propertyType: string) => {
     setSelectedPropertyType(propertyType);
     setSelectedDealType("거래 유형");
   };
 
+  //거래유형 change
   const handleDealTypeChange = (dealType: string) => {
     setSelectedDealType(dealType);
+  };
+
+  //보증금 최소
+  const handleDepositMinChange = (value: string) => {
+    setDepositMin(value);
+  };
+
+  //보증금 최대
+  const handleDepositMaxChange = (value: string) => {
+    setDepositMax(value);
+  };
+
+  //월세 최저
+  const handleMonthlyMinChange = (value: string) => {
+    setMonthlyMin(value);
+  };
+
+  //월세 최고
+  const handleMonthlyMaxChange = (value: string) => {
+    setMonthlyMax(value);
+  };
+
+  //권리금 최저
+  const handleRightMoneyMinChange = (value: string) => {
+    setRightMoneyMin(value);
+  };
+
+  //권리금 최고
+  const handleRightMoneyMaxChange = (value: string) => {
+    setRightMoneyMax(value);
+  };
+
+  //업종 대분류
+  const handleStoreCategoryChange = (selectedCategory: string) => {
+    setStoreCategory(selectedCategory);
+  };
+
+  //업종 소분류
+  const handleSubStoreCategoryChange = (selectedSubCategory: string) => {
+    setStoreSubCategoryValue(selectedSubCategory);
+  };
+
+  //버튼 초기화
+  const handleResetButtonClick = () => {
+    setDepositMin("");
+    setDepositMax("");
+    setMonthlyMin("");
+    setMonthlyMax("");
+    setRightMoneyMin("");
+    setRightMoneyMax("");
   };
 
   useEffect(() => {
@@ -40,21 +100,46 @@ function MoodoMap() {
     const filteredList = Array.isArray(mapData)
       ? mapData.filter((estate) => {
           if (
-            selectedPropertyType === "매물 종류" ||
-            estate.typeOfProperty === selectedPropertyType
+            (selectedPropertyType === "매물 종류" ||
+              estate.typeOfProperty === selectedPropertyType) &&
+            (selectedDealType === "거래 유형" ||
+              estate.transactionType === selectedDealType) &&
+            (depositMin === "" ||
+              (estate.deposit &&
+                estate.deposit >= depositMin &&
+                estate.deposit <= depositMax)) &&
+            (monthlyMin === "" ||
+              (estate.monthly &&
+                estate.monthly >= monthlyMin &&
+                estate.monthly <= monthlyMax)) &&
+            (rightMoneyMin === "" ||
+              (estate.rightMoney &&
+                estate.rightMoney >= rightMoneyMin &&
+                estate.rightMoney <= rightMoneyMax)) &&
+            (storeCategory === "전체" ||
+              estate.mainCategory === storeCategory) &&
+            (subStoreCategoryValue === "전체" ||
+              estate.subCategory === subStoreCategoryValue)
           ) {
-            if (
-              selectedDealType === "거래 유형" ||
-              estate.transactionType === selectedDealType
-            ) {
-              return true;
-            }
+            return true;
           }
           return false;
         })
       : [];
     setFilteredMapList(filteredList);
-  }, [selectedPropertyType, selectedDealType, mapData]);
+  }, [
+    selectedPropertyType,
+    selectedDealType,
+    depositMin,
+    depositMax,
+    monthlyMin,
+    monthlyMax,
+    rightMoneyMin,
+    rightMoneyMax,
+    storeCategory,
+    subStoreCategoryValue,
+    mapData,
+  ]);
   return (
     <StMoodoMap.Wrapper>
       <StMoodoMap.searchBox>
@@ -62,6 +147,15 @@ function MoodoMap() {
         <SelectBox
           onPropertyTypeChange={handlePropertyTypeChange}
           onDealTypeChange={handleDealTypeChange}
+          onDepositMinChange={handleDepositMinChange}
+          onDepositMaxChange={handleDepositMaxChange}
+          onMonthlyMinChange={handleMonthlyMinChange}
+          onMonthlyMaxChange={handleMonthlyMaxChange}
+          onRightMoneyMinChange={handleRightMoneyMinChange}
+          onRightMoneyMaxChange={handleRightMoneyMaxChange}
+          onPriceResetButtonClick={handleResetButtonClick}
+          onStoreCategoryChange={handleStoreCategoryChange}
+          onSubStoreCategoryChange={handleSubStoreCategoryChange}
         />
       </StMoodoMap.searchBox>
       <StMoodoMap.ContentWrapper>

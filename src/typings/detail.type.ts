@@ -38,6 +38,9 @@ export interface EstateDetailData {
   transactionType?: string;
   lat?: string;
   lng?: string;
+  rightMoney?: string;
+  mainCategory?: string;
+  subCategory?: string;
 }
 
 export interface ImageData {
@@ -187,6 +190,15 @@ export interface SearchProps {
 export interface SelectBoxProps {
   onPropertyTypeChange: (propertyType: string) => void;
   onDealTypeChange: (dealType: string) => void;
+  onDepositMinChange: (value: string) => void;
+  onDepositMaxChange: (value: string) => void;
+  onMonthlyMinChange: (value: string) => void;
+  onMonthlyMaxChange: (value: string) => void;
+  onRightMoneyMinChange: (value: string) => void;
+  onRightMoneyMaxChange: (value: string) => void;
+  onPriceResetButtonClick: () => void;
+  onStoreCategoryChange: (selectedCategory: string) => void;
+  onSubStoreCategoryChange: (selectedSubCategory: string) => void;
 }
 //TextArea
 export interface TextAreaProps {
