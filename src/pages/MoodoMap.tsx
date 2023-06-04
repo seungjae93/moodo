@@ -27,6 +27,9 @@ function MoodoMap() {
     []
   );
 
+  //반응형 클릭시 EstateCard확장
+  const [isEstateCardExpanded, setIsEstateCardExpanded] = useState(false);
+
   const handleSearch = (value: string) => {
     setSearchValue(value);
   };
@@ -83,6 +86,11 @@ function MoodoMap() {
   //업종 소분류
   const handleSubStoreCategoryChange = (selectedSubCategory: string) => {
     setStoreSubCategoryValue(selectedSubCategory);
+  };
+
+  const handleEstateCardClick = () => {
+    // 추가된 부분
+    setIsEstateCardExpanded((prev) => !prev);
   };
 
   //버튼 초기화
@@ -166,7 +174,10 @@ function MoodoMap() {
             filteredMapList={filteredMapList}
           />
         </StMoodoMap.Map>
-        <StMoodoMap.EstateCard>
+        <StMoodoMap.EstateCard
+          onClick={handleEstateCardClick}
+          expanded={isEstateCardExpanded}
+        >
           <CardProfile />
           <StMoodoMap.CardBox>
             {Array.isArray(filteredMapList) &&
@@ -202,16 +213,34 @@ const StMoodoMap = {
     ${flex({ justify: "" })}
     width: 100%;
     height: 100%;
+    @media screen and (max-width: 768px) {
+      ${flex({
+        direction: "column",
+        gap: "",
+      })}
+    }
   `,
   Map: styled.div`
     width: 75%;
     height: 100%;
+    @media screen and (max-width: 768px) {
+      width: 100%;
+      height: 100%;
+    }
   `,
   EstateCard: styled.div`
     ${flex({ direction: "column", justify: "flex-start" })}
     width: 500px;
     height: 100%;
+
+    @media screen and (max-width: 768px) {
+      transition: height 0.6s ease;
+      width: 100%;
+      height: ${({ expanded }: { expanded: boolean }) =>
+        expanded ? "90%" : "30px"};
+    }
   `,
+
   CardBox: styled.div`
     ${flex({ align: "flex-start", gap: "12px" })}
     padding-bottom:10px;
