@@ -31,11 +31,24 @@ const StCardProfile = {
     border: 0px solid black;
     border-radius: 10px;
     box-shadow: 0px 1px 5px 1px #dddddd;
+    @media screen and (max-width: 930px) {
+      width: 230px;
+      height: 70px;
+      z-index: 2;
+      position: absolute;
+      right: 10px;
+      top: 120px;
+      background-color: white;
+    }
   `,
   Img: styled.img`
     width: 120px;
     height: 120px;
     border-radius: 100%;
+    @media screen and (max-width: 930px) {
+      width: 50px;
+      height: 50px;
+    }
   `,
   Content: styled.div`
     ${flex({ align: "", direction: "column", gap: "15px" })}
@@ -48,6 +61,17 @@ const StCardProfile = {
     .userName {
       font-weight: 400;
       font-size: 16px;
+    }
+    @media screen and (max-width: 930px) {
+      .companyName {
+        font-weight: 700;
+        font-size: 12px;
+        color: ${palette.cyan[5]};
+      }
+      .userName {
+        font-weight: 400;
+        font-size: 8px;
+      }
     }
   `,
 };
