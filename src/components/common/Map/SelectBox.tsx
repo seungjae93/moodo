@@ -250,7 +250,7 @@ const Wrapper = styled.div`
 const SelectList = styled.select`
   border: 1px solid #eee;
   background-color: #fff;
-  width: 180px;
+  width: 160px;
   height: 40px;
 `;
 
@@ -266,7 +266,7 @@ const SelectPriceList = styled.div`
   ${flex({ justify: "space-between" })}
   border: 1px solid #eee;
   background-color: #fff;
-  width: 180px;
+  width: 160px;
   height: 40px;
   border-radius: 5px;
   padding-left: 5px;
