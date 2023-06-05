@@ -4,10 +4,12 @@ import MapContainer from "../components/common/Map/MapContainer";
 import Search from "../components/common/Map/Search";
 import styled from "styled-components";
 import flex from "../libs/styles/utilFlex";
+import palette from "../libs/styles/palette";
 import CardProfile from "../components/common/Map/EstateDetail/CardProfile";
 import EstateCard from "../components/common/Map/EstateDetail/EstateCard";
 import SelectBox from "../components/common/Map/SelectBox";
 import { EstateDetailData } from "../typings/detail.type";
+import { RxMinus } from "react-icons/rx";
 
 function MoodoMap() {
   const [searchValue, setSearchValue] = useState("");
@@ -89,7 +91,6 @@ function MoodoMap() {
   };
 
   const handleEstateCardClick = () => {
-    // 추가된 부분
     setIsEstateCardExpanded((prev) => !prev);
   };
 
@@ -150,43 +151,103 @@ function MoodoMap() {
   ]);
   return (
     <StMoodoMap.Wrapper>
-      <StMoodoMap.searchBox>
-        <Search onSearch={handleSearch} />
-        <SelectBox
-          onPropertyTypeChange={handlePropertyTypeChange}
-          onDealTypeChange={handleDealTypeChange}
-          onDepositMinChange={handleDepositMinChange}
-          onDepositMaxChange={handleDepositMaxChange}
-          onMonthlyMinChange={handleMonthlyMinChange}
-          onMonthlyMaxChange={handleMonthlyMaxChange}
-          onRightMoneyMinChange={handleRightMoneyMinChange}
-          onRightMoneyMaxChange={handleRightMoneyMaxChange}
-          onPriceResetButtonClick={handleResetButtonClick}
-          onStoreCategoryChange={handleStoreCategoryChange}
-          onSubStoreCategoryChange={handleSubStoreCategoryChange}
-        />
-      </StMoodoMap.searchBox>
-      <StMoodoMap.ContentWrapper>
-        <StMoodoMap.Map>
-          <MapContainer
-            searchValue={searchValue}
-            onDataReceived={handleDataReceived}
-            filteredMapList={filteredMapList}
-          />
-        </StMoodoMap.Map>
-        <StMoodoMap.EstateCard
-          onClick={handleEstateCardClick}
-          expanded={isEstateCardExpanded}
-        >
+      {window.innerWidth <= 930 ? (
+        <>
+          <StMoodoMap.searchBox>
+            <Search onSearch={handleSearch} />
+          </StMoodoMap.searchBox>
+          {/* <SelectBox
+            onPropertyTypeChange={handlePropertyTypeChange}
+            onDealTypeChange={handleDealTypeChange}
+            onDepositMinChange={handleDepositMinChange}
+            onDepositMaxChange={handleDepositMaxChange}
+            onMonthlyMinChange={handleMonthlyMinChange}
+            onMonthlyMaxChange={handleMonthlyMaxChange}
+            onRightMoneyMinChange={handleRightMoneyMinChange}
+            onRightMoneyMaxChange={handleRightMoneyMaxChange}
+            onPriceResetButtonClick={handleResetButtonClick}
+            onStoreCategoryChange={handleStoreCategoryChange}
+            onSubStoreCategoryChange={handleSubStoreCategoryChange}
+          /> */}
           <CardProfile />
-          <StMoodoMap.CardBox>
-            {Array.isArray(filteredMapList) &&
-              filteredMapList?.map((estate) => (
-                <EstateCard key={estate?.estateId} estate={estate} />
-              ))}
-          </StMoodoMap.CardBox>
-        </StMoodoMap.EstateCard>
-      </StMoodoMap.ContentWrapper>
+          <StMoodoMap.ContentWrapper>
+            <StMoodoMap.Map>
+              <MapContainer
+                searchValue={searchValue}
+                onDataReceived={handleDataReceived}
+                filteredMapList={filteredMapList}
+              />
+            </StMoodoMap.Map>
+            <StMoodoMap.EstateCard
+              onClick={handleEstateCardClick}
+              expanded={isEstateCardExpanded}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  textAlign: "center",
+                }}
+              >
+                <RxMinus
+                  style={{
+                    color: palette.cyan[5],
+                    width: "80px",
+                    height: "40px",
+                  }}
+                />
+                매물보기
+              </div>
+              <StMoodoMap.CardBox>
+                {Array.isArray(filteredMapList) &&
+                  filteredMapList?.map((estate) => (
+                    <EstateCard key={estate?.estateId} estate={estate} />
+                  ))}
+              </StMoodoMap.CardBox>
+            </StMoodoMap.EstateCard>
+          </StMoodoMap.ContentWrapper>
+        </>
+      ) : (
+        <>
+          <StMoodoMap.searchBox>
+            <Search onSearch={handleSearch} />
+            <SelectBox
+              onPropertyTypeChange={handlePropertyTypeChange}
+              onDealTypeChange={handleDealTypeChange}
+              onDepositMinChange={handleDepositMinChange}
+              onDepositMaxChange={handleDepositMaxChange}
+              onMonthlyMinChange={handleMonthlyMinChange}
+              onMonthlyMaxChange={handleMonthlyMaxChange}
+              onRightMoneyMinChange={handleRightMoneyMinChange}
+              onRightMoneyMaxChange={handleRightMoneyMaxChange}
+              onPriceResetButtonClick={handleResetButtonClick}
+              onStoreCategoryChange={handleStoreCategoryChange}
+              onSubStoreCategoryChange={handleSubStoreCategoryChange}
+            />
+          </StMoodoMap.searchBox>
+          <StMoodoMap.ContentWrapper>
+            <StMoodoMap.Map>
+              <MapContainer
+                searchValue={searchValue}
+                onDataReceived={handleDataReceived}
+                filteredMapList={filteredMapList}
+              />
+            </StMoodoMap.Map>
+            <StMoodoMap.EstateCard
+              onClick={handleEstateCardClick}
+              expanded={isEstateCardExpanded}
+            >
+              <CardProfile />
+              <StMoodoMap.CardBox>
+                {Array.isArray(filteredMapList) &&
+                  filteredMapList?.map((estate) => (
+                    <EstateCard key={estate?.estateId} estate={estate} />
+                  ))}
+              </StMoodoMap.CardBox>
+            </StMoodoMap.EstateCard>
+          </StMoodoMap.ContentWrapper>
+        </>
+      )}
     </StMoodoMap.Wrapper>
   );
 }
@@ -200,20 +261,35 @@ const StMoodoMap = {
     height: calc(100vh - 29px);
     overflow: hidden;
     overflow-y: hidden;
+    @media screen and (max-width: 930px) {
+      width: 100%;
+    }
   `,
   searchBox: styled.div`
     ${flex({ justify: "", gap: "10px" })}
-    padding: 50px 0px 20px 20px;
+    padding: 50px 0px 20px 0px;
     width: 100%;
     height: 90px;
     z-index: 10;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
+    @media screen and (max-width: 930px) {
+      padding: 25px 0px 25px 0px;
+      width: 300px;
+      height: 40px;
+      z-index: 1000;
+      position: absolute;
+      right: 50%;
+      transform: translateX(50%);
+      top: 80px;
+      background-color: white;
+      border: none;
+    }
   `,
   ContentWrapper: styled.div`
     ${flex({ justify: "" })}
     width: 100%;
     height: 100%;
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 930px) {
       ${flex({
         direction: "column",
         gap: "",
@@ -223,7 +299,7 @@ const StMoodoMap = {
   Map: styled.div`
     width: 75%;
     height: 100%;
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 930px) {
       width: 100%;
       height: 100%;
     }
@@ -233,11 +309,15 @@ const StMoodoMap = {
     width: 500px;
     height: 100%;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 930px) {
       transition: height 0.6s ease;
       width: 100%;
       height: ${({ expanded }: { expanded: boolean }) =>
-        expanded ? "90%" : "30px"};
+        expanded ? "60%" : "60px"};
+      bottom: 0px;
+      z-index: 50;
+      position: absolute;
+      background-color: white;
     }
   `,
 
@@ -255,6 +335,9 @@ const StMoodoMap = {
     &::-webkit-scrollbar-thumb {
       border-radius: 5px;
       background: #ccc;
+    }
+    @media screen and (max-width: 930px) {
+      margin: 30px 10px 0px 10px;
     }
   `,
 };
