@@ -28,7 +28,6 @@ function MoodoMap() {
   const [filteredMapList, setFilteredMapList] = useState<EstateDetailData[]>(
     []
   );
-
   //반응형 클릭시 EstateCard확장
   const [isEstateCardExpanded, setIsEstateCardExpanded] = useState(false);
 
@@ -149,6 +148,7 @@ function MoodoMap() {
     subStoreCategoryValue,
     mapData,
   ]);
+
   return (
     <StMoodoMap.Wrapper>
       {window.innerWidth <= 930 ? (
@@ -156,19 +156,7 @@ function MoodoMap() {
           <StMoodoMap.searchBox>
             <Search onSearch={handleSearch} />
           </StMoodoMap.searchBox>
-          {/* <SelectBox
-            onPropertyTypeChange={handlePropertyTypeChange}
-            onDealTypeChange={handleDealTypeChange}
-            onDepositMinChange={handleDepositMinChange}
-            onDepositMaxChange={handleDepositMaxChange}
-            onMonthlyMinChange={handleMonthlyMinChange}
-            onMonthlyMaxChange={handleMonthlyMaxChange}
-            onRightMoneyMinChange={handleRightMoneyMinChange}
-            onRightMoneyMaxChange={handleRightMoneyMaxChange}
-            onPriceResetButtonClick={handleResetButtonClick}
-            onStoreCategoryChange={handleStoreCategoryChange}
-            onSubStoreCategoryChange={handleSubStoreCategoryChange}
-          /> */}
+
           <CardProfile />
           <StMoodoMap.ContentWrapper>
             <StMoodoMap.Map>
@@ -280,7 +268,7 @@ const StMoodoMap = {
       position: absolute;
       right: 50%;
       transform: translateX(50%);
-      top: 80px;
+      top: 70px;
       background-color: white;
       border: none;
     }
@@ -313,11 +301,13 @@ const StMoodoMap = {
       transition: height 0.6s ease;
       width: 100%;
       height: ${({ expanded }: { expanded: boolean }) =>
-        expanded ? "60%" : "60px"};
+        expanded ? "60%" : "70px"};
       bottom: 0px;
       z-index: 50;
       position: absolute;
       background-color: white;
+      overflow-y: hidden;
+      overflow-x: hidden;
     }
   `,
 

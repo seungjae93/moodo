@@ -27,6 +27,18 @@ const PrimaryButton = (props: StyledButtonProps) => {
   );
 };
 
+const CyanButton = (props: StyledButtonProps) => {
+  return (
+    <PrimitiveButton
+      {...props}
+      bc={palette.cyan[5]}
+      color="white"
+      hoverBc={palette.cyan[4]}
+      activeBc={palette.cyan[8]}
+    />
+  );
+};
+
 const NegativeButton = (props: StyledButtonProps) => {
   return (
     <PrimitiveButton
@@ -39,9 +51,10 @@ const NegativeButton = (props: StyledButtonProps) => {
 };
 
 const Primary = PrimaryButton;
+const Cyan = CyanButton;
 const Negative = NegativeButton;
 
-const Button = { Primary, Negative };
+const Button = { Primary, Negative, Cyan };
 export default Button;
 
 const StyledButton = styled.button<StyledButtonProps>`
