@@ -4,6 +4,7 @@ import styled from "styled-components";
 import flex from "../../../libs/styles/utilFlex";
 import palette from "../../../libs/styles/palette";
 import Button from "../Button/Button";
+import { ResponsiveSelectBoxProps } from "../../../typings/detail.type";
 
 interface PropertyType {
   id: string;
@@ -107,7 +108,24 @@ const subCategories: SubCategory = {
     { value: "기타", label: "기타" },
   ],
 };
-export default function ResponsiveSelectBox() {
+export default function ResponsiveSelectBox({
+  onDepositMinChange,
+  onDepositMaxChange,
+  onMonthlyMinChange,
+  onMonthlyMaxChange,
+  onRightMoneyMinChange,
+  onRightMoneyMaxChange,
+  onStoreCategoryChange,
+  onSubStoreCategoryChange,
+  setMainTainDepositMin,
+  setMaintainDepositMax,
+  setMaintainMonthlyMin,
+  setMaintainMonthlyMax,
+  setMaintainRightMoneyMin,
+  setMaintainRightMoneyMax,
+  setMaintainCategory,
+  setMaintainSubCategoryValue,
+}: ResponsiveSelectBoxProps) {
   const [selectedPropertyTypes, setSelectedPropertyTypes] = useState<string[]>(
     []
   );
@@ -148,51 +166,60 @@ export default function ResponsiveSelectBox() {
   const handleDepositMinChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
     setDepositMin(value);
-    // onDepositMinChange(value);
+    onDepositMinChange(value);
+    setMainTainDepositMin(value);
   };
 
   const handleDepositMaxChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
     setDepositMax(value);
-    // onDepositMaxChange(value);
+    onDepositMaxChange(value);
+    setMaintainDepositMax(value);
   };
 
   const handleMonthlyMinChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
     setMonthlyMin(value);
-    // onMonthlyMinChange(value);
+    onMonthlyMinChange(value);
+    setMaintainMonthlyMin(value);
   };
 
   const handleMonthlyMaxChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
     setMonthlyMax(value);
-    // onMonthlyMaxChange(value);
+    onMonthlyMaxChange(value);
+    setMaintainMonthlyMax(value);
   };
 
   const handleRightMoneyMinChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
     setRightMoneyMin(value);
-    // onRightMoneyMinChange(value);
+    onRightMoneyMinChange(value);
+    setMaintainRightMoneyMin(value);
   };
 
   const handleRightMoneyMaxChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
     setRightMoneyMax(value);
-    // onRightMoneyMaxChange(value);
+    onRightMoneyMaxChange(value);
+    setMaintainRightMoneyMax(value);
   };
 
   const onHandleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedCategory = e.target.value;
     setCategory(selectedCategory);
-    // onStoreCategoryChange(selectedCategory);
+    onStoreCategoryChange(selectedCategory);
+    setMaintainCategory(selectedCategory);
     if (selectedCategory === "전체") {
       setSubCategoryValue("전체");
-      // onSubStoreCategoryChange("전체");
+      onSubStoreCategoryChange("전체");
+      setMaintainSubCategoryValue("전체");
       setSubCategory([]);
     } else {
       setSubCategory(subCategories[selectedCategory] || []);
       setSubCategoryValue("전체");
-      // onSubStoreCategoryChange("전체");
+      onSubStoreCategoryChange("전체");
+      setMaintainSubCategoryValue("전체");
     }
   };
   const onHandleSubCategoryChange = (
@@ -200,7 +227,8 @@ export default function ResponsiveSelectBox() {
   ) => {
     const selectedSubCategory = e.target.value;
     setSubCategoryValue(selectedSubCategory);
-    // onSubStoreCategoryChange(selectedSubCategory);
+    onSubStoreCategoryChange(selectedSubCategory);
+    setMaintainSubCategoryValue(selectedSubCategory);
   };
 
   return (
@@ -296,7 +324,6 @@ export default function ResponsiveSelectBox() {
         <StInput
           type="number"
           value={rightMoneyMax}
-          placeholder="만원"
           onChange={handleRightMoneyMaxChange}
         />
         만원

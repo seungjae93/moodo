@@ -28,6 +28,7 @@ function MoodoMap() {
   const [filteredMapList, setFilteredMapList] = useState<EstateDetailData[]>(
     []
   );
+  console.log("filteredMapList", filteredMapList);
   //반응형 클릭시 EstateCard확장
   const [isEstateCardExpanded, setIsEstateCardExpanded] = useState(false);
 
@@ -154,7 +155,20 @@ function MoodoMap() {
       {window.innerWidth <= 930 ? (
         <>
           <StMoodoMap.searchBox>
-            <Search onSearch={handleSearch} />
+            <Search
+              onSearch={handleSearch}
+              onPropertyTypeChange={handlePropertyTypeChange}
+              onDealTypeChange={handleDealTypeChange}
+              onDepositMinChange={handleDepositMinChange}
+              onDepositMaxChange={handleDepositMaxChange}
+              onMonthlyMinChange={handleMonthlyMinChange}
+              onMonthlyMaxChange={handleMonthlyMaxChange}
+              onRightMoneyMinChange={handleRightMoneyMinChange}
+              onRightMoneyMaxChange={handleRightMoneyMaxChange}
+              onPriceResetButtonClick={handleResetButtonClick}
+              onStoreCategoryChange={handleStoreCategoryChange}
+              onSubStoreCategoryChange={handleSubStoreCategoryChange}
+            />
           </StMoodoMap.searchBox>
 
           <CardProfile />
@@ -198,7 +212,20 @@ function MoodoMap() {
       ) : (
         <>
           <StMoodoMap.searchBox>
-            <Search onSearch={handleSearch} />
+            <Search
+              onSearch={handleSearch}
+              onPropertyTypeChange={handlePropertyTypeChange}
+              onDealTypeChange={handleDealTypeChange}
+              onDepositMinChange={handleDepositMinChange}
+              onDepositMaxChange={handleDepositMaxChange}
+              onMonthlyMinChange={handleMonthlyMinChange}
+              onMonthlyMaxChange={handleMonthlyMaxChange}
+              onRightMoneyMinChange={handleRightMoneyMinChange}
+              onRightMoneyMaxChange={handleRightMoneyMaxChange}
+              onPriceResetButtonClick={handleResetButtonClick}
+              onStoreCategoryChange={handleStoreCategoryChange}
+              onSubStoreCategoryChange={handleSubStoreCategoryChange}
+            />
             <SelectBox
               onPropertyTypeChange={handlePropertyTypeChange}
               onDealTypeChange={handleDealTypeChange}
