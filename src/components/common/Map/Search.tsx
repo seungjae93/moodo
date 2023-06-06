@@ -6,9 +6,12 @@ import { RiEqualizerFill } from "react-icons/ri";
 
 import { SearchProps } from "../../../typings/detail.type";
 import palette from "../../../libs/styles/palette";
+import flex from "../../../libs/styles/utilFlex";
+import ResponsiveSelectBox from "./ResponsiveSelectBox";
 
 function Search({ onSearch }: SearchProps) {
   const [searchValue, setSearchValue] = useState("");
+  const [filterOpen, setFilterOpen] = useState(false);
 
   const handleInputChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
@@ -22,6 +25,9 @@ function Search({ onSearch }: SearchProps) {
     setSearchValue("");
   };
 
+  const handleFilterClick = () => {
+    setFilterOpen(!filterOpen);
+  };
   return (
     <>
       {window.innerWidth >= 930 ? (
@@ -56,7 +62,13 @@ function Search({ onSearch }: SearchProps) {
               height: "20px",
               cursor: "pointer",
             }}
+            onClick={handleFilterClick}
           />
+          {filterOpen && (
+            <StFilterBox>
+              <ResponsiveSelectBox />
+            </StFilterBox>
+          )}
           <CiSearch
             onClick={handleSearch}
             style={{
@@ -84,4 +96,17 @@ const StSearch = styled.input`
   @media screen and (max-width: 930px) {
     border: none;
   }
+`;
+const StFilterBox = styled.div`
+  ${flex({ direction: "column", align: "", justify: "" })}
+  padding: 10px;
+  position: absolute;
+  border: 1px solid #eee;
+  background-color: #fff;
+  width: 340px;
+  height: 580px;
+  border-radius: 5px;
+  font-size: 15px;
+  z-index: 10;
+  top: 50px;
 `;
