@@ -1,5 +1,4 @@
 import { useState, useEffect, ChangeEvent } from "react";
-
 import MapContainer from "../components/common/Map/MapContainer";
 import Search from "../components/common/Map/Search";
 import styled from "styled-components";
@@ -8,8 +7,11 @@ import palette from "../libs/styles/palette";
 import CardProfile from "../components/common/Map/EstateDetail/CardProfile";
 import EstateCard from "../components/common/Map/EstateDetail/EstateCard";
 import SelectBox from "../components/common/Map/SelectBox";
+import ResponsiveSelectBox from "../components/common/Map/ResponsiveSelectBox";
+
 import { EstateDetailData } from "../typings/detail.type";
 import { RxMinus } from "react-icons/rx";
+import { RiEqualizerFill } from "react-icons/ri";
 
 function MoodoMap() {
   const [searchValue, setSearchValue] = useState("");
@@ -28,13 +30,19 @@ function MoodoMap() {
   const [filteredMapList, setFilteredMapList] = useState<EstateDetailData[]>(
     []
   );
-  console.log("filteredMapList", filteredMapList);
+  const [filterOpen, setFilterOpen] = useState(false);
+
   //반응형 클릭시 EstateCard확장
   const [isEstateCardExpanded, setIsEstateCardExpanded] = useState(false);
 
   const handleSearch = (value: string) => {
     setSearchValue(value);
   };
+
+  const handleFilterClick = () => {
+    setFilterOpen(!filterOpen);
+  };
+
   const handleDataReceived = (data: any) => {
     setMapData(data);
   };
@@ -149,26 +157,46 @@ function MoodoMap() {
     subStoreCategoryValue,
     mapData,
   ]);
-
+  console.log("depositMin", depositMin);
+  console.log("depositMax", depositMax);
+  console.log("monthlyMin", monthlyMin);
+  console.log("monthlyMax", monthlyMax);
+  console.log("rightMoneyMin", rightMoneyMin);
+  console.log("rightMoneyMax", rightMoneyMax);
+  console.log("storeCategory", storeCategory);
+  console.log("subStoreCategoryValue", subStoreCategoryValue);
   return (
     <StMoodoMap.Wrapper>
       {window.innerWidth <= 930 ? (
         <>
           <StMoodoMap.searchBox>
-            <Search
-              onSearch={handleSearch}
-              onPropertyTypeChange={handlePropertyTypeChange}
-              onDealTypeChange={handleDealTypeChange}
-              onDepositMinChange={handleDepositMinChange}
-              onDepositMaxChange={handleDepositMaxChange}
-              onMonthlyMinChange={handleMonthlyMinChange}
-              onMonthlyMaxChange={handleMonthlyMaxChange}
-              onRightMoneyMinChange={handleRightMoneyMinChange}
-              onRightMoneyMaxChange={handleRightMoneyMaxChange}
-              onPriceResetButtonClick={handleResetButtonClick}
-              onStoreCategoryChange={handleStoreCategoryChange}
-              onSubStoreCategoryChange={handleSubStoreCategoryChange}
+            <Search onSearch={handleSearch} />
+
+            <RiEqualizerFill
+              style={{
+                color: "black",
+                width: "20px",
+                height: "20px",
+                cursor: "pointer",
+              }}
+              onClick={handleFilterClick}
             />
+
+            {filterOpen && (
+              <StMoodoMap.FilterBox>
+                <ResponsiveSelectBox
+                  onDepositMinChange={handleDepositMinChange}
+                  onDepositMaxChange={handleDepositMaxChange}
+                  onMonthlyMinChange={handleMonthlyMinChange}
+                  onMonthlyMaxChange={handleMonthlyMaxChange}
+                  onRightMoneyMinChange={handleRightMoneyMinChange}
+                  onRightMoneyMaxChange={handleRightMoneyMaxChange}
+                  onPriceResetButtonClick={handleResetButtonClick}
+                  onStoreCategoryChange={handleStoreCategoryChange}
+                  onSubStoreCategoryChange={handleSubStoreCategoryChange}
+                />
+              </StMoodoMap.FilterBox>
+            )}
           </StMoodoMap.searchBox>
 
           <CardProfile />
@@ -212,20 +240,7 @@ function MoodoMap() {
       ) : (
         <>
           <StMoodoMap.searchBox>
-            <Search
-              onSearch={handleSearch}
-              onPropertyTypeChange={handlePropertyTypeChange}
-              onDealTypeChange={handleDealTypeChange}
-              onDepositMinChange={handleDepositMinChange}
-              onDepositMaxChange={handleDepositMaxChange}
-              onMonthlyMinChange={handleMonthlyMinChange}
-              onMonthlyMaxChange={handleMonthlyMaxChange}
-              onRightMoneyMinChange={handleRightMoneyMinChange}
-              onRightMoneyMaxChange={handleRightMoneyMaxChange}
-              onPriceResetButtonClick={handleResetButtonClick}
-              onStoreCategoryChange={handleStoreCategoryChange}
-              onSubStoreCategoryChange={handleSubStoreCategoryChange}
-            />
+            <Search onSearch={handleSearch} />
             <SelectBox
               onPropertyTypeChange={handlePropertyTypeChange}
               onDealTypeChange={handleDealTypeChange}
@@ -356,5 +371,18 @@ const StMoodoMap = {
     @media screen and (max-width: 930px) {
       margin: 30px 10px 0px 10px;
     }
+  `,
+  FilterBox: styled.div`
+    ${flex({ direction: "column", align: "", justify: "" })}
+    padding: 10px;
+    position: absolute;
+    border: 1px solid #eee;
+    background-color: #fff;
+    width: 340px;
+    height: 580px;
+    border-radius: 5px;
+    font-size: 15px;
+    z-index: 10;
+    top: 50px;
   `,
 };

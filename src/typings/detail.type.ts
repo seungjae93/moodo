@@ -185,17 +185,6 @@ export interface InputProps {
 //Search
 export interface SearchProps {
   onSearch: (value: string) => void;
-  onPropertyTypeChange: (propertyType: string) => void;
-  onDealTypeChange: (dealType: string) => void;
-  onDepositMinChange: (value: string) => void;
-  onDepositMaxChange: (value: string) => void;
-  onMonthlyMinChange: (value: string) => void;
-  onMonthlyMaxChange: (value: string) => void;
-  onRightMoneyMinChange: (value: string) => void;
-  onRightMoneyMaxChange: (value: string) => void;
-  onPriceResetButtonClick: () => void;
-  onStoreCategoryChange: (selectedCategory: string) => void;
-  onSubStoreCategoryChange: (selectedSubCategory: string) => void;
 }
 //SelectBOx
 export interface SelectBoxProps {
@@ -221,14 +210,6 @@ export interface ResponsiveSelectBoxProps {
   onPriceResetButtonClick: () => void;
   onStoreCategoryChange: (selectedCategory: string) => void;
   onSubStoreCategoryChange: (selectedSubCategory: string) => void;
-  setMainTainDepositMin: React.Dispatch<React.SetStateAction<string>>;
-  setMaintainDepositMax: React.Dispatch<React.SetStateAction<string>>;
-  setMaintainMonthlyMin: React.Dispatch<React.SetStateAction<string>>;
-  setMaintainMonthlyMax: React.Dispatch<React.SetStateAction<string>>;
-  setMaintainRightMoneyMin: React.Dispatch<React.SetStateAction<string>>;
-  setMaintainRightMoneyMax: React.Dispatch<React.SetStateAction<string>>;
-  setMaintainCategory: React.Dispatch<React.SetStateAction<string>>;
-  setMaintainSubCategoryValue: React.Dispatch<React.SetStateAction<string>>;
 }
 //TextArea
 export interface TextAreaProps {
