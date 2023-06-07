@@ -16,7 +16,7 @@ export interface EstateDetailData {
   detail?: string;
   dong?: string;
   elevator?: string;
-  typeOfProperty?: string;
+  typeOfProperty: string;
   estateId?: string;
   exclusiveArea?: string;
   floor?: string;
@@ -35,7 +35,7 @@ export interface EstateDetailData {
   pet?: string;
   price?: string;
   supplyArea?: string;
-  transactionType?: string;
+  transactionType: string;
   lat?: string;
   lng?: string;
   rightMoney?: string;
@@ -188,8 +188,10 @@ export interface SearchProps {
 }
 //SelectBOx
 export interface SelectBoxProps {
-  onPropertyTypeChange: (propertyType: string) => void;
-  onDealTypeChange: (dealType: string) => void;
+  selectedPropertyTypes: string[];
+  selectedDealTypes: string[];
+  onSelectedPropertyTypesChange: (updatedPropertyTypes: string[]) => void;
+  onSelectedDealTypesChange: (updatedDealTypes: string[]) => void;
   onDepositMinChange: (value: string) => void;
   onDepositMaxChange: (value: string) => void;
   onMonthlyMinChange: (value: string) => void;
@@ -201,6 +203,18 @@ export interface SelectBoxProps {
   onSubStoreCategoryChange: (selectedSubCategory: string) => void;
 }
 export interface ResponsiveSelectBoxProps {
+  depositMin: string;
+  depositMax: string;
+  monthlyMin: string;
+  monthlyMax: string;
+  rightMoneyMin: string;
+  rightMoneyMax: string;
+  storeCategory: string;
+  subStoreCategoryValue: string;
+  selectedPropertyTypes: string[];
+  selectedDealTypes: string[];
+  onSelectedPropertyTypesChange: (updatedPropertyTypes: string[]) => void;
+  onSelectedDealTypesChange: (updatedDealTypes: string[]) => void;
   onDepositMinChange: (value: string) => void;
   onDepositMaxChange: (value: string) => void;
   onMonthlyMinChange: (value: string) => void;
@@ -210,6 +224,7 @@ export interface ResponsiveSelectBoxProps {
   onPriceResetButtonClick: () => void;
   onStoreCategoryChange: (selectedCategory: string) => void;
   onSubStoreCategoryChange: (selectedSubCategory: string) => void;
+  onFilterClick: () => void;
 }
 //TextArea
 export interface TextAreaProps {

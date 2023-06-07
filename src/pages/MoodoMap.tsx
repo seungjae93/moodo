@@ -1,24 +1,28 @@
 import { useState, useEffect, ChangeEvent } from "react";
 import MapContainer from "../components/common/Map/MapContainer";
 import Search from "../components/common/Map/Search";
-import styled from "styled-components";
-import flex from "../libs/styles/utilFlex";
 import palette from "../libs/styles/palette";
 import CardProfile from "../components/common/Map/EstateDetail/CardProfile";
 import EstateCard from "../components/common/Map/EstateDetail/EstateCard";
 import SelectBox from "../components/common/Map/SelectBox";
 import ResponsiveSelectBox from "../components/common/Map/ResponsiveSelectBox";
-
+import { StMoodoMap } from "../libs/styles/StMoodoMap";
 import { EstateDetailData } from "../typings/detail.type";
 import { RxMinus } from "react-icons/rx";
 import { RiEqualizerFill } from "react-icons/ri";
 
+interface Option {
+  value: string;
+  label: string;
+}
 function MoodoMap() {
   const [searchValue, setSearchValue] = useState("");
   const [mapData, setMapData] = useState<EstateDetailData[]>([]);
-  const [selectedPropertyType, setSelectedPropertyType] =
-    useState<string>("매물 종류");
-  const [selectedDealType, setSelectedDealType] = useState<string>("거래 유형");
+  const [selectedPropertyTypes, setSelectedPropertyTypes] = useState<string[]>(
+    []
+  );
+  const [selectedDealTypes, setSelectedDealTypes] = useState<string[]>([]);
+
   const [depositMin, setDepositMin] = useState("");
   const [depositMax, setDepositMax] = useState("");
   const [monthlyMin, setMonthlyMin] = useState("");
@@ -30,7 +34,7 @@ function MoodoMap() {
   const [filteredMapList, setFilteredMapList] = useState<EstateDetailData[]>(
     []
   );
-  const [filterOpen, setFilterOpen] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   //반응형 클릭시 EstateCard확장
   const [isEstateCardExpanded, setIsEstateCardExpanded] = useState(false);
@@ -40,22 +44,20 @@ function MoodoMap() {
   };
 
   const handleFilterClick = () => {
-    setFilterOpen(!filterOpen);
+    setIsFilterOpen(!isFilterOpen);
   };
 
   const handleDataReceived = (data: any) => {
     setMapData(data);
   };
 
-  //매물종류 change
-  const handlePropertyTypeChange = (propertyType: string) => {
-    setSelectedPropertyType(propertyType);
-    setSelectedDealType("거래 유형");
+  //매물종류 거래유형 checkbox change
+  const handlePropertyTypesChange = (updatedPropertyTypes: string[]) => {
+    setSelectedPropertyTypes(updatedPropertyTypes);
   };
 
-  //거래유형 change
-  const handleDealTypeChange = (dealType: string) => {
-    setSelectedDealType(dealType);
+  const handleDealTypesChange = (updatedDealTypes: string[]) => {
+    setSelectedDealTypes(updatedDealTypes);
   };
 
   //보증금 최소
@@ -113,14 +115,13 @@ function MoodoMap() {
   };
 
   useEffect(() => {
-    // 필터링 로직
     const filteredList = Array.isArray(mapData)
       ? mapData.filter((estate) => {
           if (
-            (selectedPropertyType === "매물 종류" ||
-              estate.typeOfProperty === selectedPropertyType) &&
-            (selectedDealType === "거래 유형" ||
-              estate.transactionType === selectedDealType) &&
+            (selectedPropertyTypes.length === 0 ||
+              selectedPropertyTypes.includes(estate.typeOfProperty)) &&
+            (selectedDealTypes.length === 0 ||
+              selectedDealTypes.includes(estate.transactionType)) &&
             (depositMin === "" ||
               (estate.deposit &&
                 estate.deposit >= depositMin &&
@@ -145,8 +146,8 @@ function MoodoMap() {
       : [];
     setFilteredMapList(filteredList);
   }, [
-    selectedPropertyType,
-    selectedDealType,
+    selectedPropertyTypes,
+    selectedDealTypes,
     depositMin,
     depositMax,
     monthlyMin,
@@ -157,14 +158,6 @@ function MoodoMap() {
     subStoreCategoryValue,
     mapData,
   ]);
-  console.log("depositMin", depositMin);
-  console.log("depositMax", depositMax);
-  console.log("monthlyMin", monthlyMin);
-  console.log("monthlyMax", monthlyMax);
-  console.log("rightMoneyMin", rightMoneyMin);
-  console.log("rightMoneyMax", rightMoneyMax);
-  console.log("storeCategory", storeCategory);
-  console.log("subStoreCategoryValue", subStoreCategoryValue);
   return (
     <StMoodoMap.Wrapper>
       {window.innerWidth <= 930 ? (
@@ -182,9 +175,21 @@ function MoodoMap() {
               onClick={handleFilterClick}
             />
 
-            {filterOpen && (
+            {isFilterOpen && (
               <StMoodoMap.FilterBox>
                 <ResponsiveSelectBox
+                  depositMin={depositMin}
+                  depositMax={depositMax}
+                  monthlyMin={monthlyMin}
+                  monthlyMax={monthlyMax}
+                  rightMoneyMin={rightMoneyMin}
+                  rightMoneyMax={rightMoneyMax}
+                  storeCategory={storeCategory}
+                  subStoreCategoryValue={subStoreCategoryValue}
+                  selectedPropertyTypes={selectedPropertyTypes}
+                  selectedDealTypes={selectedDealTypes}
+                  onSelectedPropertyTypesChange={handlePropertyTypesChange}
+                  onSelectedDealTypesChange={handleDealTypesChange}
                   onDepositMinChange={handleDepositMinChange}
                   onDepositMaxChange={handleDepositMaxChange}
                   onMonthlyMinChange={handleMonthlyMinChange}
@@ -194,6 +199,7 @@ function MoodoMap() {
                   onPriceResetButtonClick={handleResetButtonClick}
                   onStoreCategoryChange={handleStoreCategoryChange}
                   onSubStoreCategoryChange={handleSubStoreCategoryChange}
+                  onFilterClick={handleFilterClick}
                 />
               </StMoodoMap.FilterBox>
             )}
@@ -242,8 +248,10 @@ function MoodoMap() {
           <StMoodoMap.searchBox>
             <Search onSearch={handleSearch} />
             <SelectBox
-              onPropertyTypeChange={handlePropertyTypeChange}
-              onDealTypeChange={handleDealTypeChange}
+              onSelectedPropertyTypesChange={handlePropertyTypesChange}
+              onSelectedDealTypesChange={handleDealTypesChange}
+              selectedPropertyTypes={selectedPropertyTypes}
+              selectedDealTypes={selectedDealTypes}
               onDepositMinChange={handleDepositMinChange}
               onDepositMaxChange={handleDepositMaxChange}
               onMonthlyMinChange={handleMonthlyMinChange}
@@ -283,106 +291,3 @@ function MoodoMap() {
 }
 
 export default MoodoMap;
-
-const StMoodoMap = {
-  Wrapper: styled.div`
-    ${flex({ justify: "", align: "", direction: "column" })}
-    width:100%;
-    height: calc(100vh - 29px);
-    overflow: hidden;
-    overflow-y: hidden;
-    @media screen and (max-width: 930px) {
-      width: 100%;
-    }
-  `,
-  searchBox: styled.div`
-    ${flex({ justify: "", gap: "10px" })}
-    padding: 50px 0px 20px 0px;
-    width: 100%;
-    height: 90px;
-    z-index: 10;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
-    @media screen and (max-width: 930px) {
-      padding: 25px 0px 25px 0px;
-      width: 300px;
-      height: 40px;
-      z-index: 1000;
-      position: absolute;
-      right: 50%;
-      transform: translateX(50%);
-      top: 70px;
-      background-color: white;
-      border: none;
-    }
-  `,
-  ContentWrapper: styled.div`
-    ${flex({ justify: "" })}
-    width: 100%;
-    height: 100%;
-    @media screen and (max-width: 930px) {
-      ${flex({
-        direction: "column",
-        gap: "",
-      })}
-    }
-  `,
-  Map: styled.div`
-    width: 75%;
-    height: 100%;
-    @media screen and (max-width: 930px) {
-      width: 100%;
-      height: 100%;
-    }
-  `,
-  EstateCard: styled.div`
-    ${flex({ direction: "column", justify: "flex-start" })}
-    width: 500px;
-    height: 100%;
-
-    @media screen and (max-width: 930px) {
-      transition: height 0.6s ease;
-      width: 100%;
-      height: ${({ expanded }: { expanded: boolean }) =>
-        expanded ? "60%" : "70px"};
-      bottom: 0px;
-      z-index: 50;
-      position: absolute;
-      background-color: white;
-      overflow-y: hidden;
-      overflow-x: hidden;
-    }
-  `,
-
-  CardBox: styled.div`
-    ${flex({ align: "flex-start", gap: "12px" })}
-    padding-bottom:10px;
-    margin: 30px 10px 95px 10px;
-    width: 100%;
-    height: 100%;
-    flex-wrap: wrap;
-    overflow-y: auto;
-    &::-webkit-scrollbar {
-      width: 6px;
-    }
-    &::-webkit-scrollbar-thumb {
-      border-radius: 5px;
-      background: #ccc;
-    }
-    @media screen and (max-width: 930px) {
-      margin: 30px 10px 0px 10px;
-    }
-  `,
-  FilterBox: styled.div`
-    ${flex({ direction: "column", align: "", justify: "" })}
-    padding: 10px;
-    position: absolute;
-    border: 1px solid #eee;
-    background-color: #fff;
-    width: 340px;
-    height: 580px;
-    border-radius: 5px;
-    font-size: 15px;
-    z-index: 10;
-    top: 50px;
-  `,
-};

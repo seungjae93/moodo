@@ -1,9 +1,7 @@
 import React, { useState, ChangeEvent } from "react";
-import styled from "styled-components";
 
-import flex from "../../../libs/styles/utilFlex";
-import palette from "../../../libs/styles/palette";
 import Button from "../Button/Button";
+import { StMoodoMapSelectBox } from "../../../libs/styles/StMoodoMapSelectBox";
 import { ResponsiveSelectBoxProps } from "../../../typings/detail.type";
 
 interface PropertyType {
@@ -109,6 +107,18 @@ const subCategories: SubCategory = {
   ],
 };
 export default function ResponsiveSelectBox({
+  depositMin,
+  depositMax,
+  monthlyMin,
+  monthlyMax,
+  rightMoneyMin,
+  rightMoneyMax,
+  storeCategory,
+  subStoreCategoryValue,
+  selectedPropertyTypes,
+  selectedDealTypes,
+  onSelectedPropertyTypesChange,
+  onSelectedDealTypesChange,
   onDepositMinChange,
   onDepositMaxChange,
   onMonthlyMinChange,
@@ -117,93 +127,67 @@ export default function ResponsiveSelectBox({
   onRightMoneyMaxChange,
   onStoreCategoryChange,
   onSubStoreCategoryChange,
+  onFilterClick,
 }: ResponsiveSelectBoxProps) {
-  const [selectedPropertyTypes, setSelectedPropertyTypes] = useState<string[]>(
-    []
-  );
-  const [selectedDealTypes, setSelectedDealTypes] = useState<string[]>([]);
-
-  const [depositMin, setDepositMin] = useState("");
-  const [depositMax, setDepositMax] = useState("");
-  const [monthlyMin, setMonthlyMin] = useState("");
-  const [monthlyMax, setMonthlyMax] = useState("");
-  const [rightMoneyMin, setRightMoneyMin] = useState("");
-  const [rightMoneyMax, setRightMoneyMax] = useState("");
-  const [category, setCategory] = useState("전체");
   const [subCategory, setSubCategory] = useState<Option[]>([]);
-  const [subCategoryValue, setSubCategoryValue] = useState("전체");
 
   const handlePropertyTypeChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const propertyTypeId = event.target.value;
-    if (selectedPropertyTypes.includes(propertyTypeId)) {
-      setSelectedPropertyTypes(
-        selectedPropertyTypes.filter((id) => id !== propertyTypeId)
-      );
-    } else {
-      setSelectedPropertyTypes([...selectedPropertyTypes, propertyTypeId]);
-    }
+    const updatedPropertyTypes = selectedPropertyTypes.includes(propertyTypeId)
+      ? selectedPropertyTypes.filter((id) => id !== propertyTypeId)
+      : [...selectedPropertyTypes, propertyTypeId];
+    onSelectedPropertyTypesChange(updatedPropertyTypes);
   };
 
   const handleDealTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const dealTypeId = event.target.value;
-    if (selectedDealTypes.includes(dealTypeId)) {
-      setSelectedDealTypes(selectedDealTypes.filter((id) => id !== dealTypeId));
-    } else {
-      setSelectedDealTypes([...selectedDealTypes, dealTypeId]);
-    }
+    const updatedDealTypes = selectedDealTypes.includes(dealTypeId)
+      ? selectedDealTypes.filter((id) => id !== dealTypeId)
+      : [...selectedDealTypes, dealTypeId];
+    onSelectedDealTypesChange(updatedDealTypes);
   };
 
   const handleDepositMinChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
-    setDepositMin(value);
     onDepositMinChange(value);
   };
 
   const handleDepositMaxChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
-    setDepositMax(value);
     onDepositMaxChange(value);
   };
 
   const handleMonthlyMinChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
-    setMonthlyMin(value);
     onMonthlyMinChange(value);
   };
 
   const handleMonthlyMaxChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
-    setMonthlyMax(value);
     onMonthlyMaxChange(value);
   };
 
   const handleRightMoneyMinChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
-    setRightMoneyMin(value);
     onRightMoneyMinChange(value);
   };
 
   const handleRightMoneyMaxChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
-    setRightMoneyMax(value);
     onRightMoneyMaxChange(value);
   };
 
   const onHandleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedCategory = e.target.value;
-    setCategory(selectedCategory);
     onStoreCategoryChange(selectedCategory);
 
     if (selectedCategory === "전체") {
-      setSubCategoryValue("전체");
       onSubStoreCategoryChange("전체");
-
       setSubCategory([]);
     } else {
       setSubCategory(subCategories[selectedCategory] || []);
-      setSubCategoryValue("전체");
       onSubStoreCategoryChange("전체");
     }
   };
@@ -211,12 +195,11 @@ export default function ResponsiveSelectBox({
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const selectedSubCategory = e.target.value;
-    setSubCategoryValue(selectedSubCategory);
     onSubStoreCategoryChange(selectedSubCategory);
   };
 
   return (
-    <StCheckBtn>
+    <StMoodoMapSelectBox.CheckBtn>
       <h2>매물 유형</h2>
       <div className="checkBtnContainer">
         {propertyTypes.map((propertyType) => (
@@ -249,33 +232,39 @@ export default function ResponsiveSelectBox({
       </div>
       <h2>업종</h2>
       <div className="selectContainer">
-        <StSelect value={category} onChange={onHandleCategoryChange}>
+        <StMoodoMapSelectBox.Select
+          value={storeCategory}
+          onChange={onHandleCategoryChange}
+        >
           <option value="전체">전체</option>
           {mainCategories.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>
           ))}
-        </StSelect>
+        </StMoodoMapSelectBox.Select>
         ~
-        <StSelect value={subCategoryValue} onChange={onHandleSubCategoryChange}>
+        <StMoodoMapSelectBox.Select
+          value={subStoreCategoryValue}
+          onChange={onHandleSubCategoryChange}
+        >
           <option value="전체">전체</option>
           {subCategory.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>
           ))}
-        </StSelect>
+        </StMoodoMapSelectBox.Select>
       </div>
       <h2>보증금</h2>
       <div className="inputContainer">
-        <StInput
+        <StMoodoMapSelectBox.Input
           type="number"
           value={depositMin}
           onChange={handleDepositMinChange}
         />
         ~
-        <StInput
+        <StMoodoMapSelectBox.Input
           type="number"
           value={depositMax}
           onChange={handleDepositMaxChange}
@@ -284,13 +273,13 @@ export default function ResponsiveSelectBox({
       </div>
       <h2>월세</h2>
       <div className="inputContainer">
-        <StInput
+        <StMoodoMapSelectBox.Input
           type="number"
           value={monthlyMin}
           onChange={handleMonthlyMinChange}
         />
         ~
-        <StInput
+        <StMoodoMapSelectBox.Input
           type="number"
           value={monthlyMax}
           onChange={handleMonthlyMaxChange}
@@ -299,13 +288,13 @@ export default function ResponsiveSelectBox({
       </div>
       <h2>권리금</h2>
       <div className="inputContainer">
-        <StInput
+        <StMoodoMapSelectBox.Input
           type="number"
           value={rightMoneyMin}
           onChange={handleRightMoneyMinChange}
         />
         ~
-        <StInput
+        <StMoodoMapSelectBox.Input
           type="number"
           value={rightMoneyMax}
           onChange={handleRightMoneyMaxChange}
@@ -313,74 +302,10 @@ export default function ResponsiveSelectBox({
         만원
       </div>
       <div className="completeBtnContainer">
-        <Button.Cyan size="large">적용하기</Button.Cyan>
+        <Button.Cyan size="large" onClick={onFilterClick}>
+          적용하기
+        </Button.Cyan>
       </div>
-    </StCheckBtn>
+    </StMoodoMapSelectBox.CheckBtn>
   );
 }
-
-const StCheckBtn = styled.div`
-  ${flex({ direction: "column", align: "", gap: "15px" })}
-  .checkBtnContainer {
-    ${flex({ justify: "", align: "", gap: "5px" })}
-    flex-wrap:wrap;
-  }
-  .selectContainer {
-    ${flex({ gap: "5px" })}
-    margin-right:30px;
-  }
-  .inputContainer {
-    ${flex({ gap: "5px" })}
-  }
-  .completeBtnContainer {
-    ${flex({})}
-  }
-  .checkBtn {
-    font-size: 17px;
-    width: 100px;
-    height: 36px;
-    border: none;
-    padding: 5px;
-  }
-  .checkBtn input[type="checkbox"] {
-    display: none;
-  }
-  .checkBtn label {
-    display: block;
-    border-radius: 10px;
-    text-align: center;
-    line-height: 30px;
-    font-weight: 400;
-    font-size: 14px;
-    cursor: pointer;
-  }
-
-  /* hover */
-  .checkBtn input[type="checkbox"]:hover + label {
-    background-color: ${palette.cyan[5]};
-    color: #fff;
-  }
-  /* Checked */
-  .checkBtn input[type="checkbox"]:checked + label {
-    background-color: ${palette.cyan[5]};
-    color: #fff;
-  }
-  /* Disabled */
-  .checkBtn input[type="checkbox"] + label {
-    border: 2px solid #c4cbcd;
-  }
-`;
-
-const StSelect = styled.select`
-  border: 1px solid black;
-  border-radius: 10px;
-  width: 100px;
-  height: 30px;
-`;
-const StInput = styled.input`
-  width: 100px;
-  height: 30px;
-  border: 1px solid black;
-  border-radius: 10px;
-  text-align: center;
-`;

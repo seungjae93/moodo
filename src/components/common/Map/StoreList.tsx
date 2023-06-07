@@ -127,11 +127,11 @@ export default function StoreList({
       <label
         style={{
           display: "block",
-          fontSize: "16px",
+          fontSize: "15px",
           textAlign: "center",
           fontWeight: "400",
           color: "#90A0AE",
-          width: "60px",
+          width: "80px",
           flexWrap: "nowrap",
           overflow: "hidden",
         }}
@@ -139,7 +139,7 @@ export default function StoreList({
         대분류
       </label>
       <select
-        style={{ width: "220px", height: "30px" }}
+        style={{ width: "220px", height: "30px", borderRadius: "10px" }}
         value={category}
         onChange={onHandleCategoryChange}
       >
@@ -154,11 +154,11 @@ export default function StoreList({
       <label
         style={{
           display: "block",
-          fontSize: "16px",
+          fontSize: "15px",
           textAlign: "center",
           fontWeight: "400",
           color: "#90A0AE",
-          width: "60px",
+          width: "80px",
           flexWrap: "nowrap",
           overflow: "hidden",
         }}
@@ -166,7 +166,7 @@ export default function StoreList({
         소분류
       </label>
       <select
-        style={{ width: "220px", height: "30px" }}
+        style={{ width: "220px", height: "30px", borderRadius: "10px" }}
         value={subCategoryValue}
         onChange={onHandleSubCategoryChange}
       >
