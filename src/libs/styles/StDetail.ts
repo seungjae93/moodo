@@ -42,7 +42,7 @@ export const StDetail = {
     height: 700px;
     @media (max-width: 768px) {
       width: 500px;
-      height: auto;
+      height: 500px;
       margin-top: 0;
     }
   `,
