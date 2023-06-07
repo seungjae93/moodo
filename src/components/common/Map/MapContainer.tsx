@@ -34,7 +34,6 @@ function MapContainer({
   const [zoomLevel, setZoomLevel] = useState(6);
   //서버에서 받은 response
   const [dongListData, setDongListData] = useState<any>(null);
-
   const mutation = useMutation<any, unknown, Coordinates>(
     (coordinates) => mapApi.post(userId as string, coordinates),
     {
@@ -51,21 +50,21 @@ function MapContainer({
     }
   );
   const customOverlayDong = () => {
-    if (!dongListData) return null;
+    if (!filteredMapList) return null;
     if (zoomLevel < 4) return null;
     return (
       <>
         {zoomLevel > 3
-          ? dongListData?.map((el: any) => {
+          ? filteredMapList?.map((el: any) => {
               return (
                 <CustomOverlayMap
-                  key={el.id}
+                  key={el.estateId}
                   position={{ lat: Number(el?.lat), lng: Number(el?.lng) }}
                 >
                   <ClustererImg>
                     <img src={clusterer} alt="clusterer" />
                     <ClustererIndex>{el.numOfDong}</ClustererIndex>
-                    <ClustererText>{el.nameOfDong}</ClustererText>
+                    <ClustererText>{el.dong}</ClustererText>
                   </ClustererImg>
                 </CustomOverlayMap>
               );

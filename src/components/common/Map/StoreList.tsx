@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import palette from "../../../libs/styles/palette";
-
+import Button from "../Button/Button";
 interface Option {
   value: string;
   label: string;
@@ -115,6 +115,13 @@ export default function StoreList({
     setSubCategoryValue(selectedSubCategory);
     onSubStoreCategoryChange(selectedSubCategory);
   };
+
+  const handleStoreResetButtonClick = () => {
+    setCategory("전체");
+    setSubCategoryValue("전체");
+    onStoreCategoryChange("전체");
+    onSubStoreCategoryChange("전체");
+  };
   return (
     <>
       <label
@@ -170,6 +177,15 @@ export default function StoreList({
           </option>
         ))}
       </select>
+      <Button.Negative
+        outlined
+        borderColor={palette.cyan[5]}
+        color={palette.cyan[5]}
+        size="small"
+        onClick={handleStoreResetButtonClick}
+      >
+        조건삭제
+      </Button.Negative>
     </>
   );
 }
