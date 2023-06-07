@@ -3,14 +3,46 @@ import styled from "styled-components";
 
 import { SelectBoxProps } from "../../../typings/detail.type";
 import { CgChevronDown } from "react-icons/cg";
+import { StMoodoMapSelectBox } from "../../../libs/styles/StMoodoMapSelectBox";
 import flex from "../../../libs/styles/utilFlex";
 import palette from "../../../libs/styles/palette";
 import Button from "../Button/Button";
 import StoreList from "./StoreList";
 
+interface PropertyType {
+  id: string;
+  name: string;
+}
+
+interface TransactionType {
+  id: string;
+  name: string;
+}
+
+interface Option {
+  value: string;
+  label: string;
+}
+
+const propertyTypes: PropertyType[] = [
+  { id: "원/투룸", name: "원/투룸" },
+  { id: "빌라/주택", name: "빌라/주택" },
+  { id: "아파트", name: "아파트" },
+  { id: "상가/사무실", name: "상가/사무실" },
+  { id: "건물", name: "건물" },
+];
+
+const transactionTypes: TransactionType[] = [
+  { id: "매매", name: "매매" },
+  { id: "전세", name: "전세" },
+  { id: "월세", name: "월세" },
+];
+
 function SelectBox({
-  onPropertyTypeChange,
-  onDealTypeChange,
+  selectedPropertyTypes,
+  selectedDealTypes,
+  onSelectedPropertyTypesChange,
+  onSelectedDealTypesChange,
   onDepositMinChange,
   onDepositMaxChange,
   onMonthlyMinChange,
@@ -21,8 +53,8 @@ function SelectBox({
   onStoreCategoryChange,
   onSubStoreCategoryChange,
 }: SelectBoxProps) {
-  const [propertyType, setPropertyType] = useState<string>("매물 종류");
-  const [dealType, setDealType] = useState<string>("거래 유형");
+  const [isPropertyTypeOpen, setIsPropertyTypeOpen] = useState(false);
+  const [isTransactionTypesOpen, setIsTransactionTypesOpen] = useState(false);
   const [isPriceOpen, setIsPriceOpen] = useState(false);
   const [isStoreOpen, setIsStoreOpen] = useState(false);
   const [depositMin, setDepositMin] = useState("");
@@ -32,29 +64,48 @@ function SelectBox({
   const [rightMoneyMin, setRightMoneyMin] = useState("");
   const [rightMoneyMax, setRightMoneyMax] = useState("");
 
-  const handlePropertyTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const selectedPropertyType = e.currentTarget.value;
-    setPropertyType(selectedPropertyType);
-    setDealType(
-      selectedPropertyType === "매물 종류" ? "거래 유형" : "거래 유형"
-    );
-    onPropertyTypeChange(selectedPropertyType);
+  const handlePropertyTypeChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const propertyTypeId = event.target.value;
+    const updatedPropertyTypes = selectedPropertyTypes.includes(propertyTypeId)
+      ? selectedPropertyTypes.filter((id) => id !== propertyTypeId)
+      : [...selectedPropertyTypes, propertyTypeId];
+    onSelectedPropertyTypesChange(updatedPropertyTypes);
   };
 
-  const handleDealTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const selectedDealType = e.currentTarget.value;
-    setDealType(selectedDealType);
-    onDealTypeChange(selectedDealType);
+  const handleDealTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const dealTypeId = event.target.value;
+    const updatedDealTypes = selectedDealTypes.includes(dealTypeId)
+      ? selectedDealTypes.filter((id) => id !== dealTypeId)
+      : [...selectedDealTypes, dealTypeId];
+    onSelectedDealTypesChange(updatedDealTypes);
   };
 
+  const handlePropertyTypeClick = () => {
+    setIsPropertyTypeOpen(!isPropertyTypeOpen);
+    setIsStoreOpen(false);
+    setIsPriceOpen(false);
+    setIsTransactionTypesOpen(false);
+  };
+  const handleTransactionClick = () => {
+    setIsTransactionTypesOpen(!isTransactionTypesOpen);
+    setIsStoreOpen(false);
+    setIsPriceOpen(false);
+    setIsPropertyTypeOpen(false);
+  };
   const handlePriceClick = () => {
     setIsPriceOpen(!isPriceOpen);
     setIsStoreOpen(false);
+    setIsPropertyTypeOpen(false);
+    setIsTransactionTypesOpen(false);
   };
 
   const handleStoreClick = () => {
     setIsStoreOpen(!isStoreOpen);
     setIsPriceOpen(false);
+    setIsPropertyTypeOpen(false);
+    setIsTransactionTypesOpen(false);
   };
 
   const handleDepositMinChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -102,44 +153,111 @@ function SelectBox({
     onPriceResetButtonClick();
   };
 
-  const propertyOption = [
-    { key: 1, value: "매물 종류" },
-    { key: 2, value: "원/투룸" },
-    { key: 3, value: "주택/빌라" },
-    { key: 4, value: "아파트" },
-    { key: 5, value: "상가/사무실" },
-    { key: 6, value: "건물" },
-  ];
-
-  const dealTypeOption = [
-    { key: 1, value: "거래 유형" },
-    { key: 2, value: "월세" },
-    { key: 3, value: "전세" },
-    { key: 4, value: "매매" },
-  ];
   return (
-    <Wrapper>
+    <StMoodoMapSelectBox.Wrapper>
       <div style={{ display: "flex", gap: "10px" }}>
-        <div>
-          <SelectList onChange={handlePropertyTypeChange} value={propertyType}>
-            {propertyOption?.map((item) => (
-              <SelectOption key={item.key} value={item.value}>
-                {item.value}
-              </SelectOption>
-            ))}
-          </SelectList>
-        </div>
-        <div>
-          <SelectList onChange={handleDealTypeChange} value={dealType}>
-            {dealTypeOption?.map((item) => (
-              <SelectOption key={item.key} value={item.value}>
-                {item.value}
-              </SelectOption>
-            ))}
-          </SelectList>
-        </div>
-        <SelectPriceListContainer>
-          <SelectPriceList onClick={handlePriceClick}>
+        <StMoodoMapSelectBox.ContentBoxWrapper>
+          <StMoodoMapSelectBox.TitleList onClick={handlePropertyTypeClick}>
+            매물 종류
+            <CgChevronDown
+              style={{
+                color: "black",
+                width: "20px",
+                height: "18px",
+              }}
+            />
+          </StMoodoMapSelectBox.TitleList>
+          {isPropertyTypeOpen && (
+            <StMoodoMapSelectBox.ContentBox>
+              <StMoodoMapSelectBox.CheckBtn>
+                <label
+                  style={{
+                    display: "block",
+                    fontSize: "15px",
+                    textAlign: "center",
+                    fontWeight: "400",
+                    color: "#90A0AE",
+                    width: "100px",
+                    flexWrap: "nowrap",
+                    overflow: "hidden",
+                  }}
+                >
+                  매물 유형
+                </label>
+                <div className="checkBtnContainer">
+                  {propertyTypes.map((propertyType) => (
+                    <div className="checkBtn" key={propertyType.id}>
+                      <input
+                        type="checkbox"
+                        id={propertyType.id}
+                        value={propertyType.id}
+                        checked={selectedPropertyTypes.includes(
+                          propertyType.id
+                        )}
+                        onChange={handlePropertyTypeChange}
+                      />
+                      <label htmlFor={propertyType.id}>
+                        {" "}
+                        {propertyType.name}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </StMoodoMapSelectBox.CheckBtn>
+            </StMoodoMapSelectBox.ContentBox>
+          )}
+        </StMoodoMapSelectBox.ContentBoxWrapper>
+        <StMoodoMapSelectBox.ContentBoxWrapper>
+          <StMoodoMapSelectBox.TitleList onClick={handleTransactionClick}>
+            거래 유형
+            <CgChevronDown
+              style={{
+                color: "black",
+                width: "20px",
+                height: "18px",
+              }}
+            />
+          </StMoodoMapSelectBox.TitleList>
+          {isTransactionTypesOpen && (
+            <StMoodoMapSelectBox.ContentBox>
+              <StMoodoMapSelectBox.CheckBtn>
+                <label
+                  style={{
+                    display: "block",
+                    fontSize: "15px",
+                    textAlign: "center",
+                    fontWeight: "400",
+                    color: "#90A0AE",
+                    width: "100px",
+                    flexWrap: "nowrap",
+                    overflow: "hidden",
+                  }}
+                >
+                  거래 유형
+                </label>
+                <div className="checkBtnContainer">
+                  {transactionTypes.map((transactionType) => (
+                    <div className="checkBtn" key={transactionType.id}>
+                      <input
+                        type="checkbox"
+                        id={transactionType.id}
+                        value={transactionType.id}
+                        checked={selectedDealTypes.includes(transactionType.id)}
+                        onChange={handleDealTypeChange}
+                      />
+                      <label htmlFor={transactionType.id}>
+                        {" "}
+                        {transactionType.name}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </StMoodoMapSelectBox.CheckBtn>
+            </StMoodoMapSelectBox.ContentBox>
+          )}
+        </StMoodoMapSelectBox.ContentBoxWrapper>
+        <StMoodoMapSelectBox.ContentBoxWrapper>
+          <StMoodoMapSelectBox.TitleList onClick={handlePriceClick}>
             금액대
             <CgChevronDown
               style={{
@@ -148,53 +266,89 @@ function SelectBox({
                 height: "18px",
               }}
             />
-          </SelectPriceList>
+          </StMoodoMapSelectBox.TitleList>
           {isPriceOpen && (
-            <SelectPriceBox>
-              <label>보증금</label>
+            <StMoodoMapSelectBox.ContentBox>
+              <label
+                style={{
+                  display: "block",
+                  fontSize: "15px",
+                  textAlign: "center",
+                  fontWeight: "400",
+                  color: "#90A0AE",
+                  width: "100px",
+                  flexWrap: "nowrap",
+                  overflow: "hidden",
+                }}
+              >
+                보증금 (만원)
+              </label>
               <div>
-                <SelectPriceInput
+                <StMoodoMapSelectBox.Input
                   type="number"
                   value={depositMin}
                   onChange={handleDepositMinChange}
                 />
                 ~
-                <SelectPriceInput
+                <StMoodoMapSelectBox.Input
                   type="number"
                   value={depositMax}
                   onChange={handleDepositMaxChange}
                 />
-                만원
               </div>
-              <label>월세</label>
+              <label
+                style={{
+                  display: "block",
+                  fontSize: "15px",
+                  textAlign: "center",
+                  fontWeight: "400",
+                  color: "#90A0AE",
+                  width: "100px",
+                  flexWrap: "nowrap",
+                  overflow: "hidden",
+                }}
+              >
+                월세 (만원)
+              </label>
               <div>
-                <SelectPriceInput
+                <StMoodoMapSelectBox.Input
                   type="number"
                   value={monthlyMin}
                   onChange={handleMonthlyMinChange}
                 />
                 ~
-                <SelectPriceInput
+                <StMoodoMapSelectBox.Input
                   type="number"
                   value={monthlyMax}
                   onChange={handleMonthlyMaxChange}
                 />
-                만원
               </div>
-              <label>권리금</label>
+              <label
+                style={{
+                  display: "block",
+                  fontSize: "15px",
+                  textAlign: "center",
+                  fontWeight: "400",
+                  color: "#90A0AE",
+                  width: "100px",
+                  flexWrap: "nowrap",
+                  overflow: "hidden",
+                }}
+              >
+                권리금 (만원)
+              </label>
               <div>
-                <SelectPriceInput
+                <StMoodoMapSelectBox.Input
                   type="number"
                   value={rightMoneyMin}
                   onChange={handleRightMoneyMinChange}
                 />
                 ~
-                <SelectPriceInput
+                <StMoodoMapSelectBox.Input
                   type="number"
                   value={rightMoneyMax}
                   onChange={handleRightMoneyMaxChange}
                 />
-                만원
               </div>
               <Button.Negative
                 outlined
@@ -205,11 +359,11 @@ function SelectBox({
               >
                 조건삭제
               </Button.Negative>
-            </SelectPriceBox>
+            </StMoodoMapSelectBox.ContentBox>
           )}
-        </SelectPriceListContainer>
-        <SelectPriceListContainer>
-          <SelectPriceList onClick={handleStoreClick}>
+        </StMoodoMapSelectBox.ContentBoxWrapper>
+        <StMoodoMapSelectBox.ContentBoxWrapper>
+          <StMoodoMapSelectBox.TitleList onClick={handleStoreClick}>
             업종
             <CgChevronDown
               style={{
@@ -218,74 +372,19 @@ function SelectBox({
                 height: "18px",
               }}
             />
-          </SelectPriceList>
+          </StMoodoMapSelectBox.TitleList>
           {isStoreOpen && (
-            <SelectPriceBox>
+            <StMoodoMapSelectBox.ContentBox>
               <StoreList
                 onStoreCategoryChange={onStoreCategoryChange}
                 onSubStoreCategoryChange={onSubStoreCategoryChange}
               />
-            </SelectPriceBox>
+            </StMoodoMapSelectBox.ContentBox>
           )}
-        </SelectPriceListContainer>
+        </StMoodoMapSelectBox.ContentBoxWrapper>
       </div>
-    </Wrapper>
+    </StMoodoMapSelectBox.Wrapper>
   );
 }
 
 export default SelectBox;
-
-const Wrapper = styled.div`
-  width: 80%;
-`;
-
-const SelectList = styled.select`
-  border: 1px solid #eee;
-  background-color: #fff;
-  width: 160px;
-  height: 40px;
-`;
-
-const SelectOption = styled.option`
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  padding-left: 12px;
-  height: 50px;
-`;
-
-const SelectPriceList = styled.div`
-  ${flex({ justify: "space-between" })}
-  border: 1px solid #eee;
-  background-color: #fff;
-  width: 160px;
-  height: 40px;
-  border-radius: 5px;
-  padding-left: 5px;
-  font-size: 13px;
-  :hover {
-    border: 2px solid black;
-  }
-`;
-
-const SelectPriceBox = styled.div`
-  ${flex({ direction: "column", align: "", justify: "", gap: "10px" })}
-  padding: 10px;
-  position: absolute;
-  border: 1px solid #eee;
-  background-color: #fff;
-  width: 250px;
-  height: 250px;
-  border-radius: 5px;
-  font-size: 15px;
-  z-index: 10;
-`;
-
-const SelectPriceListContainer = styled.div`
-  position: relative;
-`;
-
-const SelectPriceInput = styled.input`
-  width: 80px;
-  height: 30px;
-`;
