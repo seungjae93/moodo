@@ -200,6 +200,17 @@ export interface SelectBoxProps {
   onStoreCategoryChange: (selectedCategory: string) => void;
   onSubStoreCategoryChange: (selectedSubCategory: string) => void;
 }
+export interface ResponsiveSelectBoxProps {
+  onDepositMinChange: (value: string) => void;
+  onDepositMaxChange: (value: string) => void;
+  onMonthlyMinChange: (value: string) => void;
+  onMonthlyMaxChange: (value: string) => void;
+  onRightMoneyMinChange: (value: string) => void;
+  onRightMoneyMaxChange: (value: string) => void;
+  onPriceResetButtonClick: () => void;
+  onStoreCategoryChange: (selectedCategory: string) => void;
+  onSubStoreCategoryChange: (selectedSubCategory: string) => void;
+}
 //TextArea
 export interface TextAreaProps {
   label?: string;

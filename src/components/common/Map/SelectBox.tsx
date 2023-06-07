@@ -4,8 +4,8 @@ import styled from "styled-components";
 import { SelectBoxProps } from "../../../typings/detail.type";
 import { CgChevronDown } from "react-icons/cg";
 import flex from "../../../libs/styles/utilFlex";
-import Button from "../Button/Button";
 import palette from "../../../libs/styles/palette";
+import Button from "../Button/Button";
 import StoreList from "./StoreList";
 
 function SelectBox({
@@ -101,6 +101,7 @@ function SelectBox({
     setRightMoneyMax("");
     onPriceResetButtonClick();
   };
+
   const propertyOption = [
     { key: 1, value: "매물 종류" },
     { key: 2, value: "원/투룸" },
@@ -224,15 +225,6 @@ function SelectBox({
                 onStoreCategoryChange={onStoreCategoryChange}
                 onSubStoreCategoryChange={onSubStoreCategoryChange}
               />
-              <Button.Negative
-                outlined
-                borderColor={palette.cyan[5]}
-                color={palette.cyan[5]}
-                size="small"
-                // onClick={handleResetButtonClick}
-              >
-                조건삭제
-              </Button.Negative>
             </SelectPriceBox>
           )}
         </SelectPriceListContainer>
