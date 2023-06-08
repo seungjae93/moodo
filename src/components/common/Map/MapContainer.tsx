@@ -4,7 +4,7 @@ import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { debounce } from "lodash";
 
-import { mapApi, realtorApi } from "../../../apis/axios";
+import { mapApi } from "../../../apis/axios";
 import clusterer from "../../../assets/clusterer.svg";
 import marker from "../../../assets/marker.svg";
 import { MapContainerProps, Coordinates } from "../../../typings/detail.type";
@@ -23,10 +23,6 @@ function MapContainer({
     // 지도의 초기 위치
     center: { lat: 37.5472661928352, lng: 127.068276018078 },
   });
-
-  const { data, isLoading, error } = useQuery(["realtor"], () =>
-    realtorApi.get(userId)
-  );
 
   const mapRef = useRef<kakao.maps.Map | null>(null);
   const markerRef = useRef(null);

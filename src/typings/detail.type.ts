@@ -8,6 +8,13 @@ export interface StImgProps {
 export interface DetailDataProps {
   estateDetail?: EstateDetailData;
 }
+
+export interface ImageData {
+  imgOfPropertyId: number;
+  estateId: string;
+  imgOfUrl: string;
+  imgIndex: number;
+}
 export interface EstateDetailData {
   userId?: string;
   addressOfProperty?: string;
@@ -41,13 +48,6 @@ export interface EstateDetailData {
   rightMoney?: string;
   mainCategory?: string;
   subCategory?: string;
-}
-
-export interface ImageData {
-  imgOfPropertyId: number;
-  estateId: string;
-  imgOfUrl: string;
-  imgIndex: number;
 }
 
 //axios , mapContainer

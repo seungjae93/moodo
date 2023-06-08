@@ -11,10 +11,6 @@ import { EstateDetailData } from "../typings/detail.type";
 import { RxMinus } from "react-icons/rx";
 import { RiEqualizerFill } from "react-icons/ri";
 
-interface Option {
-  value: string;
-  label: string;
-}
 function MoodoMap() {
   const [searchValue, setSearchValue] = useState("");
   const [mapData, setMapData] = useState<EstateDetailData[]>([]);
@@ -117,6 +113,7 @@ function MoodoMap() {
   useEffect(() => {
     const filteredList = Array.isArray(mapData)
       ? mapData.filter((estate) => {
+          console.log("estate", estate);
           if (
             (selectedPropertyTypes.length === 0 ||
               selectedPropertyTypes.includes(estate.typeOfProperty)) &&
