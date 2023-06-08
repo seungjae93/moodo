@@ -3,18 +3,13 @@ import styled from "styled-components";
 import flex from "../../../../libs/styles/utilFlex";
 import palette from "../../../../libs/styles/palette";
 import Button from "../../Button/Button";
-import useEstateList from "../../../../hooks/useEstateList";
 import { EstateDetailData } from "../../../../typings/detail.type";
 
 interface EstateCardProps {
   estate: EstateDetailData;
 }
 function EstateCard({ estate }: EstateCardProps) {
-  const { estateList } = useEstateList();
   const estateId = estate?.estateId;
-  const imgUrls = estateList
-    ?.filter((item) => item.estateId === estateId)
-    .flatMap((item) => item.imgs.map((img) => img.imgOfUrl));
 
   const openNewWindow = () => {
     window.open(`http://localhost:3000/realEstateManage/${estateId}`, "_blank");
@@ -22,9 +17,7 @@ function EstateCard({ estate }: EstateCardProps) {
   return (
     <StEstateCard.Wrapper onClick={openNewWindow}>
       <div className="image">
-        {imgUrls && imgUrls.length > 0 && (
-          <StEstateCard.Image src={imgUrls[0]} />
-        )}
+        {estate?.imgs && <StEstateCard.Image src={estate?.imgs[0]?.imgOfUrl} />}
         <span className="transactionTypes">{estate?.transactionType}</span>
       </div>
       <StEstateCard.ContentBox>

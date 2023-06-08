@@ -1,19 +1,37 @@
 import styled from "styled-components";
-
-import useUser from "../../../../hooks/useUser";
+import { useQuery } from "@tanstack/react-query";
 import flex from "../../../../libs/styles/utilFlex";
 import palette from "../../../../libs/styles/palette";
+import { realtorApi } from "../../../../apis/axios";
+
+interface UserInfo {
+  userName: string;
+  userPhoneNumber: string;
+  userCompanyName: string;
+  userCompanyTelNumber: string;
+  userBusinessLocation: string;
+  userProfileImgUrl: string;
+}
+interface Data {
+  userInfo: UserInfo;
+}
 
 function CardProfile() {
-  const { user } = useUser();
+  const path = window.location.pathname;
+  const userId = path.substring(5);
 
+  const { data, isLoading, error } = useQuery<Data>(["realtor"], async () =>
+    realtorApi.get(userId)
+  );
   return (
     <StCardProfile.Wrapper>
-      <StCardProfile.Img src={user?.userProfileImgUrl} />
+      <StCardProfile.Img src={data?.userInfo?.userProfileImgUrl} />
       <StCardProfile.Content>
-        <div className="companyName">{user?.userCompanyName}</div>
-        <div className="userName">중개사: {user?.userName}</div>
-        <div className="userName">문의: {user?.userCompanyTelNumber}</div>
+        <div className="companyName">{data?.userInfo?.userCompanyName}</div>
+        <div className="userName">중개사: {data?.userInfo?.userName}</div>
+        <div className="userName">
+          문의: {data?.userInfo?.userCompanyTelNumber}
+        </div>
       </StCardProfile.Content>
     </StCardProfile.Wrapper>
   );

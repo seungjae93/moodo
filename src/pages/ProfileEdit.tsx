@@ -183,6 +183,14 @@ function ProfileEdit() {
             </div>
             <div className="contentBox">
               <StRealEstate.ProfileSemiTitle>
+                홈페이지 시작위치
+              </StRealEstate.ProfileSemiTitle>
+              <StRealEstate.ProfileContent>
+                <PostCode register={register} />
+              </StRealEstate.ProfileContent>
+            </div>
+            <div className="contentBox">
+              <StRealEstate.ProfileSemiTitle>
                 사무실 주소
               </StRealEstate.ProfileSemiTitle>
               <StRealEstate.ProfileContent>
