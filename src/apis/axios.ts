@@ -74,8 +74,20 @@ export const profileApi = {
 };
 
 //로그인 안될경우 프로필 가져오는 api
+interface UserInfo {
+  userName: string;
+  userPhoneNumber: string;
+  userCompanyName: string;
+  userCompanyTelNumber: string;
+  userBusinessLocation: string;
+  userProfileImgUrl: string;
+}
+interface Data {
+  userInfo: UserInfo;
+}
+
 export const realtorApi = {
-  get: async (userId: string): Promise<void> => {
+  get: async (userId: string): Promise<Data> => {
     const { data } = await instance.get(`/realtor/${userId}`);
     return data;
   },

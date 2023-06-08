@@ -43,7 +43,6 @@ export const StDetail = {
     @media (max-width: 768px) {
       width: 500px;
       height: 500px;
-      margin-top: 0;
     }
   `,
   ImgInfoWrapper: styled.div`
