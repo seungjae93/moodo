@@ -1,9 +1,8 @@
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { debounce } from "lodash";
-
 import { mapApi } from "../../../apis/axios";
 import clusterer from "../../../assets/clusterer.svg";
 import marker from "../../../assets/marker.svg";
@@ -30,6 +29,7 @@ function MapContainer({
   const [zoomLevel, setZoomLevel] = useState(6);
   //서버에서 받은 response
   const [dongListData, setDongListData] = useState<any>(null);
+
   const mutation = useMutation<any, unknown, Coordinates>(
     (coordinates) => mapApi.post(userId as string, coordinates),
     {

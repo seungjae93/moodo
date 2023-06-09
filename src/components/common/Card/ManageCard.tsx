@@ -7,6 +7,7 @@ import flex from "../../../libs/styles/utilFlex";
 import palette from "../../../libs/styles/palette";
 import { estateApi } from "../../../apis/axios";
 import { ManageCardProps } from "../../../typings/detail.type";
+import { formatCurrency } from "../../../libs/FormatCurrency";
 
 function ManageCard({ estate }: ManageCardProps) {
   const navigate = useNavigate();
@@ -46,6 +47,7 @@ function ManageCard({ estate }: ManageCardProps) {
   const postUpdateHandler = () => {
     navigate(`/update/${estateId}`);
   };
+
   return (
     <StManageCard.Wrapper>
       <StManageCard.Image src={imgs[0]?.imgOfUrl} onClick={openNewWindow} />
@@ -62,11 +64,11 @@ function ManageCard({ estate }: ManageCardProps) {
         </StManageCard.Content>
         <StManageCard.Content>
           {transactionType === "월세"
-            ? `${deposit}만원 / ${monthly}만원`
+            ? `${formatCurrency(deposit)} / ${formatCurrency(monthly)}`
             : transactionType === "매매"
-            ? `매매가 ${price}억`
+            ? `매매가 ${formatCurrency(price)}`
             : transactionType === "전세"
-            ? `${deposit}억`
+            ? `${formatCurrency(deposit)}`
             : null}
         </StManageCard.Content>
         <StManageCard.Content>{addressOfProperty}</StManageCard.Content>
@@ -81,7 +83,7 @@ function ManageCard({ estate }: ManageCardProps) {
           size="medium"
           fw="400"
           fs="20px"
-          onClick={postDeleteHandler}
+          onClick={postUpdateHandler}
         >
           수정
         </Button.Primary>
