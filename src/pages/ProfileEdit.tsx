@@ -15,7 +15,6 @@ import { ProfileEditForm } from "../typings/detail.type";
 
 function ProfileEdit() {
   const { user } = useUser();
-  console.log("user", user);
   const navigate = useNavigate();
   const { mutate, isError, error } = useMutation(
     async (formData: FormData) => {

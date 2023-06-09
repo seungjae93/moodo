@@ -5,6 +5,7 @@ import Button from "../Button/Button";
 import DetailCarousel from "./DetailCarousel";
 
 import { StDetail } from "../../../libs/styles/StDetail";
+import { formatCurrency } from "../../../libs/FormatCurrency";
 import { StImgProps, DetailDataProps } from "../../../typings/detail.type";
 import { CgClose } from "react-icons/cg";
 
@@ -13,7 +14,7 @@ function ImgInfo({ estateDetail }: DetailDataProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const imageGroup = estateDetail?.imgs;
   const visibleImageGroup = imageGroup?.slice(0, 5);
-
+  console.log("estateDetail", estateDetail);
   const onImageModal = (el: any, index: number) => {
     setImageModal(true);
     setCurrentImageIndex(index);
@@ -91,9 +92,13 @@ function ImgInfo({ estateDetail }: DetailDataProps) {
           {estateDetail?.transactionType === "월세"
             ? `${estateDetail?.transactionType} ${estateDetail?.deposit} / ${estateDetail?.monthly}`
             : estateDetail?.transactionType === "전세"
-            ? `${estateDetail?.transactionType} ${estateDetail?.deposit}`
+            ? `${estateDetail?.transactionType} ${
+                estateDetail?.deposit && formatCurrency(estateDetail?.deposit)
+              }`
             : estateDetail?.transactionType === "매매"
-            ? `${estateDetail?.transactionType} ${estateDetail?.price}`
+            ? `${estateDetail?.transactionType} ${
+                estateDetail?.price && formatCurrency(estateDetail?.price)
+              }`
             : null}
         </div>
         {estateDetail?.typeOfProperty === "상가/사무실" && (
@@ -103,7 +108,9 @@ function ImgInfo({ estateDetail }: DetailDataProps) {
               fontSize: "16px",
             }}
           >
-            권리금:5000만원
+            권리금:{" "}
+            {estateDetail?.rightMoney &&
+              formatCurrency(estateDetail?.rightMoney)}
           </div>
         )}
 
