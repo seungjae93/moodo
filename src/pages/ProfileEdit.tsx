@@ -15,6 +15,7 @@ import { ProfileEditForm } from "../typings/detail.type";
 
 function ProfileEdit() {
   const { user } = useUser();
+  console.log("user", user);
   const navigate = useNavigate();
   const { mutate, isError, error } = useMutation(
     async (formData: FormData) => {
@@ -109,7 +110,9 @@ function ProfileEdit() {
                 내 홈페이지 주소
               </StRealEstate.ProfileSemiTitle>
               <StRealEstate.ProfileContent>
-                <div className="MyHomepageAddress">내 홈페이지 주소</div>
+                <div className="MyHomepageAddress">
+                  https://www.modoo.com/{user?.userId}
+                </div>
               </StRealEstate.ProfileContent>
             </div>
             <div className="contentBox">
