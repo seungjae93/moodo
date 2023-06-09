@@ -4,6 +4,7 @@ import flex from "../../../../libs/styles/utilFlex";
 import palette from "../../../../libs/styles/palette";
 import Button from "../../Button/Button";
 import { EstateDetailData } from "../../../../typings/detail.type";
+import { formatCurrency } from "../../../../libs/FormatCurrency";
 
 interface EstateCardProps {
   estate: EstateDetailData;
@@ -27,25 +28,34 @@ function EstateCard({ estate }: EstateCardProps) {
           <>
             <StEstateCard.Content>
               매매가:{" "}
-              <span style={{ fontWeight: "bold" }}>{estate?.price}억</span>
+              <span style={{ fontWeight: "bold" }}>
+                {estate?.price && formatCurrency(estate?.price)}
+              </span>
             </StEstateCard.Content>
           </>
         ) : estate?.transactionType === "월세" ? (
           <>
             <StEstateCard.Content>
               보증금:{" "}
-              <span style={{ fontWeight: "bold" }}>{estate?.deposit}만원</span>
+              <span style={{ fontWeight: "bold" }}>
+                {" "}
+                {estate?.deposit && formatCurrency(estate?.deposit)}
+              </span>
             </StEstateCard.Content>
             <StEstateCard.Content>
               월세:{" "}
-              <span style={{ fontWeight: "bold" }}>{estate?.monthly}만원</span>
+              <span style={{ fontWeight: "bold" }}>
+                {estate?.monthly && formatCurrency(estate?.monthly)}
+              </span>
             </StEstateCard.Content>
           </>
         ) : estate?.transactionType === "전세" ? (
           <>
             <StEstateCard.Content>
               보증금:{" "}
-              <span style={{ fontWeight: "bold" }}>{estate?.deposit}만원</span>
+              <span style={{ fontWeight: "bold" }}>
+                {estate?.deposit && formatCurrency(estate?.deposit)}
+              </span>
             </StEstateCard.Content>
           </>
         ) : null}

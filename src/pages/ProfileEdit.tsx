@@ -109,7 +109,9 @@ function ProfileEdit() {
                 내 홈페이지 주소
               </StRealEstate.ProfileSemiTitle>
               <StRealEstate.ProfileContent>
-                <div className="MyHomepageAddress">내 홈페이지 주소</div>
+                <div className="MyHomepageAddress">
+                  https://www.modoo.com/{user?.userId}
+                </div>
               </StRealEstate.ProfileContent>
             </div>
             <div className="contentBox">
