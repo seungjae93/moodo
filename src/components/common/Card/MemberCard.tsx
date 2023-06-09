@@ -37,14 +37,18 @@ function MemberCard({ member }: UserListDataProps) {
       link.click();
     }
   };
-
+  const phoneNumber = member?.userPhoneNumber;
+  const formattedPhoneNumber = phoneNumber.replace(
+    /(\d{3})(\d{4})(\d{4})/,
+    "$1-$2-$3"
+  );
   return (
     <StMemberCard.Wrapper>
       <StMemberCard.Image src={member?.userProfileImgUrl} />
       <StMemberCard.ContentBox>
         <StMemberCard.Content>{member?.userCompanyName}</StMemberCard.Content>
         <StMemberCard.Content>{member?.userName}</StMemberCard.Content>
-        <StMemberCard.Content>{member?.userPhoneNumber}</StMemberCard.Content>
+        <StMemberCard.Content>{formattedPhoneNumber}</StMemberCard.Content>
         <StMemberCard.Content>
           {member?.userCompanyTelNumber}
         </StMemberCard.Content>

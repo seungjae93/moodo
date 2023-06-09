@@ -113,7 +113,6 @@ function MoodoMap() {
   useEffect(() => {
     const filteredList = Array.isArray(mapData)
       ? mapData.filter((estate) => {
-          console.log("estate", estate);
           if (
             (selectedPropertyTypes.length === 0 ||
               selectedPropertyTypes.includes(estate.typeOfProperty)) &&

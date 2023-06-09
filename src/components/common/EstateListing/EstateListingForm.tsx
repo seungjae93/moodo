@@ -138,12 +138,7 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
   };
 
   //useForm
-  const {
-    register,
-    watch,
-    handleSubmit,
-    formState: { isSubmitting, isDirty, errors },
-  } = useForm<RealEstateForm>({
+  const { register, watch, handleSubmit } = useForm<RealEstateForm>({
     mode: "onChange",
     defaultValues: {
       typeOfProperty: "원/투룸",
@@ -179,17 +174,19 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
   }, [images]);
 
   //images dnd
-  const onDragEnd = useCallback(({ destination, source }: DropResult) => {
-    // 드래그 앤 드롭 종료 시 실행되는 콜백 함수
-    if (!destination) {
-      return;
-    }
-    const updatedImagesPreview = [...imagesPreview];
-    const [draggedImage] = updatedImagesPreview.splice(source.index, 1);
-    updatedImagesPreview.splice(destination.index, 0, draggedImage);
-    setImagesPreview(updatedImagesPreview);
-  }, []);
-
+  const onDragEnd = useCallback(
+    ({ destination, source }: DropResult) => {
+      // 드래그 앤 드롭 종료 시 실행되는 콜백 함수
+      if (!destination) {
+        return;
+      }
+      const updatedImagesPreview = [...imagesPreview];
+      const [draggedImage] = updatedImagesPreview.splice(source.index, 1);
+      updatedImagesPreview.splice(destination.index, 0, draggedImage);
+      setImagesPreview(updatedImagesPreview);
+    },
+    [imagesPreview]
+  );
   //handleSubmit
   const onValid = useCallback(
     (data: RealEstateForm) => {
@@ -418,7 +415,7 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
                     {imagesPreview.length > 0 ? (
                       imagesPreview.map((preview, index) => (
                         <DragabbleImage
-                          key={preview}
+                          key={`image-${index}`}
                           preview={preview}
                           index={index}
                         />

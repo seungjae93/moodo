@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import SideNav from "../components/common/SideNav/SideNav";
 import Button from "../components/common/Button/Button";
 import Input from "../components/common/Input";
+import PageStartPostCode from "../components/common/EstateListing/PageStartPostCode";
 import PostCode from "../components/common/EstateListing/PostCode";
 import { profileApi } from "../apis/axios";
 import useUser from "../hooks/useUser";
@@ -43,8 +44,14 @@ function ProfileEdit() {
   useEffect(() => {
     if (user?.userId) setValue("userId", user?.userId);
     if (user?.userName) setValue("userName", user?.userName);
-    if (user?.userPhoneNumber)
-      setValue("userPhoneNumber", user?.userPhoneNumber);
+    if (user?.userPhoneNumber) {
+      const phoneNumber = user?.userPhoneNumber;
+      const formattedPhoneNumber = phoneNumber.replace(
+        /(\d{3})(\d{4})(\d{4})/,
+        "$1-$2-$3"
+      );
+      setValue("userPhoneNumber", formattedPhoneNumber);
+    }
     if (user?.userCompanyName)
       setValue("userCompanyName", user?.userCompanyName);
     if (user?.userCompanyTelNumber)
@@ -73,6 +80,7 @@ function ProfileEdit() {
     formData.append("userCompanyTelNumber", data?.userCompanyTelNumber || "");
     formData.append("userPhoneNumber", data?.userPhoneNumber || "");
     formData.append("userCompanyName", data?.userCompanyName || "");
+    formData.append("startLocation", data?.startLocation || "");
     formData.append("userBusinessLocation", userBusinessLocation || "");
     if (data?.userProfileImg) {
       for (const file of data.userProfileImg || [""]) {
@@ -186,7 +194,7 @@ function ProfileEdit() {
                 홈페이지 시작위치
               </StRealEstate.ProfileSemiTitle>
               <StRealEstate.ProfileContent>
-                <PostCode register={register} />
+                <PageStartPostCode register={register} />
               </StRealEstate.ProfileContent>
             </div>
             <div className="contentBox">
