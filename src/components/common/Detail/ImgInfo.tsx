@@ -1,11 +1,11 @@
 import { useState } from "react";
 import styled, { css } from "styled-components";
-
-import { StDetail } from "../../../libs/styles/StDetail";
 import palette from "../../../libs/styles/palette";
 import Button from "../Button/Button";
-import { StImgProps, DetailDataProps } from "../../../typings/detail.type";
 import DetailCarousel from "./DetailCarousel";
+
+import { StDetail } from "../../../libs/styles/StDetail";
+import { StImgProps, DetailDataProps } from "../../../typings/detail.type";
 import { CgClose } from "react-icons/cg";
 
 function ImgInfo({ estateDetail }: DetailDataProps) {
@@ -21,7 +21,6 @@ function ImgInfo({ estateDetail }: DetailDataProps) {
   const onImageModalClose = () => {
     setImageModal(false);
   };
-  console.log(estateDetail);
   //클릭한 이미지 DetailCarousel에서 보여주기
   const rearrangedImageGroup = imageGroup
     ? [

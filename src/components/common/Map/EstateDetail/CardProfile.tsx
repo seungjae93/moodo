@@ -3,23 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 import flex from "../../../../libs/styles/utilFlex";
 import palette from "../../../../libs/styles/palette";
 import { realtorApi } from "../../../../apis/axios";
-
-interface UserInfo {
-  userName: string;
-  userPhoneNumber: string;
-  userCompanyName: string;
-  userCompanyTelNumber: string;
-  userBusinessLocation: string;
-  userProfileImgUrl: string;
-}
-interface Data {
-  userInfo: UserInfo;
-}
+import { Data } from "../../../../typings/detail.type";
 
 function CardProfile() {
   const path = window.location.pathname;
   const userId = path.substring(5);
-
   const { data, isLoading, error } = useQuery<Data>(["realtor"], async () =>
     realtorApi.get(userId)
   );
