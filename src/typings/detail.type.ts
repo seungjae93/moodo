@@ -249,6 +249,7 @@ export interface ProfileEditForm {
   userPhoneNumber?: string;
   userCompanyName: string;
   userBusinessLocation: string;
+  startLocation: string;
   userProfileImg: FileList;
   userBusinessLicense: FileList;
 }
@@ -304,4 +305,15 @@ export interface EstateListData {
 export interface EstateListingFormProps {
   estateId?: string;
   isUpdate?: boolean;
+}
+export interface UserInfo {
+  userName: string;
+  userPhoneNumber: string;
+  userCompanyName: string;
+  userCompanyTelNumber: string;
+  userBusinessLocation: string;
+  userProfileImgUrl: string;
+}
+export interface Data {
+  userInfo: UserInfo;
 }

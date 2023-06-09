@@ -5,15 +5,16 @@ import styled from "styled-components";
 import { DragabbleImageProps } from "../../../typings/detail.type";
 
 function DragabbleImage({ preview, index }: DragabbleImageProps) {
+  const id = `image-${index}`;
   return (
-    <Draggable key={preview} draggableId={preview} index={index}>
+    <Draggable key={id} draggableId={id} index={index}>
       {(provided) => (
         <StAvatarPreviewBox
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <StAvatarPreview key={preview} src={preview} alt="Image" />
+          <StAvatarPreview key={id} src={preview} alt="Image" />
         </StAvatarPreviewBox>
       )}
     </Draggable>
@@ -27,7 +28,7 @@ const StAvatarPreviewBox = styled.div`
   position: relative;
 `;
 const StAvatarPreview = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   background-color: transparent;
 `;
