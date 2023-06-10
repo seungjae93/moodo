@@ -8,6 +8,7 @@ interface ProfileData {
   userEmail: string;
   userPhoneNumber: string;
   userCompanyName: string;
+  startLocation: string;
   userCompanyTelNumber: string;
   userBusinessLocation: string;
   userBusinessLicenseImgUrl: string;
