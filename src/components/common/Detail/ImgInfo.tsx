@@ -14,7 +14,7 @@ function ImgInfo({ estateDetail }: DetailDataProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const imageGroup = estateDetail?.imgs;
   const visibleImageGroup = imageGroup?.slice(0, 5);
-  console.log("estateDetail", estateDetail);
+
   const onImageModal = (el: any, index: number) => {
     setImageModal(true);
     setCurrentImageIndex(index);

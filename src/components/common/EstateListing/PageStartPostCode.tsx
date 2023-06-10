@@ -22,14 +22,26 @@ export default function PageStartPostCode({ register }: PostCodeProps) {
   const onClickAddr = () => {
     new window.daum.Postcode({
       oncomplete: function (data: IPostCode) {
-        (document.getElementById("startLocation") as HTMLInputElement).value =
+        (document.getElementById("startaddr") as HTMLInputElement).value =
           data.address;
 
+        const jibunInput = document.getElementById(
+          "startJibun"
+        ) as HTMLInputElement;
         const address = (
-          document.getElementById("startLocation") as HTMLInputElement
+          document.getElementById("startaddr") as HTMLInputElement
         ).value;
+        let addressOfJibun = data.jibunAddress;
+
+        if (addressOfJibun === "") {
+          addressOfJibun = data?.autoJibunAddress;
+        }
+
+        jibunInput.value = addressOfJibun;
+
         register("startLocation", { value: address });
-        document.getElementById("addrDetail")?.focus();
+        register("startLocationJibun", { value: addressOfJibun });
+        document.getElementById("startDetail")?.focus();
       },
     }).open();
   };
@@ -37,10 +49,12 @@ export default function PageStartPostCode({ register }: PostCodeProps) {
     <>
       <PostCodeWrapper>
         <div className="inputButtonBox">
-          <StInput id="startLocation" type="text" readOnly />
-          {/* <StInput id="jibun" type="text" readOnly /> */}
+          <StInput id="startaddr" type="text" readOnly />
+          <StInput id="startJibun" type="text" readOnly />
+
           <Button.Primary
             className="postcodeBtn"
+            type="button"
             onClick={onClickAddr}
             fw="400"
             fs="14px"
@@ -48,6 +62,13 @@ export default function PageStartPostCode({ register }: PostCodeProps) {
             검색
           </Button.Primary>
         </div>
+        <StInput
+          id="startDetail"
+          type="text"
+          placeholder="상세주소를 입력해주세요."
+          name="startDetail"
+          {...register("startDetail")}
+        />
       </PostCodeWrapper>
     </>
   );
@@ -71,7 +92,7 @@ const PostCodeWrapper = styled.div`
   }
 `;
 const StInput = styled.input`
-  width: 100%;
+  width: 50%;
   height: 33.6px;
   padding: 0.5rem;
   border: 1px solid #e2e8f0;

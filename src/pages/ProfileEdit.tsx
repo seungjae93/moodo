@@ -15,6 +15,7 @@ import { ProfileEditForm } from "../typings/detail.type";
 
 function ProfileEdit() {
   const { user } = useUser();
+  console.log("user", user);
   const navigate = useNavigate();
   const { mutate, isError, error } = useMutation(
     async (formData: FormData) => {
@@ -23,7 +24,7 @@ function ProfileEdit() {
     {
       onSuccess: () => {
         alert("정보를 수정하였습니다.");
-        navigate("/profileEdit");
+        window.location.reload();
       },
       onError: (error) => {
         console.error(error);
@@ -40,7 +41,6 @@ function ProfileEdit() {
   const [licensePreview, setLicensePreview] = useState("");
   const userProfileImg = watch("userProfileImg");
   const userBusinessLicense = watch("userBusinessLicense");
-
   useEffect(() => {
     if (user?.userId) setValue("userId", user?.userId);
     if (user?.userName) setValue("userName", user?.userName);
@@ -58,6 +58,15 @@ function ProfileEdit() {
       setValue("userCompanyTelNumber", user?.userCompanyTelNumber);
     if (user?.userBusinessLocation)
       setValue("addressDetail", user?.userBusinessLocation);
+    if (user?.startLocation) {
+      setValue("startDetail", user?.startLocation);
+    }
+    if (user?.userProfileImgUrl) {
+      setProfileImgPreview(user?.userProfileImgUrl);
+    }
+    if (user?.userBusinessLicenseImgUrl) {
+      setLicensePreview(user?.userBusinessLicenseImgUrl);
+    }
   }, [user, setValue]);
 
   useEffect(() => {
@@ -72,15 +81,23 @@ function ProfileEdit() {
   }, [userProfileImg, userBusinessLicense]);
 
   const onValid = (data: ProfileEditForm) => {
-    const { address, addressDetail } = data;
-    const userBusinessLocation = `${address},${addressDetail}`;
+    // const userBusinessLocation = `${address || ""}, ${addressDetail || ""}`;
+    const { address, addressDetail, startDetail } = data;
+    let userBusinessLocation = "";
+    if (address && addressDetail) {
+      userBusinessLocation = `${address},${addressDetail}`;
+    } else if (address) {
+      userBusinessLocation = address;
+    } else if (addressDetail) {
+      userBusinessLocation = addressDetail;
+    }
     const formData = new FormData();
     formData.append("userId", data?.userId || "");
     formData.append("userName", data?.userName || "");
     formData.append("userCompanyTelNumber", data?.userCompanyTelNumber || "");
     formData.append("userPhoneNumber", data?.userPhoneNumber || "");
     formData.append("userCompanyName", data?.userCompanyName || "");
-    formData.append("startLocation", data?.startLocation || "");
+    formData.append("startLocation", data?.startLocation || startDetail);
     formData.append("userBusinessLocation", userBusinessLocation || "");
     if (data?.userProfileImg) {
       for (const file of data.userProfileImg || [""]) {
@@ -134,9 +151,7 @@ function ProfileEdit() {
               </StRealEstate.ProfileSemiTitle>
               <StRealEstate.ProfileContent>
                 <Input
-                  register={register("userName", {
-                    required: "필수 응답 항목입니다.",
-                  })}
+                  register={register("userName")}
                   label="중개사 이름"
                   name="userName"
                   type="text"
@@ -150,9 +165,7 @@ function ProfileEdit() {
               </StRealEstate.ProfileSemiTitle>
               <StRealEstate.ProfileContent>
                 <Input
-                  register={register("userCompanyTelNumber", {
-                    required: "필수 응답 항목입니다.",
-                  })}
+                  register={register("userCompanyTelNumber")}
                   label="사무실 전화번호"
                   name="userCompanyTelNumber"
                   type="text"
@@ -181,9 +194,7 @@ function ProfileEdit() {
               </StRealEstate.ProfileSemiTitle>
               <StRealEstate.ProfileContent>
                 <Input
-                  register={register("userCompanyName", {
-                    required: "필수 응답 항목입니다.",
-                  })}
+                  register={register("userCompanyName")}
                   label="부동산 이름"
                   name="userCompanyName"
                   type="text"
@@ -224,9 +235,7 @@ function ProfileEdit() {
                   <StRealEstate.ProfileLabel htmlFor="userProfileImg">
                     사진 변경
                     <input
-                      {...register("userProfileImg", {
-                        required: "필수 선택 항목입니다",
-                      })}
+                      {...register("userProfileImg")}
                       id="userProfileImg"
                       type="file"
                       accept="image/*"
@@ -252,9 +261,7 @@ function ProfileEdit() {
                   <StRealEstate.ProfileLabel htmlFor="userBusinessLicense">
                     사진 변경
                     <input
-                      {...register("userBusinessLicense", {
-                        required: "필수 선택 항목입니다",
-                      })}
+                      {...register("userBusinessLicense")}
                       id="userBusinessLicense"
                       type="file"
                       accept="image/*"

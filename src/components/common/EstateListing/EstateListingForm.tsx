@@ -138,7 +138,7 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
   };
 
   //useForm
-  const { register, watch, handleSubmit } = useForm<RealEstateForm>({
+  const { register, watch, handleSubmit, setValue } = useForm<RealEstateForm>({
     mode: "onChange",
     defaultValues: {
       typeOfProperty: "원/투룸",
@@ -162,6 +162,8 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
   //imagesPreview
   const [imagesPreview, setImagesPreview] = useState<string[]>([]);
   const images = watch("images");
+  console.log("images", images);
+  console.log("watch", watch());
   useEffect(() => {
     if (images && images.length > 0) {
       const previewArray = [...images]
@@ -174,6 +176,19 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
   }, [images]);
 
   //images dnd
+  // const onDragEnd = useCallback(
+  //   ({ destination, source }: DropResult) => {
+  //     // 드래그 앤 드롭 종료 시 실행되는 콜백 함수
+  //     if (!destination) {
+  //       return;
+  //     }
+  //     const updatedImagesPreview = [...imagesPreview];
+  //     const [draggedImage] = updatedImagesPreview.splice(source.index, 1);
+  //     updatedImagesPreview.splice(destination.index, 0, draggedImage);
+  //     setImagesPreview(updatedImagesPreview);
+  //   },
+  //   [imagesPreview]
+  // );
   const onDragEnd = useCallback(
     ({ destination, source }: DropResult) => {
       // 드래그 앤 드롭 종료 시 실행되는 콜백 함수
@@ -184,9 +199,20 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
       const [draggedImage] = updatedImagesPreview.splice(source.index, 1);
       updatedImagesPreview.splice(destination.index, 0, draggedImage);
       setImagesPreview(updatedImagesPreview);
+      console.log("imagesPreview", imagesPreview);
+      if (images && images.length > 0) {
+        const updatedImages = [...images];
+        const dataTransfer = new DataTransfer();
+        updatedImages.forEach((file) => {
+          dataTransfer.items.add(file);
+        });
+        const updatedFileList = dataTransfer.files;
+        setValue("images", updatedFileList);
+      }
     },
-    [imagesPreview]
+    [imagesPreview, images]
   );
+
   //handleSubmit
   const onValid = useCallback(
     (data: RealEstateForm) => {

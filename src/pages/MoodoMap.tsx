@@ -46,7 +46,7 @@ function MoodoMap() {
   const handleDataReceived = (data: any) => {
     setMapData(data);
   };
-
+  console.log("mapData", mapData);
   //매물종류 거래유형 checkbox change
   const handlePropertyTypesChange = (updatedPropertyTypes: string[]) => {
     setSelectedPropertyTypes(updatedPropertyTypes);
