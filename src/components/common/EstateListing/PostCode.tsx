@@ -50,6 +50,7 @@ export default function PostCode({ register }: PostCodeProps) {
           <StInput id="jibun" type="text" readOnly />
           <Button.Primary
             className="postcodeBtn"
+            type="button"
             onClick={onClickAddr}
             fw="400"
             fs="14px"

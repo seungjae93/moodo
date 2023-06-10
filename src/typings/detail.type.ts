@@ -250,6 +250,7 @@ export interface ProfileEditForm {
   userCompanyName: string;
   userBusinessLocation: string;
   startLocation: string;
+  startDetail: string;
   userProfileImg: FileList;
   userBusinessLicense: FileList;
 }

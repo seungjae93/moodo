@@ -35,8 +35,9 @@ function MapContainer({
     {
       onSuccess: (data) => {
         const dongList = data?.mapList?.dongList;
+        const startLocation = data?.mapList?.startLocation;
         const mapList = zoomLevel < 4 ? data?.mapList : data?.mapList?.mapList;
-
+        console.log("startLocation", startLocation);
         setDongListData(dongList);
         onDataReceived(mapList);
       },
