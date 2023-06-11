@@ -162,8 +162,7 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
   //imagesPreview
   const [imagesPreview, setImagesPreview] = useState<string[]>([]);
   const images = watch("images");
-  console.log("images", images);
-  console.log("watch", watch());
+
   useEffect(() => {
     if (images && images.length > 0) {
       const previewArray = [...images]
