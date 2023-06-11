@@ -128,7 +128,16 @@ function ImgInfo({ estateDetail, estateUser }: DetailDataProps) {
             fontSize: "14px",
           }}
         >
-          {estateDetail?.floor}층 / {estateDetail?.supplyArea}m²
+          {estateDetail &&
+            (estateDetail.typeOfProperty === "건물" ? (
+              <>
+                {estateDetail.highestFloor}층 / {estateDetail.supplyArea}m²
+              </>
+            ) : (
+              <>
+                {estateDetail.floor}층 / {estateDetail.supplyArea}m²
+              </>
+            ))}
         </div>
         <div
           style={{
