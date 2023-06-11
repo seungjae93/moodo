@@ -22,7 +22,6 @@ function MapContainer({
     // 지도의 초기 위치
     center: { lat: 37.5472661928352, lng: 127.068276018078 },
   });
-
   const mapRef = useRef<kakao.maps.Map | null>(null);
   const markerRef = useRef(null);
   //지도 레벨
@@ -34,10 +33,18 @@ function MapContainer({
     (coordinates) => mapApi.post(userId as string, coordinates),
     {
       onSuccess: (data) => {
-        const dongList = data?.mapList?.dongList;
         const startLocation = data?.mapList?.startLocation;
-        const mapList = zoomLevel < 4 ? data?.mapList : data?.mapList?.mapList;
-        console.log("startLocation", startLocation);
+        if (startLocation) {
+          setLocation({
+            center: {
+              lat: Number(startLocation?.lat),
+              lng: Number(startLocation?.lng),
+            },
+          });
+        }
+
+        const dongList = data?.mapList?.dongList;
+        const mapList = data?.mapList?.mapList;
         setDongListData(dongList);
         onDataReceived(mapList);
       },
@@ -46,6 +53,7 @@ function MapContainer({
       },
     }
   );
+
   const customOverlayDong = () => {
     if (!filteredMapList) return null;
     if (zoomLevel < 4) return null;
@@ -70,7 +78,6 @@ function MapContainer({
       </>
     );
   };
-
   //장소 검색 객체 생성
   useEffect(() => {
     const ps = new kakao.maps.services.Places();
@@ -119,7 +126,8 @@ function MapContainer({
       zoomLevel: 6,
     };
     mutation.mutate(coordinates);
-  }, [location]);
+  }, []);
+
   return (
     <Map
       center={location.center}
