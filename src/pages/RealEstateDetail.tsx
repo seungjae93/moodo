@@ -9,11 +9,11 @@ import DetailMap from "../components/common/Detail/DetailMap";
 import ImgInfo from "../components/common/Detail/ImgInfo";
 
 function RealEstateDetail() {
-  const { estateDetail } = useEstateDetail();
-  console.log("estateDetail", estateDetail);
+  const { estateDetail, estateUser } = useEstateDetail();
+
   return (
     <StRealEstateDetail.Wrapper>
-      <ImgInfo estateDetail={estateDetail} />
+      <ImgInfo estateDetail={estateDetail} estateUser={estateUser} />
       <RoomInfo estateDetail={estateDetail} />
       <AdditionalInfo estateDetail={estateDetail} />
       <DetailDesc estateDetail={estateDetail} />

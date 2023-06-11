@@ -9,11 +9,19 @@ import { formatCurrency } from "../../../libs/FormatCurrency";
 import { StImgProps, DetailDataProps } from "../../../typings/detail.type";
 import { CgClose } from "react-icons/cg";
 
-function ImgInfo({ estateDetail }: DetailDataProps) {
+function ImgInfo({ estateDetail, estateUser }: DetailDataProps) {
   const [imageModal, setImageModal] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
   const imageGroup = estateDetail?.imgs;
   const visibleImageGroup = imageGroup?.slice(0, 5);
+
+  //핸드폰 전화 연결
+  const phoneNumber = estateUser?.userPhoneNumber;
+  const handlePhoneClick = () => {
+    const formattedPhoneNumber = phoneNumber?.replace(/-/g, ""); // "-" 문자 제거
+    window.location.href = `tel:${formattedPhoneNumber}`;
+  };
 
   const onImageModal = (el: any, index: number) => {
     setImageModal(true);
@@ -120,7 +128,16 @@ function ImgInfo({ estateDetail }: DetailDataProps) {
             fontSize: "14px",
           }}
         >
-          {estateDetail?.floor}층 / {estateDetail?.supplyArea}m²
+          {estateDetail &&
+            (estateDetail.typeOfProperty === "건물" ? (
+              <>
+                {estateDetail.highestFloor}층 / {estateDetail.supplyArea}m²
+              </>
+            ) : (
+              <>
+                {estateDetail.floor}층 / {estateDetail.supplyArea}m²
+              </>
+            ))}
         </div>
         <div
           style={{
@@ -138,7 +155,7 @@ function ImgInfo({ estateDetail }: DetailDataProps) {
             fontSize: "24px",
           }}
         >
-          김훈찬{" "}
+          {estateUser?.userName}{" "}
           <span
             style={{
               fontWeight: "500",
@@ -156,6 +173,7 @@ function ImgInfo({ estateDetail }: DetailDataProps) {
           fw="500"
           fs="18px"
           size="xLarge"
+          onClick={handlePhoneClick}
         >
           이 매물 문의하기
         </Button.Negative>

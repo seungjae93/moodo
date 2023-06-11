@@ -11,10 +11,10 @@ export default function NumberInputGroup({
       <RadioInput
         register={register(type, {
           required: "필수 선택 항목입니다",
-          pattern: {
-            value: /^[0-9]*$/,
-            message: "숫자만 입력해주세요",
-          },
+          // pattern: {
+          //   value: /^[0-9]*$/,
+          //   message: "숫자만 입력해주세요",
+          // },
         })}
         kind="text"
         type="text"

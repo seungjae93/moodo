@@ -7,6 +7,7 @@ export interface StImgProps {
 
 export interface DetailDataProps {
   estateDetail?: EstateDetailData;
+  estateUser?: UserListData;
 }
 
 export interface ImageData {
@@ -93,9 +94,9 @@ export interface ManageCardProps {
 
 //memberCard
 export interface UserListData {
-  admin: string;
-  approved: boolean;
-  id: string;
+  admin?: string;
+  approved?: boolean;
+  id?: string;
   userBusinessLicenseImgUrl: string;
   userBusinessLocation: string;
   userCompanyName: string;
