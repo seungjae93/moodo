@@ -41,6 +41,7 @@ function ProfileEdit() {
   const [licensePreview, setLicensePreview] = useState("");
   const userProfileImg = watch("userProfileImg");
   const userBusinessLicense = watch("userBusinessLicense");
+
   useEffect(() => {
     if (user?.userId) setValue("userId", user?.userId);
     if (user?.userName) setValue("userName", user?.userName);
@@ -62,10 +63,8 @@ function ProfileEdit() {
       setValue("startDetail", user?.startLocation);
     }
     if (user?.userProfileImgUrl) {
-      setProfileImgPreview(user?.userProfileImgUrl);
     }
     if (user?.userBusinessLicenseImgUrl) {
-      setLicensePreview(user?.userBusinessLicenseImgUrl);
     }
   }, [user, setValue]);
 
@@ -81,7 +80,6 @@ function ProfileEdit() {
   }, [userProfileImg, userBusinessLicense]);
 
   const onValid = (data: ProfileEditForm) => {
-    // const userBusinessLocation = `${address || ""}, ${addressDetail || ""}`;
     const { address, addressDetail, startDetail } = data;
     let userBusinessLocation = "";
     if (address && addressDetail) {
@@ -111,6 +109,7 @@ function ProfileEdit() {
     }
     mutate(formData);
   };
+
   return (
     <>
       <StRealEstate.Wrapper>
