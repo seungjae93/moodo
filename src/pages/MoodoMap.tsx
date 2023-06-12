@@ -112,7 +112,7 @@ function MoodoMap() {
   useEffect(() => {
     const filteredList = Array.isArray(mapData)
       ? mapData.filter((estate) => {
-          // console.log("estate", estate);
+          console.log("estate", typeof estate.deposit);
           if (
             (selectedPropertyTypes.length === 0 ||
               selectedPropertyTypes.includes(estate.typeOfProperty)) &&
@@ -120,16 +120,16 @@ function MoodoMap() {
               selectedDealTypes.includes(estate.transactionType)) &&
             (depositMin === "" ||
               (estate.deposit &&
-                estate.deposit >= depositMin &&
-                estate.deposit <= depositMax)) &&
+                parseInt(estate.deposit) >= parseInt(depositMin) &&
+                parseInt(estate.deposit) <= parseInt(depositMax))) &&
             (monthlyMin === "" ||
               (estate.monthly &&
-                estate.monthly >= monthlyMin &&
-                estate.monthly <= monthlyMax)) &&
+                parseInt(estate.monthly) >= parseInt(monthlyMin) &&
+                parseInt(estate.monthly) <= parseInt(monthlyMax))) &&
             (rightMoneyMin === "" ||
               (estate.rightMoney &&
-                estate.rightMoney >= rightMoneyMin &&
-                estate.rightMoney <= rightMoneyMax)) &&
+                parseInt(estate.rightMoney) >= parseInt(rightMoneyMin) &&
+                parseInt(estate.rightMoney) <= parseInt(rightMoneyMax))) &&
             (storeCategory === "전체" ||
               estate.mainCategory === storeCategory) &&
             (subStoreCategoryValue === "전체" ||
@@ -154,7 +154,13 @@ function MoodoMap() {
     subStoreCategoryValue,
     mapData,
   ]);
-  // console.log("filteredMapList", filteredMapList);
+
+  console.log("depositMin", typeof depositMin);
+  console.log("depositMax", typeof depositMax);
+  console.log("monthlyMin", monthlyMin);
+  console.log("monthlyMax", monthlyMax);
+  console.log("rightMoneyMin", rightMoneyMin);
+  console.log("rightMoneyMax", rightMoneyMax);
   return (
     <StMoodoMap.Wrapper>
       {window.innerWidth <= 930 ? (

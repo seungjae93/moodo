@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 
 import SideNav from "../components/common/SideNav/SideNav";
 import Button from "../components/common/Button/Button";
@@ -15,8 +14,6 @@ import { ProfileEditForm } from "../typings/detail.type";
 
 function ProfileEdit() {
   const { user } = useUser();
-  console.log("user", user);
-  const navigate = useNavigate();
   const { mutate, isError, error } = useMutation(
     async (formData: FormData) => {
       await profileApi.post(formData);
