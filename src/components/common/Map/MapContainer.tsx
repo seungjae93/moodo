@@ -22,6 +22,7 @@ function MapContainer({
     // 지도의 초기 위치
     center: { lat: 37.5472661928352, lng: 127.068276018078 },
   });
+  console.log("location", location);
   const mapRef = useRef<kakao.maps.Map | null>(null);
   const markerRef = useRef(null);
   //지도 레벨
