@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 import palette from "../../../libs/styles/palette";
 import flex from "../../../libs/styles/utilFlex";
@@ -16,28 +17,29 @@ interface IPostCode {
 
 interface PostCodeProps {
   register: any;
+  setValue: any;
 }
 
-export default function PostCode({ register }: PostCodeProps) {
+export default function PostCode({ register, setValue }: PostCodeProps) {
+  const [address, setAddress] = useState("");
+  const [jibunAddress, setJibunAddress] = useState("");
+
   const onClickAddr = () => {
+    setAddress("");
+    setJibunAddress("");
     new window.daum.Postcode({
       oncomplete: function (data: IPostCode) {
-        (document.getElementById("addr") as HTMLInputElement).value =
-          data.address;
-
-        const jibunInput = document.getElementById("jibun") as HTMLInputElement;
-        const address = (document.getElementById("addr") as HTMLInputElement)
-          .value;
+        setAddress(data.address);
         let addressOfJibun = data.jibunAddress;
 
         if (addressOfJibun === "") {
           addressOfJibun = data?.autoJibunAddress;
         }
 
-        jibunInput.value = addressOfJibun;
+        setJibunAddress(addressOfJibun);
 
-        register("address", { value: address });
-        register("addressOfJibun", { value: addressOfJibun });
+        setValue("address", data.address);
+        setValue("addressOfJibun", addressOfJibun);
         document.getElementById("addrDetail")?.focus();
       },
     }).open();
@@ -46,8 +48,8 @@ export default function PostCode({ register }: PostCodeProps) {
     <>
       <PostCodeWrapper>
         <div className="inputButtonBox">
-          <StInput id="addr" type="text" readOnly />
-          <StInput id="jibun" type="text" readOnly />
+          <StInput id="addr" type="text" readOnly value={address} />
+          <StInput id="jibun" type="text" readOnly value={jibunAddress} />
           <Button.Primary
             className="postcodeBtn"
             type="button"
