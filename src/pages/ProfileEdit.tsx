@@ -106,7 +106,7 @@ function ProfileEdit() {
     }
     mutate(formData);
   };
-
+  console.log("watch", watch());
   return (
     <>
       <StRealEstate.Wrapper>
@@ -203,7 +203,7 @@ function ProfileEdit() {
                 홈페이지 시작위치
               </StRealEstate.ProfileSemiTitle>
               <StRealEstate.ProfileContent>
-                <PageStartPostCode register={register} />
+                <PageStartPostCode register={register} setValue={setValue} />
               </StRealEstate.ProfileContent>
             </div>
             <div className="contentBox">
@@ -211,7 +211,7 @@ function ProfileEdit() {
                 사무실 주소
               </StRealEstate.ProfileSemiTitle>
               <StRealEstate.ProfileContent>
-                <PostCode register={register} />
+                <PostCode register={register} setValue={setValue} />
               </StRealEstate.ProfileContent>
             </div>
             <div className="contentBox">

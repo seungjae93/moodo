@@ -259,6 +259,7 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
     },
     [category, subCategoryValue]
   );
+  console.log("watch", watch());
   return (
     <StRealEstate.Wrapper>
       <SideNav />
@@ -281,7 +282,7 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
           <StRealEstate.SemiTitle>매물 위치</StRealEstate.SemiTitle>
           <StRealEstate.Content>
             <div className="contentTitle">주소</div>
-            <PostCode register={register} />
+            <PostCode register={register} setValue={setValue} />
           </StRealEstate.Content>
           <StRealEstate.SemiTitle>거래 정보</StRealEstate.SemiTitle>
           <StRealEstate.Content>

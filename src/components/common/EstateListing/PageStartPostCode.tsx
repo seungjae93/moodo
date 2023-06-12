@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 import palette from "../../../libs/styles/palette";
 import flex from "../../../libs/styles/utilFlex";
@@ -16,41 +17,44 @@ interface IPostCode {
 
 interface PostCodeProps {
   register: any;
+  setValue: any;
 }
 
-export default function PageStartPostCode({ register }: PostCodeProps) {
+export default function PageStartPostCode({
+  register,
+  setValue,
+}: PostCodeProps) {
+  const [address, setAddress] = useState("");
+  const [jibunAddress, setJibunAddress] = useState("");
+
   const onClickAddr = () => {
+    setAddress("");
+    setJibunAddress("");
     new window.daum.Postcode({
       oncomplete: function (data: IPostCode) {
-        (document.getElementById("startaddr") as HTMLInputElement).value =
-          data.address;
-
-        const jibunInput = document.getElementById(
-          "startJibun"
-        ) as HTMLInputElement;
-        const address = (
-          document.getElementById("startaddr") as HTMLInputElement
-        ).value;
+        setAddress(data.address);
         let addressOfJibun = data.jibunAddress;
 
         if (addressOfJibun === "") {
           addressOfJibun = data?.autoJibunAddress;
         }
 
-        jibunInput.value = addressOfJibun;
+        setJibunAddress(addressOfJibun);
 
-        register("startLocation", { value: address });
-        register("startLocationJibun", { value: addressOfJibun });
+        setValue("startLocation", data.address);
+        setValue("startLocationJibun", addressOfJibun);
         document.getElementById("startDetail")?.focus();
       },
     }).open();
   };
+  console.log("address", address);
+  console.log("jibunAddress", jibunAddress);
   return (
     <>
       <PostCodeWrapper>
         <div className="inputButtonBox">
-          <StInput id="startaddr" type="text" readOnly />
-          <StInput id="startJibun" type="text" readOnly />
+          <StInput id="startaddr" type="text" readOnly value={address} />
+          <StInput id="startJibun" type="text" readOnly value={jibunAddress} />
 
           <Button.Primary
             className="postcodeBtn"
