@@ -19,10 +19,10 @@ export interface ImageData {
 export interface EstateDetailData {
   userId?: string;
   addressOfProperty?: string;
-  addressOfJibun?: string;
+  addressOfJibun: string;
   deposit?: string;
   detail?: string;
-  dong?: string;
+  dong: string;
   elevator?: string;
   typeOfProperty: string;
   estateId?: string;
@@ -44,8 +44,8 @@ export interface EstateDetailData {
   price?: string;
   supplyArea?: string;
   transactionType: string;
-  lat?: string;
-  lng?: string;
+  lat: string;
+  lng: string;
   rightMoney?: string;
   mainCategory?: string;
   subCategory?: string;
