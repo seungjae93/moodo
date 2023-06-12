@@ -46,7 +46,6 @@ function MoodoMap() {
   const handleDataReceived = (data: any) => {
     setMapData(data);
   };
-  console.log("mapData", mapData);
   //매물종류 거래유형 checkbox change
   const handlePropertyTypesChange = (updatedPropertyTypes: string[]) => {
     setSelectedPropertyTypes(updatedPropertyTypes);
@@ -113,6 +112,7 @@ function MoodoMap() {
   useEffect(() => {
     const filteredList = Array.isArray(mapData)
       ? mapData.filter((estate) => {
+          // console.log("estate", estate);
           if (
             (selectedPropertyTypes.length === 0 ||
               selectedPropertyTypes.includes(estate.typeOfProperty)) &&
@@ -154,6 +154,7 @@ function MoodoMap() {
     subStoreCategoryValue,
     mapData,
   ]);
+  // console.log("filteredMapList", filteredMapList);
   return (
     <StMoodoMap.Wrapper>
       {window.innerWidth <= 930 ? (
