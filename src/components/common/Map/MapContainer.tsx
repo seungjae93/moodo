@@ -7,6 +7,7 @@ import { mapApi } from "../../../apis/axios";
 import clusterer from "../../../assets/clusterer.svg";
 import marker from "../../../assets/marker.svg";
 import { MapContainerProps, Coordinates } from "../../../typings/detail.type";
+import { EstateDetailData } from "../../../typings/detail.type";
 
 const { kakao } = window;
 
@@ -22,7 +23,7 @@ function MapContainer({
     // 지도의 초기 위치
     center: { lat: 37.5472661928352, lng: 127.068276018078 },
   });
-  console.log("location", location);
+
   const mapRef = useRef<kakao.maps.Map | null>(null);
   const markerRef = useRef(null);
   //지도 레벨
@@ -54,28 +55,50 @@ function MapContainer({
       },
     }
   );
-
   const customOverlayDong = () => {
     if (!filteredMapList) return null;
     if (zoomLevel < 4) return null;
+
+    // el.dong별로 갯수를 카운트하기 위한 객체
+    const dongCount: { [dong: string]: number } = {};
+
+    // el.dong별로 갯수를 카운트
+    filteredMapList?.forEach((el) => {
+      if (el.dong in dongCount) {
+        dongCount[el.dong] += 1;
+      } else {
+        dongCount[el.dong] = 1;
+      }
+    });
     return (
       <>
-        {zoomLevel > 3
-          ? filteredMapList?.map((el: any) => {
-              return (
-                <CustomOverlayMap
-                  key={el.estateId}
-                  position={{ lat: Number(el?.lat), lng: Number(el?.lng) }}
-                >
-                  <ClustererImg>
-                    <img src={clusterer} alt="clusterer" />
-                    <ClustererIndex>{el.numOfDong}</ClustererIndex>
-                    <ClustererText>{el.dong}</ClustererText>
-                  </ClustererImg>
-                </CustomOverlayMap>
-              );
-            })
-          : null}
+        {zoomLevel > 3 &&
+          dongListData &&
+          dongListData.length > 0 &&
+          filteredMapList?.map((el: EstateDetailData) => {
+            const dongData = dongListData.find(
+              (dongEl: any) => dongEl.nameOfDong === el.dong
+            );
+            if (!dongData) return null;
+
+            const { lat, lng } = dongData;
+
+            return (
+              <CustomOverlayMap
+                key={el.estateId}
+                position={{
+                  lat: Number(lat),
+                  lng: Number(lng),
+                }}
+              >
+                <ClustererImg>
+                  <img src={clusterer} alt="clusterer" />
+                  <ClustererIndex>{dongCount[el.dong]}</ClustererIndex>
+                  <ClustererText>{el.dong}</ClustererText>
+                </ClustererImg>
+              </CustomOverlayMap>
+            );
+          })}
       </>
     );
   };
