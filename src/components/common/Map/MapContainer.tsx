@@ -3,11 +3,11 @@ import styled from "styled-components";
 import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
 import { useMutation } from "@tanstack/react-query";
 import { debounce } from "lodash";
+import { MapContainerProps, Coordinates } from "../../../typings/detail.type";
+import { EstateDetailData } from "../../../typings/detail.type";
 import { mapApi } from "../../../apis/axios";
 import clusterer from "../../../assets/clusterer.svg";
 import marker from "../../../assets/marker.svg";
-import { MapContainerProps, Coordinates } from "../../../typings/detail.type";
-import { EstateDetailData } from "../../../typings/detail.type";
 
 const { kakao } = window;
 
