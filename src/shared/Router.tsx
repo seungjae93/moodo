@@ -6,6 +6,7 @@ import Header from "../components/common/Header/Header";
 import PrivateRoutes from "./PrivateRoutes";
 import ScrollToTop from "./ScrollToTop";
 
+const Home = React.lazy(() => import("../pages/Home"));
 const Login = React.lazy(() => import("../pages/Login"));
 const SignUp = React.lazy(() => import("../pages/Signup"));
 const ProfileEdit = React.lazy(() => import("../pages/ProfileEdit"));
@@ -25,7 +26,8 @@ function Router() {
         <Header />
         <ScrollToTop />
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/map/:id" element={<MoodoMap />} />
           <Route path="/realEstateManage/:id" element={<RealEstateDetail />} />
