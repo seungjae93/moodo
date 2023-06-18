@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import styled, { keyframes, css } from "styled-components";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { throttle } from "lodash";
+
 import NaverBlog from "../assets/NaverBlog.svg";
 import Youtube from "../assets/Youtube.svg";
 import Instagram from "../assets/Instagram.svg";
@@ -18,9 +19,9 @@ import { StHome } from "../libs/styles/StHome";
 
 function Home() {
   const [position, setPosition] = useState<number>(0);
-  const scroll = () => {
+  const scroll = throttle(() => {
     setPosition(window.scrollY);
-  };
+  }, 200);
 
   useEffect(() => {
     window.addEventListener("scroll", scroll);
@@ -28,7 +29,7 @@ function Home() {
       window.removeEventListener("scroll", scroll);
     };
   }, []);
-
+  console.log("position", position);
   const settings = {
     dots: false,
     infinite: true,
