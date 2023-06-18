@@ -62,7 +62,7 @@ export const StHome = {
     height: 600px;
   `,
   NaverBlogImg1: styled.img<PositionProps>`
-    margin-left: 50px;
+    margin-left: 150px;
     width: 650px;
     height: 600px;
     position: ${(props) => (props.position > 700 ? "static" : "relative")};
