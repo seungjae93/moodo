@@ -34,7 +34,6 @@ function MoodoMap() {
 
   //반응형 클릭시 EstateCard확장
   const [isEstateCardExpanded, setIsEstateCardExpanded] = useState(false);
-  const [isContentReady, setIsContentReady] = useState(false);
 
   const handleSearch = (value: string) => {
     setSearchValue(value);
@@ -46,7 +45,6 @@ function MoodoMap() {
 
   const handleDataReceived = (data: any) => {
     setMapData(data);
-    setIsContentReady(true);
   };
   //매물종류 거래유형 checkbox change
   const handlePropertyTypesChange = (updatedPropertyTypes: string[]) => {
@@ -158,7 +156,7 @@ function MoodoMap() {
 
   return (
     <StMoodoMap.Wrapper>
-      {isContentReady && window.innerWidth <= 930 ? (
+      {window.innerWidth <= 930 ? (
         <>
           <StMoodoMap.searchBox>
             <Search onSearch={handleSearch} />
