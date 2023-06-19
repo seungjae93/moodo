@@ -1,8 +1,9 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
 import { useMutation } from "@tanstack/react-query";
 import { debounce } from "lodash";
+import LoadingSpinner from "../loading/LoadingSpinner";
 import { MapContainerProps, Coordinates } from "../../../typings/detail.type";
 import { EstateDetailData } from "../../../typings/detail.type";
 import { mapApi } from "../../../apis/axios";
@@ -70,6 +71,7 @@ function MapContainer({
         dongCount[el.dong] = 1;
       }
     });
+    console.log("mutation", mutation.isLoading);
     return (
       <>
         {zoomLevel > 3 &&

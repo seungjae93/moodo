@@ -14,7 +14,7 @@ export const StMoodoMap = {
   `,
   searchBox: styled.div`
     ${flex({ justify: "", gap: "10px" })}
-    padding: 50px 0px 20px 0px;
+    padding: 60px 0px 20px 0px;
     width: 100%;
     height: 90px;
     z-index: 10;
