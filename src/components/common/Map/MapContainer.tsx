@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
 import { useMutation } from "@tanstack/react-query";
 import { debounce } from "lodash";
-import LoadingSpinner from "../loading/LoadingSpinner";
 import { MapContainerProps, Coordinates } from "../../../typings/detail.type";
 import { EstateDetailData } from "../../../typings/detail.type";
 import { mapApi } from "../../../apis/axios";
@@ -31,23 +30,29 @@ function MapContainer({
   const [zoomLevel, setZoomLevel] = useState(6);
   //서버에서 받은 response
   const [dongListData, setDongListData] = useState<any>(null);
+  //검색이후 계속 돌아가는 현상 방지
+  const [hasLoadedStartLocation, setHasLoadedStartLocation] = useState(false);
 
   const mutation = useMutation<any, unknown, Coordinates>(
     (coordinates) => mapApi.post(userId as string, coordinates),
     {
       onSuccess: (data) => {
-        const startLocation = data?.mapList?.startLocation;
-        if (startLocation) {
-          setLocation({
-            center: {
-              lat: Number(startLocation?.lat),
-              lng: Number(startLocation?.lng),
-            },
-          });
+        if (!hasLoadedStartLocation) {
+          const startLocation = data?.mapList?.startLocation;
+          if (startLocation) {
+            setLocation({
+              center: {
+                lat: Number(startLocation?.lat),
+                lng: Number(startLocation?.lng),
+              },
+            });
+          }
+          setHasLoadedStartLocation(true);
         }
 
         const dongList = data?.mapList?.dongList;
         const mapList = data?.mapList?.mapList;
+
         setDongListData(dongList);
         onDataReceived(mapList);
       },
@@ -71,7 +76,7 @@ function MapContainer({
         dongCount[el.dong] = 1;
       }
     });
-    console.log("mutation", mutation.isLoading);
+
     return (
       <>
         {zoomLevel > 3 &&
