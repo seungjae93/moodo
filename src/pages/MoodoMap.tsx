@@ -1,4 +1,5 @@
 import { useState, useEffect, ChangeEvent } from "react";
+
 import MapContainer from "../components/common/Map/MapContainer";
 import Search from "../components/common/Map/Search";
 import palette from "../libs/styles/palette";
@@ -6,6 +7,8 @@ import CardProfile from "../components/common/Map/EstateDetail/CardProfile";
 import EstateCard from "../components/common/Map/EstateDetail/EstateCard";
 import SelectBox from "../components/common/Map/SelectBox";
 import ResponsiveSelectBox from "../components/common/Map/ResponsiveSelectBox";
+import LoadingSpinner from "../components/common/loading/LoadingSpinner";
+
 import { StMoodoMap } from "../libs/styles/StMoodoMap";
 import { EstateDetailData } from "../typings/detail.type";
 import { RxMinus } from "react-icons/rx";
@@ -31,9 +34,9 @@ function MoodoMap() {
     []
   );
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-
   //반응형 클릭시 EstateCard확장
   const [isEstateCardExpanded, setIsEstateCardExpanded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSearch = (value: string) => {
     setSearchValue(value);
@@ -109,6 +112,10 @@ function MoodoMap() {
     setRightMoneyMax("");
   };
 
+  // useEffect(() => {
+  //   setIsLoading(true); // 창 크기 변경 시 로딩 상태를 true로 설정
+  // }, [window.innerWidth]);
+  console.log("window.innerWidth", window.innerWidth);
   useEffect(() => {
     const filteredList = Array.isArray(mapData)
       ? mapData.filter((estate) => {
@@ -153,38 +160,106 @@ function MoodoMap() {
     subStoreCategoryValue,
     mapData,
   ]);
+
+  console.log("isLoading", isLoading);
   return (
     <StMoodoMap.Wrapper>
-      {window.innerWidth <= 930 ? (
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
         <>
-          <StMoodoMap.searchBox>
-            <Search onSearch={handleSearch} />
+          {window.innerWidth <= 930 ? (
+            <>
+              <StMoodoMap.searchBox>
+                <Search onSearch={handleSearch} />
 
-            <RiEqualizerFill
-              style={{
-                color: "black",
-                width: "20px",
-                height: "20px",
-                cursor: "pointer",
-              }}
-              onClick={handleFilterClick}
-            />
+                <RiEqualizerFill
+                  style={{
+                    color: "black",
+                    width: "20px",
+                    height: "20px",
+                    cursor: "pointer",
+                  }}
+                  onClick={handleFilterClick}
+                />
 
-            {isFilterOpen && (
-              <StMoodoMap.FilterBox>
-                <ResponsiveSelectBox
-                  depositMin={depositMin}
-                  depositMax={depositMax}
-                  monthlyMin={monthlyMin}
-                  monthlyMax={monthlyMax}
-                  rightMoneyMin={rightMoneyMin}
-                  rightMoneyMax={rightMoneyMax}
-                  storeCategory={storeCategory}
-                  subStoreCategoryValue={subStoreCategoryValue}
-                  selectedPropertyTypes={selectedPropertyTypes}
-                  selectedDealTypes={selectedDealTypes}
+                {isFilterOpen && (
+                  <StMoodoMap.FilterBox>
+                    <ResponsiveSelectBox
+                      depositMin={depositMin}
+                      depositMax={depositMax}
+                      monthlyMin={monthlyMin}
+                      monthlyMax={monthlyMax}
+                      rightMoneyMin={rightMoneyMin}
+                      rightMoneyMax={rightMoneyMax}
+                      storeCategory={storeCategory}
+                      subStoreCategoryValue={subStoreCategoryValue}
+                      selectedPropertyTypes={selectedPropertyTypes}
+                      selectedDealTypes={selectedDealTypes}
+                      onSelectedPropertyTypesChange={handlePropertyTypesChange}
+                      onSelectedDealTypesChange={handleDealTypesChange}
+                      onDepositMinChange={handleDepositMinChange}
+                      onDepositMaxChange={handleDepositMaxChange}
+                      onMonthlyMinChange={handleMonthlyMinChange}
+                      onMonthlyMaxChange={handleMonthlyMaxChange}
+                      onRightMoneyMinChange={handleRightMoneyMinChange}
+                      onRightMoneyMaxChange={handleRightMoneyMaxChange}
+                      onPriceResetButtonClick={handleResetButtonClick}
+                      onStoreCategoryChange={handleStoreCategoryChange}
+                      onSubStoreCategoryChange={handleSubStoreCategoryChange}
+                      onFilterClick={handleFilterClick}
+                    />
+                  </StMoodoMap.FilterBox>
+                )}
+              </StMoodoMap.searchBox>
+
+              <CardProfile />
+              <StMoodoMap.ContentWrapper>
+                <StMoodoMap.Map>
+                  <MapContainer
+                    searchValue={searchValue}
+                    onDataReceived={handleDataReceived}
+                    filteredMapList={filteredMapList}
+                  />
+                </StMoodoMap.Map>
+                <StMoodoMap.EstateCard
+                  onClick={handleEstateCardClick}
+                  expanded={isEstateCardExpanded}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      textAlign: "center",
+                    }}
+                  >
+                    <RxMinus
+                      style={{
+                        color: palette.cyan[5],
+                        width: "80px",
+                        height: "40px",
+                      }}
+                    />
+                    매물보기
+                  </div>
+                  <StMoodoMap.CardBox>
+                    {Array.isArray(filteredMapList) &&
+                      filteredMapList.map((estate) => (
+                        <EstateCard key={estate?.estateId} estate={estate} />
+                      ))}
+                  </StMoodoMap.CardBox>
+                </StMoodoMap.EstateCard>
+              </StMoodoMap.ContentWrapper>
+            </>
+          ) : (
+            <>
+              <StMoodoMap.searchBox>
+                <Search onSearch={handleSearch} />
+                <SelectBox
                   onSelectedPropertyTypesChange={handlePropertyTypesChange}
                   onSelectedDealTypesChange={handleDealTypesChange}
+                  selectedPropertyTypes={selectedPropertyTypes}
+                  selectedDealTypes={selectedDealTypes}
                   onDepositMinChange={handleDepositMinChange}
                   onDepositMaxChange={handleDepositMaxChange}
                   onMonthlyMinChange={handleMonthlyMinChange}
@@ -194,95 +269,165 @@ function MoodoMap() {
                   onPriceResetButtonClick={handleResetButtonClick}
                   onStoreCategoryChange={handleStoreCategoryChange}
                   onSubStoreCategoryChange={handleSubStoreCategoryChange}
-                  onFilterClick={handleFilterClick}
                 />
-              </StMoodoMap.FilterBox>
-            )}
-          </StMoodoMap.searchBox>
-
-          <CardProfile />
-          <StMoodoMap.ContentWrapper>
-            <StMoodoMap.Map>
-              <MapContainer
-                searchValue={searchValue}
-                onDataReceived={handleDataReceived}
-                filteredMapList={filteredMapList}
-              />
-            </StMoodoMap.Map>
-            <StMoodoMap.EstateCard
-              onClick={handleEstateCardClick}
-              expanded={isEstateCardExpanded}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  textAlign: "center",
-                }}
-              >
-                <RxMinus
-                  style={{
-                    color: palette.cyan[5],
-                    width: "80px",
-                    height: "40px",
-                  }}
-                />
-                매물보기
-              </div>
-              <StMoodoMap.CardBox>
-                {Array.isArray(filteredMapList) &&
-                  filteredMapList?.map((estate) => (
-                    <EstateCard key={estate?.estateId} estate={estate} />
-                  ))}
-              </StMoodoMap.CardBox>
-            </StMoodoMap.EstateCard>
-          </StMoodoMap.ContentWrapper>
-        </>
-      ) : (
-        <>
-          <StMoodoMap.searchBox>
-            <Search onSearch={handleSearch} />
-            <SelectBox
-              onSelectedPropertyTypesChange={handlePropertyTypesChange}
-              onSelectedDealTypesChange={handleDealTypesChange}
-              selectedPropertyTypes={selectedPropertyTypes}
-              selectedDealTypes={selectedDealTypes}
-              onDepositMinChange={handleDepositMinChange}
-              onDepositMaxChange={handleDepositMaxChange}
-              onMonthlyMinChange={handleMonthlyMinChange}
-              onMonthlyMaxChange={handleMonthlyMaxChange}
-              onRightMoneyMinChange={handleRightMoneyMinChange}
-              onRightMoneyMaxChange={handleRightMoneyMaxChange}
-              onPriceResetButtonClick={handleResetButtonClick}
-              onStoreCategoryChange={handleStoreCategoryChange}
-              onSubStoreCategoryChange={handleSubStoreCategoryChange}
-            />
-          </StMoodoMap.searchBox>
-          <StMoodoMap.ContentWrapper>
-            <StMoodoMap.Map>
-              <MapContainer
-                searchValue={searchValue}
-                onDataReceived={handleDataReceived}
-                filteredMapList={filteredMapList}
-              />
-            </StMoodoMap.Map>
-            <StMoodoMap.EstateCard
-              onClick={handleEstateCardClick}
-              expanded={isEstateCardExpanded}
-            >
-              <CardProfile />
-              <StMoodoMap.CardBox>
-                {Array.isArray(filteredMapList) &&
-                  filteredMapList?.map((estate) => (
-                    <EstateCard key={estate?.estateId} estate={estate} />
-                  ))}
-              </StMoodoMap.CardBox>
-            </StMoodoMap.EstateCard>
-          </StMoodoMap.ContentWrapper>
+              </StMoodoMap.searchBox>
+              <StMoodoMap.ContentWrapper>
+                <StMoodoMap.Map>
+                  <MapContainer
+                    searchValue={searchValue}
+                    onDataReceived={handleDataReceived}
+                    filteredMapList={filteredMapList}
+                  />
+                </StMoodoMap.Map>
+                <StMoodoMap.EstateCard
+                  onClick={handleEstateCardClick}
+                  expanded={isEstateCardExpanded}
+                >
+                  <CardProfile />
+                  <StMoodoMap.CardBox>
+                    {Array.isArray(filteredMapList) &&
+                      filteredMapList.map((estate) => (
+                        <EstateCard key={estate?.estateId} estate={estate} />
+                      ))}
+                  </StMoodoMap.CardBox>
+                </StMoodoMap.EstateCard>
+              </StMoodoMap.ContentWrapper>
+            </>
+          )}
         </>
       )}
     </StMoodoMap.Wrapper>
   );
+  // return (
+  //   <StMoodoMap.Wrapper>
+  //     {window.innerWidth <= 930 ? (
+  //       <>
+  //         <StMoodoMap.searchBox>
+  //           <Search onSearch={handleSearch} />
+
+  //           <RiEqualizerFill
+  //             style={{
+  //               color: "black",
+  //               width: "20px",
+  //               height: "20px",
+  //               cursor: "pointer",
+  //             }}
+  //             onClick={handleFilterClick}
+  //           />
+
+  //           {isFilterOpen && (
+  //             <StMoodoMap.FilterBox>
+  //               <ResponsiveSelectBox
+  //                 depositMin={depositMin}
+  //                 depositMax={depositMax}
+  //                 monthlyMin={monthlyMin}
+  //                 monthlyMax={monthlyMax}
+  //                 rightMoneyMin={rightMoneyMin}
+  //                 rightMoneyMax={rightMoneyMax}
+  //                 storeCategory={storeCategory}
+  //                 subStoreCategoryValue={subStoreCategoryValue}
+  //                 selectedPropertyTypes={selectedPropertyTypes}
+  //                 selectedDealTypes={selectedDealTypes}
+  //                 onSelectedPropertyTypesChange={handlePropertyTypesChange}
+  //                 onSelectedDealTypesChange={handleDealTypesChange}
+  //                 onDepositMinChange={handleDepositMinChange}
+  //                 onDepositMaxChange={handleDepositMaxChange}
+  //                 onMonthlyMinChange={handleMonthlyMinChange}
+  //                 onMonthlyMaxChange={handleMonthlyMaxChange}
+  //                 onRightMoneyMinChange={handleRightMoneyMinChange}
+  //                 onRightMoneyMaxChange={handleRightMoneyMaxChange}
+  //                 onPriceResetButtonClick={handleResetButtonClick}
+  //                 onStoreCategoryChange={handleStoreCategoryChange}
+  //                 onSubStoreCategoryChange={handleSubStoreCategoryChange}
+  //                 onFilterClick={handleFilterClick}
+  //               />
+  //             </StMoodoMap.FilterBox>
+  //           )}
+  //         </StMoodoMap.searchBox>
+
+  //         <CardProfile />
+  //         <StMoodoMap.ContentWrapper>
+  //           <StMoodoMap.Map>
+  //             <MapContainer
+  //               searchValue={searchValue}
+  //               onDataReceived={handleDataReceived}
+  //               filteredMapList={filteredMapList}
+  //             />
+  //           </StMoodoMap.Map>
+  //           <StMoodoMap.EstateCard
+  //             onClick={handleEstateCardClick}
+  //             expanded={isEstateCardExpanded}
+  //           >
+  //             <div
+  //               style={{
+  //                 display: "flex",
+  //                 flexDirection: "column",
+  //                 textAlign: "center",
+  //               }}
+  //             >
+  //               <RxMinus
+  //                 style={{
+  //                   color: palette.cyan[5],
+  //                   width: "80px",
+  //                   height: "40px",
+  //                 }}
+  //               />
+  //               매물보기
+  //             </div>
+  //             <StMoodoMap.CardBox>
+  //               {Array.isArray(filteredMapList) &&
+  //                 filteredMapList?.map((estate) => (
+  //                   <EstateCard key={estate?.estateId} estate={estate} />
+  //                 ))}
+  //             </StMoodoMap.CardBox>
+  //           </StMoodoMap.EstateCard>
+  //         </StMoodoMap.ContentWrapper>
+  //       </>
+  //     ) : (
+  //       <>
+  //         <StMoodoMap.searchBox>
+  //           <Search onSearch={handleSearch} />
+  //           <SelectBox
+  //             onSelectedPropertyTypesChange={handlePropertyTypesChange}
+  //             onSelectedDealTypesChange={handleDealTypesChange}
+  //             selectedPropertyTypes={selectedPropertyTypes}
+  //             selectedDealTypes={selectedDealTypes}
+  //             onDepositMinChange={handleDepositMinChange}
+  //             onDepositMaxChange={handleDepositMaxChange}
+  //             onMonthlyMinChange={handleMonthlyMinChange}
+  //             onMonthlyMaxChange={handleMonthlyMaxChange}
+  //             onRightMoneyMinChange={handleRightMoneyMinChange}
+  //             onRightMoneyMaxChange={handleRightMoneyMaxChange}
+  //             onPriceResetButtonClick={handleResetButtonClick}
+  //             onStoreCategoryChange={handleStoreCategoryChange}
+  //             onSubStoreCategoryChange={handleSubStoreCategoryChange}
+  //           />
+  //         </StMoodoMap.searchBox>
+  //         <StMoodoMap.ContentWrapper>
+  //           <StMoodoMap.Map>
+  //             <MapContainer
+  //               searchValue={searchValue}
+  //               onDataReceived={handleDataReceived}
+  //               filteredMapList={filteredMapList}
+  //             />
+  //           </StMoodoMap.Map>
+  //           <StMoodoMap.EstateCard
+  //             onClick={handleEstateCardClick}
+  //             expanded={isEstateCardExpanded}
+  //           >
+  //             <CardProfile />
+  //             <StMoodoMap.CardBox>
+  //               {Array.isArray(filteredMapList) &&
+  //                 filteredMapList?.map((estate) => (
+  //                   <EstateCard key={estate?.estateId} estate={estate} />
+  //                 ))}
+  //             </StMoodoMap.CardBox>
+  //           </StMoodoMap.EstateCard>
+  //         </StMoodoMap.ContentWrapper>
+  //       </>
+  //     )}
+  //   </StMoodoMap.Wrapper>
+  // );
 }
 
 export default MoodoMap;

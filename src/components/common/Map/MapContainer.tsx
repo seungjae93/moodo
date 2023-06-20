@@ -32,6 +32,7 @@ function MapContainer({
   const [dongListData, setDongListData] = useState<any>(null);
   //검색이후 계속 돌아가는 현상 방지
   const [hasLoadedStartLocation, setHasLoadedStartLocation] = useState(false);
+
   const mutation = useMutation<any, unknown, Coordinates>(
     (coordinates) => mapApi.post(userId as string, coordinates),
     {
@@ -51,6 +52,7 @@ function MapContainer({
 
         const dongList = data?.mapList?.dongList;
         const mapList = data?.mapList?.mapList;
+
         setDongListData(dongList);
         onDataReceived(mapList);
       },

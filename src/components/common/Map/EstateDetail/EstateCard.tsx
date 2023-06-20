@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import flex from "../../../../libs/styles/utilFlex";
@@ -11,7 +12,6 @@ interface EstateCardProps {
 }
 function EstateCard({ estate }: EstateCardProps) {
   const estateId = estate?.estateId;
-
   const openNewWindow = () => {
     window.open(`http://localhost:3000/realEstateManage/${estateId}`, "_blank");
   };
