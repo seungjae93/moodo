@@ -31,7 +31,6 @@ function Header() {
             <img src={modoo} alt="Modoo Logo" />
           </Link>
           <div className="nav">
-            <div>사용방법</div>
             <div>
               {" "}
               <div style={{ cursor: "pointer" }} onClick={handleMapClick}>
@@ -75,16 +74,11 @@ const HeaderWrapper = styled.nav`
 `;
 
 const ResponsiveWrapper = styled.div`
-  ${flex({ gap: "20px" })}
-  /* .logo {
-    width: 150px;
-    font-size: 1.125rem;
-    font-weight: 800;
-    letter-spacing: 2px;
-  } */
+  ${flex({ gap: "10px" })}
+
   .nav {
-    ${flex({ justify: "space-around" })}
-    width: 350px;
+    ${flex({ gap: "30px" })}
+    width: 300px;
     .div {
       gap: 30px;
     }

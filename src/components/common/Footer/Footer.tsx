@@ -24,10 +24,11 @@ export default Footer;
 const StFooter = {
   Wrapper: styled.div`
     ${flex({ direction: "column", align: "" })}
-    width: 100%;
+    width: 1920px;
     height: 300px;
     background-color: ${palette.gray[5]};
     padding: 50px 0px 50px 60px;
+    margin: auto;
   `,
   Title: styled.p`
     color: white;

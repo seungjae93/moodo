@@ -153,7 +153,6 @@ function MoodoMap() {
     subStoreCategoryValue,
     mapData,
   ]);
-
   return (
     <StMoodoMap.Wrapper>
       {window.innerWidth <= 930 ? (
