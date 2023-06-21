@@ -115,7 +115,6 @@ function MoodoMap() {
   // useEffect(() => {
   //   setIsLoading(true); // 창 크기 변경 시 로딩 상태를 true로 설정
   // }, [window.innerWidth]);
-  console.log("window.innerWidth", window.innerWidth);
   useEffect(() => {
     const filteredList = Array.isArray(mapData)
       ? mapData.filter((estate) => {
