@@ -161,6 +161,7 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
   );
   //imagesPreview
   const [imagesPreview, setImagesPreview] = useState<string[]>([]);
+  // const [imagesPreview, setImagesPreview] = useState<{ file: File, previewUrl: string }[]>([]);
   const images = watch("images");
 
   useEffect(() => {
@@ -175,19 +176,6 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
   }, [images]);
 
   //images dnd
-  // const onDragEnd = useCallback(
-  //   ({ destination, source }: DropResult) => {
-  //     // 드래그 앤 드롭 종료 시 실행되는 콜백 함수
-  //     if (!destination) {
-  //       return;
-  //     }
-  //     const updatedImagesPreview = [...imagesPreview];
-  //     const [draggedImage] = updatedImagesPreview.splice(source.index, 1);
-  //     updatedImagesPreview.splice(destination.index, 0, draggedImage);
-  //     setImagesPreview(updatedImagesPreview);
-  //   },
-  //   [imagesPreview]
-  // );
   const onDragEnd = useCallback(
     ({ destination, source }: DropResult) => {
       // 드래그 앤 드롭 종료 시 실행되는 콜백 함수
@@ -198,18 +186,8 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
       const [draggedImage] = updatedImagesPreview.splice(source.index, 1);
       updatedImagesPreview.splice(destination.index, 0, draggedImage);
       setImagesPreview(updatedImagesPreview);
-      console.log("imagesPreview", imagesPreview);
-      if (images && images.length > 0) {
-        const updatedImages = [...images];
-        const dataTransfer = new DataTransfer();
-        updatedImages.forEach((file) => {
-          dataTransfer.items.add(file);
-        });
-        const updatedFileList = dataTransfer.files;
-        setValue("images", updatedFileList);
-      }
     },
-    [imagesPreview, images]
+    [imagesPreview]
   );
 
   //handleSubmit
