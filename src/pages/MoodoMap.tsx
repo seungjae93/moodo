@@ -160,7 +160,6 @@ function MoodoMap() {
     mapData,
   ]);
 
-  console.log("isLoading", isLoading);
   return (
     <StMoodoMap.Wrapper>
       {isLoading ? (
