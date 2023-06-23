@@ -1,3 +1,5 @@
+import React from "react";
+
 import palette from "../../../libs/styles/palette";
 import { StDetail } from "../../../libs/styles/StDetail";
 import { DetailDataProps } from "../../../typings/detail.type";
@@ -35,4 +37,4 @@ function AdditionalInfo({ estateDetail }: DetailDataProps) {
   );
 }
 
-export default AdditionalInfo;
+export default React.memo(AdditionalInfo);

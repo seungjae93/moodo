@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import palette from "../../../libs/styles/palette";
 import Button from "../Button/Button";
@@ -182,7 +182,7 @@ function ImgInfo({ estateDetail, estateUser }: DetailDataProps) {
   );
 }
 
-export default ImgInfo;
+export default React.memo(ImgInfo);
 
 const StImg = styled.img<StImgProps>`
   width: 120px;

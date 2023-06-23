@@ -1,3 +1,4 @@
+import React from "react";
 import { StaticMap } from "react-kakao-maps-sdk";
 
 import { StDetail } from "../../../libs/styles/StDetail";
@@ -31,4 +32,4 @@ function DetailMap({ estateDetail }: DetailDataProps) {
   );
 }
 
-export default DetailMap;
+export default React.memo(DetailMap);
