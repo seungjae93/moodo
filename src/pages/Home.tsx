@@ -29,7 +29,6 @@ function Home() {
       window.removeEventListener("scroll", scroll);
     };
   }, []);
-  console.log("position", position);
   const settings = {
     dots: false,
     infinite: true,

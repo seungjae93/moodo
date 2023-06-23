@@ -1,3 +1,5 @@
+import React from "react";
+
 import { StDetail } from "../../../libs/styles/StDetail";
 import { DetailDataProps } from "../../../typings/detail.type";
 
@@ -61,4 +63,4 @@ function RoomInfo({ estateDetail }: DetailDataProps) {
   );
 }
 
-export default RoomInfo;
+export default React.memo(RoomInfo);

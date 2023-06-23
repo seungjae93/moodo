@@ -14,7 +14,7 @@ export const StDetail = {
     margin-top: 50px;
   `,
   ContentWrapper: styled.div`
-    ${flex({ justify: "", gap: "40px" })}
+    ${flex({ justify: "", gap: "20px" })}
     width:100%;
     padding: 30px 10px 30px 20px;
     border-bottom: 1px solid ${palette.gray[0]};
