@@ -1,3 +1,5 @@
+import React from "react";
+
 import { StDetail } from "../../../libs/styles/StDetail";
 import { DetailDataProps } from "../../../typings/detail.type";
 
@@ -12,4 +14,4 @@ function DetailDesc({ estateDetail }: DetailDataProps) {
   );
 }
 
-export default DetailDesc;
+export default React.memo(DetailDesc);
