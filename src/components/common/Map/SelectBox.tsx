@@ -1,10 +1,8 @@
-import { useState, ChangeEvent } from "react";
-import styled from "styled-components";
+import React, { useState, ChangeEvent, useCallback } from "react";
 
 import { SelectBoxProps } from "../../../typings/detail.type";
 import { CgChevronDown } from "react-icons/cg";
 import { StMoodoMapSelectBox } from "../../../libs/styles/StMoodoMapSelectBox";
-import flex from "../../../libs/styles/utilFlex";
 import palette from "../../../libs/styles/palette";
 import Button from "../Button/Button";
 import StoreList from "./StoreList";
@@ -17,11 +15,6 @@ interface PropertyType {
 interface TransactionType {
   id: string;
   name: string;
-}
-
-interface Option {
-  value: string;
-  label: string;
 }
 
 const propertyTypes: PropertyType[] = [
@@ -64,86 +57,115 @@ function SelectBox({
   const [rightMoneyMin, setRightMoneyMin] = useState("");
   const [rightMoneyMax, setRightMoneyMax] = useState("");
 
-  const handlePropertyTypeChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const propertyTypeId = event.target.value;
-    const updatedPropertyTypes = selectedPropertyTypes.includes(propertyTypeId)
-      ? selectedPropertyTypes.filter((id) => id !== propertyTypeId)
-      : [...selectedPropertyTypes, propertyTypeId];
-    onSelectedPropertyTypesChange(updatedPropertyTypes);
-  };
+  const handlePropertyTypeChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const propertyTypeId = event.target.value;
+      const updatedPropertyTypes = selectedPropertyTypes.includes(
+        propertyTypeId
+      )
+        ? selectedPropertyTypes.filter((id) => id !== propertyTypeId)
+        : [...selectedPropertyTypes, propertyTypeId];
+      onSelectedPropertyTypesChange(updatedPropertyTypes);
+    },
+    [selectedPropertyTypes, onSelectedPropertyTypesChange]
+  );
 
-  const handleDealTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const dealTypeId = event.target.value;
-    const updatedDealTypes = selectedDealTypes.includes(dealTypeId)
-      ? selectedDealTypes.filter((id) => id !== dealTypeId)
-      : [...selectedDealTypes, dealTypeId];
-    onSelectedDealTypesChange(updatedDealTypes);
-  };
+  const handleDealTypeChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const dealTypeId = event.target.value;
+      const updatedDealTypes = selectedDealTypes.includes(dealTypeId)
+        ? selectedDealTypes.filter((id) => id !== dealTypeId)
+        : [...selectedDealTypes, dealTypeId];
+      onSelectedDealTypesChange(updatedDealTypes);
+    },
+    [selectedDealTypes, onSelectedDealTypesChange]
+  );
 
-  const handlePropertyTypeClick = () => {
-    setIsPropertyTypeOpen(!isPropertyTypeOpen);
+  const handlePropertyTypeClick = useCallback(() => {
+    setIsPropertyTypeOpen((prevIsPropertyTypeOpen) => !prevIsPropertyTypeOpen);
     setIsStoreOpen(false);
     setIsPriceOpen(false);
     setIsTransactionTypesOpen(false);
-  };
-  const handleTransactionClick = () => {
-    setIsTransactionTypesOpen(!isTransactionTypesOpen);
+  }, []);
+
+  const handleTransactionClick = useCallback(() => {
+    setIsTransactionTypesOpen(
+      (prevIsTransactionTypesOpen) => !prevIsTransactionTypesOpen
+    );
     setIsStoreOpen(false);
     setIsPriceOpen(false);
     setIsPropertyTypeOpen(false);
-  };
-  const handlePriceClick = () => {
-    setIsPriceOpen(!isPriceOpen);
+  }, []);
+
+  const handlePriceClick = useCallback(() => {
+    setIsPriceOpen((prevIsPriceOpen) => !prevIsPriceOpen);
     setIsStoreOpen(false);
     setIsPropertyTypeOpen(false);
     setIsTransactionTypesOpen(false);
-  };
+  }, []);
 
-  const handleStoreClick = () => {
-    setIsStoreOpen(!isStoreOpen);
+  const handleStoreClick = useCallback(() => {
+    setIsStoreOpen((prevIsStoreOpen) => !prevIsStoreOpen);
     setIsPriceOpen(false);
     setIsPropertyTypeOpen(false);
     setIsTransactionTypesOpen(false);
-  };
+  }, []);
 
-  const handleDepositMinChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.currentTarget.value;
-    setDepositMin(value);
-    onDepositMinChange(value);
-  };
+  const handleDepositMinChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const value = e.currentTarget.value;
+      setDepositMin(value);
+      onDepositMinChange(value);
+    },
+    [onDepositMinChange]
+  );
 
-  const handleDepositMaxChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.currentTarget.value;
-    setDepositMax(value);
-    onDepositMaxChange(value);
-  };
+  const handleDepositMaxChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const value = e.currentTarget.value;
+      setDepositMax(value);
+      onDepositMaxChange(value);
+    },
+    [onDepositMaxChange]
+  );
 
-  const handleMonthlyMinChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.currentTarget.value;
-    setMonthlyMin(value);
-    onMonthlyMinChange(value);
-  };
+  const handleMonthlyMinChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const value = e.currentTarget.value;
+      setMonthlyMin(value);
+      onMonthlyMinChange(value);
+    },
+    [onMonthlyMinChange]
+  );
 
-  const handleMonthlyMaxChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.currentTarget.value;
-    setMonthlyMax(value);
-    onMonthlyMaxChange(value);
-  };
+  const handleMonthlyMaxChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const value = e.currentTarget.value;
+      setMonthlyMax(value);
+      onMonthlyMaxChange(value);
+    },
+    [onMonthlyMaxChange]
+  );
 
-  const handleRightMoneyMinChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.currentTarget.value;
-    setRightMoneyMin(value);
-    onRightMoneyMinChange(value);
-  };
+  const handleRightMoneyMinChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const value = e.currentTarget.value;
+      setRightMoneyMin(value);
+      onRightMoneyMinChange(value);
+    },
+    [onRightMoneyMinChange]
+  );
 
-  const handleRightMoneyMaxChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.currentTarget.value;
-    setRightMoneyMax(value);
-    onRightMoneyMaxChange(value);
-  };
-  const handlePriceResetButtonClick = () => {
+  const handleRightMoneyMaxChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const value = e.currentTarget.value;
+      setRightMoneyMax(value);
+      onRightMoneyMaxChange(value);
+    },
+    [onRightMoneyMaxChange]
+  );
+
+  const handlePriceResetButtonClick = useCallback(() => {
     setDepositMin("");
     setDepositMax("");
     setMonthlyMin("");
@@ -151,8 +173,7 @@ function SelectBox({
     setRightMoneyMin("");
     setRightMoneyMax("");
     onPriceResetButtonClick();
-  };
-
+  }, [onPriceResetButtonClick]);
   return (
     <StMoodoMapSelectBox.Wrapper>
       <div style={{ display: "flex", gap: "10px" }}>
@@ -387,4 +408,4 @@ function SelectBox({
   );
 }
 
-export default SelectBox;
+export default React.memo(SelectBox);
