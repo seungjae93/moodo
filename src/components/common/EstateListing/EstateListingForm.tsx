@@ -161,7 +161,6 @@ function EstateListingForm({ estateId, isUpdate }: EstateListingFormProps) {
   );
   //imagesPreview
   const [imagesPreview, setImagesPreview] = useState<string[]>([]);
-  // const [imagesPreview, setImagesPreview] = useState<{ file: File, previewUrl: string }[]>([]);
   const images = watch("images");
 
   useEffect(() => {
