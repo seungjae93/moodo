@@ -6,30 +6,7 @@ import { StMoodoMapSelectBox } from "../../../libs/styles/StMoodoMapSelectBox";
 import palette from "../../../libs/styles/palette";
 import Button from "../Button/Button";
 import StoreList from "./StoreList";
-
-interface PropertyType {
-  id: string;
-  name: string;
-}
-
-interface TransactionType {
-  id: string;
-  name: string;
-}
-
-const propertyTypes: PropertyType[] = [
-  { id: "원/투룸", name: "원/투룸" },
-  { id: "빌라/주택", name: "빌라/주택" },
-  { id: "아파트", name: "아파트" },
-  { id: "상가/사무실", name: "상가/사무실" },
-  { id: "건물", name: "건물" },
-];
-
-const transactionTypes: TransactionType[] = [
-  { id: "매매", name: "매매" },
-  { id: "전세", name: "전세" },
-  { id: "월세", name: "월세" },
-];
+import { propertyTypes, transactionTypes } from "../../../libs/Categories";
 
 function SelectBox({
   selectedPropertyTypes,
@@ -81,36 +58,40 @@ function SelectBox({
     [selectedDealTypes, onSelectedDealTypesChange]
   );
 
-  const handlePropertyTypeClick = useCallback(() => {
-    setIsPropertyTypeOpen((prevIsPropertyTypeOpen) => !prevIsPropertyTypeOpen);
-    setIsStoreOpen(false);
-    setIsPriceOpen(false);
-    setIsTransactionTypesOpen(false);
+  const handleToggleDropdown = useCallback((dropdownName: string) => {
+    switch (dropdownName) {
+      case "propertyType":
+        setIsPropertyTypeOpen(
+          (prevIsPropertyTypeOpen) => !prevIsPropertyTypeOpen
+        );
+        setIsStoreOpen(false);
+        setIsPriceOpen(false);
+        setIsTransactionTypesOpen(false);
+        break;
+      case "transactionTypes":
+        setIsTransactionTypesOpen(
+          (prevIsTransactionTypesOpen) => !prevIsTransactionTypesOpen
+        );
+        setIsStoreOpen(false);
+        setIsPriceOpen(false);
+        setIsPropertyTypeOpen(false);
+        break;
+      case "price":
+        setIsPriceOpen((prevIsPriceOpen) => !prevIsPriceOpen);
+        setIsStoreOpen(false);
+        setIsPropertyTypeOpen(false);
+        setIsTransactionTypesOpen(false);
+        break;
+      case "store":
+        setIsStoreOpen((prevIsStoreOpen) => !prevIsStoreOpen);
+        setIsPriceOpen(false);
+        setIsPropertyTypeOpen(false);
+        setIsTransactionTypesOpen(false);
+        break;
+      default:
+        break;
+    }
   }, []);
-
-  const handleTransactionClick = useCallback(() => {
-    setIsTransactionTypesOpen(
-      (prevIsTransactionTypesOpen) => !prevIsTransactionTypesOpen
-    );
-    setIsStoreOpen(false);
-    setIsPriceOpen(false);
-    setIsPropertyTypeOpen(false);
-  }, []);
-
-  const handlePriceClick = useCallback(() => {
-    setIsPriceOpen((prevIsPriceOpen) => !prevIsPriceOpen);
-    setIsStoreOpen(false);
-    setIsPropertyTypeOpen(false);
-    setIsTransactionTypesOpen(false);
-  }, []);
-
-  const handleStoreClick = useCallback(() => {
-    setIsStoreOpen((prevIsStoreOpen) => !prevIsStoreOpen);
-    setIsPriceOpen(false);
-    setIsPropertyTypeOpen(false);
-    setIsTransactionTypesOpen(false);
-  }, []);
-
   const handleDepositMinChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const value = e.currentTarget.value;
@@ -178,7 +159,9 @@ function SelectBox({
     <StMoodoMapSelectBox.Wrapper>
       <div style={{ display: "flex", gap: "10px" }}>
         <StMoodoMapSelectBox.ContentBoxWrapper>
-          <StMoodoMapSelectBox.TitleList onClick={handlePropertyTypeClick}>
+          <StMoodoMapSelectBox.TitleList
+            onClick={() => handleToggleDropdown("propertyType")}
+          >
             매물 종류
             <CgChevronDown
               style={{
@@ -229,7 +212,9 @@ function SelectBox({
           )}
         </StMoodoMapSelectBox.ContentBoxWrapper>
         <StMoodoMapSelectBox.ContentBoxWrapper>
-          <StMoodoMapSelectBox.TitleList onClick={handleTransactionClick}>
+          <StMoodoMapSelectBox.TitleList
+            onClick={() => handleToggleDropdown("transactionTypes")}
+          >
             거래 유형
             <CgChevronDown
               style={{
@@ -278,7 +263,9 @@ function SelectBox({
           )}
         </StMoodoMapSelectBox.ContentBoxWrapper>
         <StMoodoMapSelectBox.ContentBoxWrapper>
-          <StMoodoMapSelectBox.TitleList onClick={handlePriceClick}>
+          <StMoodoMapSelectBox.TitleList
+            onClick={() => handleToggleDropdown("price")}
+          >
             금액대
             <CgChevronDown
               style={{
@@ -384,7 +371,9 @@ function SelectBox({
           )}
         </StMoodoMapSelectBox.ContentBoxWrapper>
         <StMoodoMapSelectBox.ContentBoxWrapper>
-          <StMoodoMapSelectBox.TitleList onClick={handleStoreClick}>
+          <StMoodoMapSelectBox.TitleList
+            onClick={() => handleToggleDropdown("store")}
+          >
             업종
             <CgChevronDown
               style={{
