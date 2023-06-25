@@ -47,8 +47,6 @@ export default function PageStartPostCode({
       },
     }).open();
   };
-  console.log("address", address);
-  console.log("jibunAddress", jibunAddress);
   return (
     <>
       <PostCodeWrapper>
