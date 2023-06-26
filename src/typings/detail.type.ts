@@ -319,3 +319,16 @@ export interface UserInfo {
 export interface Data {
   userInfo: UserInfo;
 }
+
+export interface ProfileData {
+  userId: string;
+  userName: string;
+  userEmail: string;
+  userPhoneNumber: string;
+  userCompanyName: string;
+  startLocation: string;
+  userCompanyTelNumber: string;
+  userBusinessLocation: string;
+  userBusinessLicenseImgUrl: string;
+  userProfileImgUrl: string;
+}

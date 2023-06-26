@@ -1,19 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { profileApi } from "../apis/axios";
+import { ProfileData } from "../typings/detail.type";
 
-interface ProfileData {
-  userId: string;
-  userName: string;
-  userEmail: string;
-  userPhoneNumber: string;
-  userCompanyName: string;
-  startLocation: string;
-  userCompanyTelNumber: string;
-  userBusinessLocation: string;
-  userBusinessLicenseImgUrl: string;
-  userProfileImgUrl: string;
-}
 interface ApiResponse {
   user: ProfileData;
 }
