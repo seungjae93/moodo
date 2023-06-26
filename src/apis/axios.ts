@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
-import { Coordinates, ApiResponse } from "../typings/detail.type";
+import { Coordinates, ApiResponse, UserInfo } from "../typings/detail.type";
 
 export const instance = axios.create({
   baseURL: process.env.REACT_APP_SERVER_API,
@@ -74,14 +74,6 @@ export const profileApi = {
 };
 
 //로그인 안될경우 프로필 가져오는 api
-interface UserInfo {
-  userName: string;
-  userPhoneNumber: string;
-  userCompanyName: string;
-  userCompanyTelNumber: string;
-  userBusinessLocation: string;
-  userProfileImgUrl: string;
-}
 interface Data {
   userInfo: UserInfo;
 }

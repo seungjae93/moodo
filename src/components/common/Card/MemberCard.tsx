@@ -10,7 +10,6 @@ import { UserListDataProps } from "../../../typings/detail.type";
 function MemberCard({ member }: UserListDataProps) {
   const queryClient = useQueryClient();
   const [approvedStatus, setApprovedStatus] = useState<string>("미승인");
-  console.log("member", member);
   useEffect(() => {
     const isApproved = localStorage.getItem("approved");
 
